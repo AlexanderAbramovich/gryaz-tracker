@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ГРЯЗЬ · Трекер</title>
+<meta name="theme-color" content="#0a0a0c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ГРЯЗЬ">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --panel: #131318;
+    --panel-2: #1a1a22;
+    --line: #26262f;
+    --ink: #ececf1;
+    --dim: #7c7c8a;
+    --acid: #c6ff2e;
+    --acid-dim: #7a9e1c;
+    --blood: #ff3d3d;
+    --gold: #ffb020;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; background: var(--bg); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Inter", system-ui, sans-serif;
+    color: var(--ink);
+    padding: 0 0 120px;
+    max-width: 640px;
+    margin: 0 auto;
+    padding-top: env(safe-area-inset-top);
+  }
+  .wrap { padding: 0 16px; }
+
+  header {
+    padding: 22px 16px 16px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .brand {
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 0.92;
+    text-transform: uppercase;
+    font-style: italic;
+  }
+  .brand span { color: var(--acid); }
+  .sub {
+    font-size: 12px;
+    color: var(--dim);
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* weight bar */
+  .weight-card {
+    margin: 16px 0 8px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .wc-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .wc-label { font-size: 11px; text-transform: uppercase; color: var(--dim); font-weight: 700; letter-spacing: 1px; }
+  .wc-now { font-size: 40px; font-weight: 900; letter-spacing: -2px; }
+  .wc-now small { font-size: 16px; color: var(--dim); font-weight: 600; }
+  .wc-goal { font-size: 13px; color: var(--acid); font-weight: 700; }
+  .track {
+    height: 10px;
+    background: var(--panel-2);
+    border-radius: 6px;
+    margin: 14px 0 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .track-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--acid-dim), var(--acid));
+    border-radius: 6px;
+    transition: width 0.5s cubic-bezier(.2,.8,.2,1);
+    width: 0%;
+  }
+  .track-scale { display: flex; justify-content: space-between; font-size: 10px; color: var(--dim); font-weight: 600; }
+  .wc-actions { display: flex; gap: 8px; margin-top: 14px; }
+  .wbtn {
+    flex: 1;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .wbtn:active { background: #22222b; }
+  .wc-hist { font-size: 11px; color: var(--dim); margin-top: 10px; min-height: 14px; }
+  .wchart { margin-top: 12px; }
+  .wchart svg { display: block; width: 100%; height: auto; }
+  .wchart-hint { font-size: 11px; color: var(--dim); margin-top: 12px; text-align: center; padding: 14px 0; border: 1px dashed var(--line); border-radius: 10px; }
+
+  /* day tabs */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin: 18px 0 4px;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 10px 0;
+    z-index: 20;
+  }
+  .tab {
+    flex: 1;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tab.active { border-color: var(--acid); background: #17180f; }
+  .tab-k { font-size: 20px; font-weight: 900; font-style: italic; letter-spacing: -1px; }
+  .tab.active .tab-k { color: var(--acid); }
+  .tab-n { font-size: 10px; color: var(--dim); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-top: 2px; }
+
+  .day-title {
+    font-size: 13px;
+    color: var(--dim);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 16px 0 4px;
+  }
+  .warm {
+    background: #14100a;
+    border: 1px solid #3a2e14;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 12.5px;
+    color: #d8b877;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .warm b { color: var(--gold); }
+
+  .ex {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+  .ex-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .ex-name { font-size: 16px; font-weight: 800; letter-spacing: -0.3px; }
+  .ex-target { font-size: 12px; color: var(--acid); font-weight: 700; white-space: nowrap; }
+  .ex-note { font-size: 12px; color: var(--dim); margin-top: 3px; line-height: 1.4; }
+  .sets { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+  .set-in {
+    width: 52px;
+    height: 46px;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--ink);
+    font-size: 17px;
+    font-weight: 800;
+    text-align: center;
+    outline: none;
+  }
+  .set-in:focus { border-color: var(--acid); background: #17180f; }
+  .set-in.filled { border-color: var(--acid-dim); color: var(--acid); }
+  .set-in::placeholder { color: #3d3d47; font-weight: 600; }
+
+  .prev {
+    font-size: 11px;
+    color: var(--dim);
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .prev b { color: #9a9aa8; }
+  .up { color: var(--acid); font-weight: 800; }
+
+  .save-row { margin: 20px 0 8px; }
+  .save {
+    width: 100%;
+    background: var(--acid);
+    color: #0a0a0c;
+    border: none;
+    border-radius: 14px;
+    padding: 17px;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    font-style: italic;
+  }
+  .save:active { transform: scale(0.98); }
+  .save.done { background: var(--acid-dim); color: var(--ink); }
+
+  .rules {
+    margin-top: 24px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px;
+  }
+  .rules h3 { margin: 0 0 10px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--dim); }
+  .rule { font-size: 13px; line-height: 1.6; color: #c4c4ce; padding-left: 16px; position: relative; margin-bottom: 6px; }
+  .rule::before { content: "→"; position: absolute; left: 0; color: var(--acid); font-weight: 800; }
+  .rule b { color: var(--ink); }
+
+  .streak {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .streak-n { font-size: 28px; font-weight: 900; color: var(--acid); font-style: italic; }
+  .streak-l { font-size: 11px; color: var(--dim); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+
+  /* history view */
+  .h-title { font-size: 22px; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -0.5px; margin: 20px 0 4px; }
+  .h-sub { font-size: 12px; color: var(--dim); margin-bottom: 16px; }
+  .h-item {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+  .h-head { display: flex; align-items: center; gap: 10px; }
+  .h-badge {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: #17180f; border: 1px solid var(--acid-dim);
+    color: var(--acid); font-weight: 900; font-style: italic; font-size: 18px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .h-date { font-size: 14px; font-weight: 800; }
+  .h-day { font-size: 11px; color: var(--dim); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; margin-top: 1px; }
+  .h-sets { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 10px; }
+  .h-ex { display: flex; justify-content: space-between; gap: 10px; font-size: 12.5px; padding: 3px 0; }
+  .h-ex-n { color: #c4c4ce; }
+  .h-ex-v { color: var(--acid); font-weight: 800; white-space: nowrap; }
+  .h-old { font-size: 11.5px; color: var(--dim); margin-top: 8px; font-style: italic; }
+  .h-empty {
+    text-align: center; color: var(--dim); font-size: 13px;
+    padding: 40px 20px; border: 1px dashed var(--line); border-radius: 14px; margin-top: 10px;
+  }
+
+  .backup {
+    margin-top: 24px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px;
+  }
+  .backup h3 { margin: 0 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--dim); }
+  .backup p { font-size: 12px; color: var(--dim); line-height: 1.5; margin: 0 0 12px; }
+  .backup-btns { display: flex; gap: 8px; }
+
+  /* bottom nav */
+  .nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    gap: 8px;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(10,10,12,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--line);
+    z-index: 50;
+  }
+  .nav-btn {
+    flex: 1;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--dim);
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    font-style: italic;
+  }
+  .nav-btn.active { color: var(--acid); border-color: var(--acid); background: #17180f; }
+
+  .toast {
+    position: fixed;
+    bottom: 96px;
+    left: 50%;
+    transform: translateX(-50%) translateY(160px);
+    background: var(--acid);
+    color: #0a0a0c;
+    padding: 14px 26px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 14px;
+    z-index: 100;
+    transition: transform 0.35s cubic-bezier(.2,.9,.2,1);
+    box-shadow: 0 8px 30px rgba(198,255,46,0.3);
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .reset-mini {
+    display: block;
+    margin: 22px auto 0;
+    background: none;
+    border: none;
+    color: #45454f;
+    font-size: 11px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">ГРЯЗЬ<span>.</span> ХОЗА ХОЗА</div>
+  <div class="sub">Уличный трекер · путь на 70 кг</div>
+</header>
+
+<div class="wrap" id="viewToday">
+
+  <div class="weight-card">
+    <div class="wc-top">
+      <div>
+        <div class="wc-label">Вес тела сейчас</div>
+        <div class="wc-now" id="wNow">63.8<small> кг</small></div>
+      </div>
+      <div style="text-align:right">
+        <div class="wc-label">Цель</div>
+        <div class="wc-goal" id="wGoalTxt">70 кг · прайм</div>
+      </div>
+    </div>
+    <div class="track"><div class="track-fill" id="wFill"></div></div>
+    <div class="track-scale"><span>60</span><span>70 (прайм)</span></div>
+    <div id="wChart"></div>
+    <div class="wc-actions">
+      <button class="wbtn" onclick="logWeight(-0.1)">− 0.1</button>
+      <button class="wbtn" onclick="promptWeight()">Ввести вес</button>
+      <button class="wbtn" onclick="logWeight(0.1)">+ 0.1</button>
+    </div>
+    <div class="wc-hist" id="wHist"></div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div id="dayBox"></div>
+
+  <div class="save-row">
+    <button class="save" id="saveBtn" onclick="saveDay()">Записать тренировку</button>
+  </div>
+
+  <div class="streak">
+    <div>
+      <div class="streak-n" id="streakN">0</div>
+      <div class="streak-l">тренировок записано</div>
+    </div>
+    <div style="text-align:right">
+      <div class="streak-n" id="weekN">0</div>
+      <div class="streak-l">за эту неделю</div>
+    </div>
+  </div>
+
+  <div class="rules">
+    <h3>Железные правила</h3>
+    <div class="rule"><b>Прогрессия или смерть.</b> Каждый раз добавляй хоть 1 повтор к прошлому.</div>
+    <div class="rule"><b>Последние 2-3 повтора через «немогу».</b> Они и строят. Бросил в комфорте - потренил зря.</div>
+    <div class="rule"><b>Через день, не каждый день.</b> Мышца растёт в отдыхе и в еде, а не на турнике.</div>
+    <div class="rule"><b>Жри 3500.</b> Без профицита масса не пойдёт, хоть усрись на брусьях.</div>
+    <div class="rule"><b>Сон 8+.</b> Тесто и восстановление живут во сне.</div>
+  </div>
+
+  <button class="reset-mini" onclick="hardReset()">сбросить все данные</button>
+</div>
+
+<div class="wrap hidden" id="viewHistory">
+  <div class="h-title">История<span style="color:var(--acid)">.</span></div>
+  <div class="h-sub" id="hSub"></div>
+  <div id="hList"></div>
+
+  <div class="backup">
+    <h3>Бэкап данных</h3>
+    <p>Все данные живут в этом браузере. Перед сменой телефона или чисткой браузера скачай бэкап - потом восстановишь одной кнопкой.</p>
+    <div class="backup-btns">
+      <button class="wbtn" onclick="exportData()">Скачать бэкап</button>
+      <button class="wbtn" onclick="document.getElementById('importFile').click()">Восстановить</button>
+    </div>
+    <input type="file" id="importFile" accept=".json,application/json" style="display:none" onchange="importData(this.files[0])">
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" id="navToday" onclick="switchView('today')">Сегодня</button>
+  <button class="nav-btn" id="navHistory" onclick="switchView('history')">История</button>
+</nav>
+
+<div class="toast" id="toast">Записано 💪</div>
+
+<script>
+const PROGRAM = {
+  A: {
+    title: "День A · Тяга (спина, бицепс)",
+    warm: "<b>Разминка 5 мин:</b> круги руками, махи ногами, 20 приседаний, вис на турнике 20-30 сек. Без неё связки холодные - травма.",
+    ex: [
+      { id:"a1", name:"Подтягивания прямым хватом", target:"5 подходов", note:"1-й на максимум, дальше сколько идёт. Отдых 2-3 мин.", sets:5 },
+      { id:"a2", name:"Подтягивания обратным хватом", target:"3 подхода", note:"Ладони к себе - больше бицепс.", sets:3 },
+      { id:"a3", name:"Австралийские подтягивания", target:"3 подхода", note:"Турник по пояс, тело под углом, грудь к перекладине.", sets:3 },
+      { id:"a4", name:"Вис + подъём коленей", target:"3 подхода", note:"Висишь, тянешь колени к груди. Это пресс.", sets:3 },
+    ]
+  },
+  B: {
+    title: "День B · Жим (грудь, плечи, трицепс)",
+    warm: "<b>Разминка 5 мин:</b> вращения плеч, отжимания на коленях 10 раз, растяжка запястий. Плечо любит быть тёплым.",
+    ex: [
+      { id:"b1", name:"Брусья", target:"5 подходов", note:"Мало можешь - опускайся медленно вниз (негатив). Так растёшь даже без выжима.", sets:5 },
+      { id:"b2", name:"Отжимания от земли", target:"4 подхода", note:"До почти отказа.", sets:4 },
+      { id:"b3", name:"Отжимания ноги на лавке", target:"3 подхода", note:"Ноги повыше - верх груди и плечи.", sets:3 },
+      { id:"b4", name:"Планка (сек)", target:"3 подхода", note:"Пиши секунды. Держи корпус струной.", sets:3 },
+    ]
+  },
+  C: {
+    title: "День C · Ноги + добивка",
+    warm: "<b>Разминка 5 мин:</b> суставная на колени/голеностоп, 15 лёгких приседаний, махи ногами. Колени беречь.",
+    ex: [
+      { id:"c1", name:"Приседания", target:"5 подходов", note:"По 25-30. Ниже параллели.", sets:5 },
+      { id:"c2", name:"Выпады шагами", target:"3 подхода", note:"Считай на каждую ногу.", sets:3 },
+      { id:"c3", name:"Выпрыгивания / запрыг на лавку", target:"3 подхода", note:"Взрывная сила. Пригодится в борьбе.", sets:3 },
+      { id:"c4", name:"Подтягивания", target:"3 подхода", note:"Ноги не устают тянуть - добей верх.", sets:3 },
+      { id:"c5", name:"Вис на турнике (сек)", target:"2 подхода", note:"На максимум. Хват решает всё в грэпплинге.", sets:2 },
+    ]
+  }
+};
+
+const DAY_NAMES = { A:"Тяга", B:"Жим", C:"Ноги" };
+
+// exercise id -> name, for history rendering
+const EX_NAMES = {};
+Object.values(PROGRAM).forEach(d => d.ex.forEach(e => { EX_NAMES[e.id] = e.name; }));
+
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v===null? d : JSON.parse(v); } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+
+const ALL_KEYS = ["curDay","weight","wHist","sessions",
+  "last_A","last_B","last_C","prog_A","prog_B","prog_C"];
+
+let curDay = store.get("curDay", "A");
+
+// ---- views ----
+function switchView(v){
+  document.getElementById("viewToday").classList.toggle("hidden", v!=="today");
+  document.getElementById("viewHistory").classList.toggle("hidden", v!=="history");
+  document.getElementById("navToday").classList.toggle("active", v==="today");
+  document.getElementById("navHistory").classList.toggle("active", v==="history");
+  if(v==="history") renderHistory();
+  window.scrollTo(0,0);
+}
+
+// ---- weight ----
+function renderWeight(){
+  let w = store.get("weight", 63.8);
+  const goal = 70, lo = 60;
+  document.getElementById("wNow").innerHTML = w.toFixed(1) + '<small> кг</small>';
+  let pct = Math.max(0, Math.min(100, ((w - lo)/(goal - lo))*100));
+  document.getElementById("wFill").style.width = pct + "%";
+  const hist = store.get("wHist", []);
+  if(hist.length){
+    const first = hist[0];
+    const diff = (w - first.w);
+    let txt = "Записей: " + hist.length;
+    if(hist.length > 1){
+      txt += " · со старта " + (diff>=0?"+":"") + diff.toFixed(1) + " кг";
+    }
+    document.getElementById("wHist").textContent = txt;
+  } else {
+    document.getElementById("wHist").textContent = "";
+  }
+  renderWeightChart(hist);
+}
+
+function renderWeightChart(hist){
+  const box = document.getElementById("wChart");
+  if(!hist || hist.length < 2){
+    box.innerHTML = '<div class="wchart-hint">Вводи вес - здесь появится кривая к 70</div>';
+    return;
+  }
+  const W = 340, H = 150, padL = 34, padR = 14, padT = 16, padB = 22;
+  const ws = hist.map(p=>p.w);
+  const ts = hist.map(p=>new Date(p.d+"T12:00:00").getTime());
+  const goal = 70;
+  const lo = Math.floor(Math.min(...ws) - 1);
+  const hi = Math.max(Math.max(...ws) + 0.5, goal + 0.5);
+  const t0 = Math.min(...ts), t1 = Math.max(...ts);
+  const x = t => t1===t0 ? padL + (W-padL-padR)/2 : padL + (t-t0)/(t1-t0)*(W-padL-padR);
+  const y = v => padT + (hi-v)/(hi-lo)*(H-padT-padB);
+  const fmt = t => { const d = new Date(t); return String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0"); };
+
+  let s = '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg">';
+  s += '<defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">';
+  s += '<stop offset="0" stop-color="#c6ff2e" stop-opacity="0.22"/><stop offset="1" stop-color="#c6ff2e" stop-opacity="0"/>';
+  s += '</linearGradient></defs>';
+
+  // horizontal gridlines
+  const step = (hi-lo) > 6 ? 2 : 1;
+  for(let v = Math.ceil(lo); v <= hi; v += step){
+    const yy = y(v);
+    s += '<line x1="'+padL+'" y1="'+yy+'" x2="'+(W-padR)+'" y2="'+yy+'" stroke="#26262f" stroke-width="1"/>';
+    s += '<text x="'+(padL-6)+'" y="'+(yy+3)+'" fill="#7c7c8a" font-size="9" text-anchor="end" font-weight="600">'+v+'</text>';
+  }
+  // goal line
+  const gy = y(goal);
+  s += '<line x1="'+padL+'" y1="'+gy+'" x2="'+(W-padR)+'" y2="'+gy+'" stroke="#ffb020" stroke-width="1.2" stroke-dasharray="5 4"/>';
+  s += '<text x="'+(W-padR)+'" y="'+(gy-4)+'" fill="#ffb020" font-size="9" text-anchor="end" font-weight="800">ПРАЙМ 70</text>';
+
+  // area + line
+  const pts = ts.map((t,i)=> x(t).toFixed(1)+","+y(ws[i]).toFixed(1));
+  const baseY = (H-padB).toFixed(1);
+  s += '<polygon points="'+x(ts[0]).toFixed(1)+','+baseY+' '+pts.join(" ")+' '+x(ts[ts.length-1]).toFixed(1)+','+baseY+'" fill="url(#ag)"/>';
+  s += '<polyline points="'+pts.join(" ")+'" fill="none" stroke="#c6ff2e" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>';
+
+  // dots
+  ts.forEach((t,i)=>{
+    const isLast = i === ts.length-1;
+    s += '<circle cx="'+x(t).toFixed(1)+'" cy="'+y(ws[i]).toFixed(1)+'" r="'+(isLast?4:2.4)+'" fill="'+(isLast?'#c6ff2e':'#7a9e1c')+'"/>';
+    if(isLast){
+      const lx = Math.min(x(t), W-padR-30);
+      s += '<text x="'+lx.toFixed(1)+'" y="'+(y(ws[i])-9).toFixed(1)+'" fill="#c6ff2e" font-size="11" text-anchor="middle" font-weight="900">'+ws[i].toFixed(1)+'</text>';
+    }
+  });
+
+  // x labels
+  s += '<text x="'+padL+'" y="'+(H-6)+'" fill="#7c7c8a" font-size="9" font-weight="600">'+fmt(t0)+'</text>';
+  if(t1 !== t0) s += '<text x="'+(W-padR)+'" y="'+(H-6)+'" fill="#7c7c8a" font-size="9" text-anchor="end" font-weight="600">'+fmt(t1)+'</text>';
+  s += '</svg>';
+  box.innerHTML = '<div class="wchart">'+s+'</div>';
+}
+
+function logWeight(d){
+  let w = store.get("weight", 63.8);
+  w = Math.round((w + d)*10)/10;
+  store.set("weight", w);
+  pushWeightHist(w);
+  renderWeight();
+}
+function promptWeight(){
+  let cur = store.get("weight", 63.8);
+  let v = prompt("Твой вес сейчас (кг):", cur);
+  if(v===null) return;
+  v = parseFloat(v.replace(",","."));
+  if(isNaN(v) || v < 30 || v > 200) return;
+  v = Math.round(v*10)/10;
+  store.set("weight", v);
+  pushWeightHist(v);
+  renderWeight();
+  showToast("Вес обновлён");
+}
+function pushWeightHist(w){
+  const hist = store.get("wHist", []);
+  const today = new Date().toISOString().slice(0,10);
+  if(hist.length && hist[hist.length-1].d === today){
+    hist[hist.length-1].w = w;
+  } else {
+    hist.push({ d: today, w: w });
+  }
+  store.set("wHist", hist);
+}
+
+// ---- tabs ----
+function renderTabs(){
+  const box = document.getElementById("tabs");
+  box.innerHTML = "";
+  ["A","B","C"].forEach(k=>{
+    const t = document.createElement("div");
+    t.className = "tab" + (k===curDay?" active":"");
+    t.innerHTML = '<div class="tab-k">'+k+'</div><div class="tab-n">'+DAY_NAMES[k]+'</div>';
+    t.onclick = ()=>{ curDay=k; store.set("curDay",k); renderTabs(); renderDay(); };
+    box.appendChild(t);
+  });
+}
+
+// ---- day ----
+function lastKey(day){ return "last_"+day; }
+function renderDay(){
+  const d = PROGRAM[curDay];
+  const box = document.getElementById("dayBox");
+  const last = store.get(lastKey(curDay), {});
+  let html = '<div class="day-title">'+d.title+'</div>';
+  html += '<div class="warm">'+d.warm+'</div>';
+  d.ex.forEach(e=>{
+    html += '<div class="ex">';
+    html += '<div class="ex-head"><div><div class="ex-name">'+e.name+'</div><div class="ex-note">'+e.note+'</div></div><div class="ex-target">'+e.target+'</div></div>';
+    html += '<div class="sets">';
+    for(let i=0;i<e.sets;i++){
+      html += '<input class="set-in" inputmode="numeric" pattern="[0-9]*" data-ex="'+e.id+'" data-i="'+i+'" placeholder="'+(i+1)+'">';
+    }
+    html += '</div>';
+    const lp = last[e.id];
+    if(lp && lp.length){
+      html += '<div class="prev">Прошлый раз: <b>'+lp.join(" · ")+'</b> <span class="up">↑ добавь</span></div>';
+    }
+    html += '</div>';
+  });
+  box.innerHTML = html;
+
+  // restore in-progress
+  const prog = store.get("prog_"+curDay, {});
+  document.querySelectorAll(".set-in").forEach(inp=>{
+    const ex = inp.dataset.ex, i = inp.dataset.i;
+    if(prog[ex] && prog[ex][i]!=null && prog[ex][i]!=="") { inp.value = prog[ex][i]; inp.classList.add("filled"); }
+    inp.addEventListener("input", ()=>{
+      inp.classList.toggle("filled", inp.value!=="");
+      saveProgress();
+    });
+  });
+  const btn = document.getElementById("saveBtn");
+  btn.classList.remove("done");
+  btn.textContent = "Записать тренировку";
+}
+
+function saveProgress(){
+  const prog = {};
+  document.querySelectorAll(".set-in").forEach(inp=>{
+    const ex = inp.dataset.ex, i = inp.dataset.i;
+    if(!prog[ex]) prog[ex] = [];
+    prog[ex][i] = inp.value;
+  });
+  store.set("prog_"+curDay, prog);
+}
+
+function saveDay(){
+  const last = {};
+  let any = false;
+  document.querySelectorAll(".set-in").forEach(inp=>{
+    const ex = inp.dataset.ex;
+    if(!last[ex]) last[ex] = [];
+    if(inp.value!==""){ last[ex].push(inp.value); any=true; }
+  });
+  if(!any){ showToast("Впиши хоть один подход"); return; }
+  // clean empty exercises
+  Object.keys(last).forEach(k=>{ if(!last[k].length) delete last[k]; });
+  store.set(lastKey(curDay), last);
+  store.set("prog_"+curDay, {});
+
+  // log session with full set data for history
+  const sessions = store.get("sessions", []);
+  sessions.push({ d: new Date().toISOString(), day: curDay, ex: last });
+  store.set("sessions", sessions);
+
+  const btn = document.getElementById("saveBtn");
+  btn.classList.add("done");
+  btn.textContent = "Записано ✓ - красавчик";
+  showToast("Записано 💪 ХОЗА");
+  renderStreak();
+  setTimeout(renderDay, 1400);
+}
+
+function renderStreak(){
+  const sessions = store.get("sessions", []);
+  document.getElementById("streakN").textContent = sessions.length;
+  const now = new Date();
+  const weekAgo = new Date(now.getTime() - 7*24*3600*1000);
+  const wk = sessions.filter(s=> new Date(s.d) > weekAgo).length;
+  document.getElementById("weekN").textContent = wk;
+}
+
+// ---- history ----
+const dateFmt = new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "long" });
+const wdFmt = new Intl.DateTimeFormat("ru-RU", { weekday: "long" });
+
+function renderHistory(){
+  const sessions = store.get("sessions", []).slice().reverse();
+  const box = document.getElementById("hList");
+  const sub = document.getElementById("hSub");
+  if(!sessions.length){
+    sub.textContent = "";
+    box.innerHTML = '<div class="h-empty">Пока пусто. Запиши первую тренировку - она появится здесь.</div>';
+    return;
+  }
+  sub.textContent = "Всего тренировок: " + sessions.length;
+  let html = "";
+  sessions.forEach(s=>{
+    const dt = new Date(s.d);
+    const day = PROGRAM[s.day];
+    html += '<div class="h-item">';
+    html += '<div class="h-head"><div class="h-badge">'+s.day+'</div><div>';
+    html += '<div class="h-date">'+dateFmt.format(dt)+' · '+wdFmt.format(dt)+'</div>';
+    html += '<div class="h-day">'+(day ? day.title.replace("День "+s.day+" · ","") : "")+'</div>';
+    html += '</div></div>';
+    if(s.ex && Object.keys(s.ex).length){
+      html += '<div class="h-sets">';
+      Object.keys(s.ex).forEach(id=>{
+        const name = EX_NAMES[id] || id;
+        html += '<div class="h-ex"><span class="h-ex-n">'+name+'</span><span class="h-ex-v">'+s.ex[id].join(" · ")+'</span></div>';
+      });
+      html += '</div>';
+    } else {
+      html += '<div class="h-old">детали не записаны (старая версия трекера)</div>';
+    }
+    html += '</div>';
+  });
+  box.innerHTML = html;
+}
+
+// ---- backup ----
+function exportData(){
+  const payload = { app: "gryaz-tracker", v: 1, exported: new Date().toISOString(), data: {} };
+  ALL_KEYS.forEach(k=>{
+    const v = localStorage.getItem(k);
+    if(v !== null){ try { payload.data[k] = JSON.parse(v); } catch(e){} }
+  });
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "gryaz-backup-" + new Date().toISOString().slice(0,10) + ".json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast("Бэкап скачан");
+}
+
+function importData(file){
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try {
+      const payload = JSON.parse(reader.result);
+      if(!payload || payload.app !== "gryaz-tracker" || !payload.data) throw new Error("bad file");
+      Object.keys(payload.data).forEach(k=>{
+        if(ALL_KEYS.includes(k)) store.set(k, payload.data[k]);
+      });
+      curDay = store.get("curDay", "A");
+      renderAll();
+      renderHistory();
+      showToast("Данные восстановлены 💪");
+    } catch(e){
+      showToast("Это не файл бэкапа");
+    }
+  };
+  reader.readAsText(file);
+  document.getElementById("importFile").value = "";
+}
+
+let toastT;
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>t.classList.remove("show"), 1800);
+}
+
+function hardReset(){
+  if(!confirm("Стереть весь прогресс, вес и историю? Назад не вернуть.")) return;
+  ALL_KEYS.forEach(k=>localStorage.removeItem(k));
+  curDay="A";
+  renderAll();
+  showToast("Сброшено");
+}
+
+function renderAll(){ renderWeight(); renderTabs(); renderDay(); renderStreak(); }
+renderAll();
+
+// ---- PWA ----
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){
+  window.addEventListener("load", ()=>{
+    navigator.serviceWorker.register("./sw.js").catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
