@@ -201,6 +201,30 @@
   .fbtn small i { color: #9a9aa8; font-style: normal; font-weight: 700; }
   .fbtn.rec { border-color: #33333f; }
   .fbtn.rec .ic-lg { margin-bottom: 8px; }
+
+  /* ── список покупок ── */
+  .shop-g { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 8px; overflow: hidden; }
+  .shop-h { display: flex; align-items: center; gap: 10px; padding: 14px; cursor: pointer; }
+  .shop-h .nm { flex: 1; font-size: 14px; font-weight: 800; }
+  .shop-h .cnt { font-size: 12px; font-weight: 800; color: var(--dim); font-variant-numeric: tabular-nums; }
+  .shop-h .cnt.full { color: var(--org); }
+  .shop-h .arw { color: var(--dim); font-size: 13px; transition: transform .2s; }
+  .shop-g.open .shop-h .arw { transform: rotate(90deg); }
+  .shop-b { display: none; padding: 0 14px 8px; }
+  .shop-g.open .shop-b { display: block; }
+  .shop-i { display: flex; align-items: center; gap: 11px; padding: 10px 0; border-top: 1px solid var(--line); cursor: pointer; }
+  .shop-i .bx {
+    flex: 0 0 21px; width: 21px; height: 21px; border-radius: 6px;
+    border: 2px solid var(--dim); display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 900; color: #0a0a0c; transition: all .18s;
+  }
+  .shop-i.on .bx { background: var(--org); border-color: var(--org); }
+  .shop-i.on .bx:after { content: "✓"; }
+  .shop-i .tx { flex: 1; font-size: 13.5px; line-height: 1.3; }
+  .shop-i.on .tx { color: var(--dim); text-decoration: line-through; }
+  .shop-i .nb { font-size: 11px; color: var(--org); font-weight: 700; }
+  .shop-tag { font-size: 10px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; padding: 3px 7px; border-radius: 6px; background: var(--panel-2); color: var(--dim); }
+  .shop-tag.wk { color: var(--org); border: 1px solid var(--org-dim); }
   .fitem { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
   .fitem:last-child { border-bottom: none; }
   .fitem .fx { color: var(--blood); font-weight: 800; padding: 0 8px; cursor: pointer; }
@@ -600,6 +624,13 @@
 
   <div class="sec-h">Съедено сегодня</div>
   <div class="food-card" id="foodList"></div>
+
+  <div class="sec-h" style="display:flex;justify-content:space-between;align-items:center">
+    <span>Список покупок</span>
+    <span id="shopTotal" style="color:var(--org)"></span>
+  </div>
+  <div id="shopBox"></div>
+  <button class="save ghost" style="margin-top:4px" onclick="resetWeekly()">Сбросить недельное</button>
 </div>
 
 <!-- ══════════ ИСТОРИЯ ══════════ -->
@@ -758,6 +789,68 @@ const FOODS = [
   { n:"Пицца", d:"половина большой", k:750, p:32 }
 ];
 const KCAL_GOAL = 3000, PROT_GOAL = 130;
+
+/* ═══════════ СПИСОК ПОКУПОК ═══════════ */
+const SHOP = [
+  { g:"Мясо", ic:"meat", wk:true, items:[
+    { t:"Свиной фарш", n:"1 кг" },
+    { t:"Свиная лопатка или шея", n:"1,5-2 кг" },
+    { t:"Корейка / карбонад", n:"500 г" },
+    { t:"Грудинка сырокопчёная КУСКОМ", n:"300-400 г", star:true },
+    { t:"Говяжий фарш (опционально)", n:"300 г" }
+  ]},
+  { g:"Сыры и молочка", ic:"cheese", wk:true, items:[
+    { t:"Пармезан КУСКОМ (не тёртый)", n:"300 г", star:true },
+    { t:"Моцарелла", n:"400 г" },
+    { t:"Маскарпоне", n:"500 г" },
+    { t:"Горгонзола / дор блю", n:"200 г" },
+    { t:"Полутвёрдый на каждый день", n:"500 г" },
+    { t:"Молоко 3,2%", n:"3-4 л", star:true },
+    { t:"Сливки 20%", n:"400 мл" },
+    { t:"Сливочное масло", n:"400 г" },
+    { t:"Творог 5-9%", n:"1 кг" },
+    { t:"Сметана", n:"" },
+    { t:"Яйца", n:"30 шт", star:true }
+  ]},
+  { g:"Овощи и зелень", ic:"onion", wk:true, items:[
+    { t:"Лук", n:"2 кг" }, { t:"Морковь", n:"1 кг" }, { t:"Чеснок", n:"3-4 головки" },
+    { t:"Сельдерей стебли", n:"" }, { t:"Картофель", n:"3 кг" }, { t:"Помидоры свежие", n:"" },
+    { t:"Петрушка и базилик", n:"" }
+  ]},
+  { g:"Прочее свежее", ic:"bread", wk:true, items:[
+    { t:"Хлеб белый", n:"" }, { t:"Савоярди", n:"" }, { t:"Бананы", n:"7 шт" },
+    { t:"Арахисовая паста", n:"банка" }, { t:"Грецкие орехи", n:"" }
+  ]},
+  { g:"Сухое и банки · раз в месяц", ic:"pasta", items:[
+    { t:"Паста: спагетти, пенне, ригатони, тальятелле", n:"по 2-3" },
+    { t:"Листы для лазаньи", n:"" },
+    { t:"Мука, панировочные сухари, дрожжи", n:"" },
+    { t:"Овсянка для шейка", n:"" },
+    { t:"Томаты в собственном соку", n:"6-8 банок", star:true },
+    { t:"Томатная паста", n:"3-4" },
+    { t:"Оливковое масло", n:"большая бутыль" },
+    { t:"Подсолнечное масло", n:"" },
+    { t:"Протеин сывороточный концентрат", n:"900 г" }
+  ]},
+  { g:"Специи · раз в месяц", ic:"pepper", items:[
+    { t:"Перец горошком", n:"", star:true },
+    { t:"Розмарин, тимьян, орегано, базилик сушёный", n:"" },
+    { t:"Семена фенхеля", n:"" },
+    { t:"Мускатный орех целый", n:"" },
+    { t:"Хлопья чили, лавровый лист", n:"" }
+  ]},
+  { g:"Купить один раз", ic:"knife", items:[
+    { t:"Мельница для перца", n:"300₽", star:true },
+    { t:"Мелкая тёрка для пармезана и муската", n:"" },
+    { t:"Толстодонная кастрюля или казан", n:"" },
+    { t:"Форма для запекания 20×30", n:"" }
+  ]},
+  { g:"Аптечка", ic:"powder", items:[
+    { t:"Креатин моногидрат", n:"5 г/день", star:true },
+    { t:"Витамин D3", n:"2000 МЕ" },
+    { t:"Магний", n:"вечером" }
+  ]}
+];
 
 /* ═══════════ РЕЦЕПТЫ (рулетка) ═══════════ */
 const RECIPES = [
@@ -1424,6 +1517,64 @@ function renderFood(){
   fl.innerHTML = list.length
     ? list.map((it,i) => '<div class="fitem"><span>'+it.n+'</span><span><b>'+it.k+'</b> ккал · '+it.p+' г <span class="fx" onclick="delFood('+i+')">×</span></span></div>').join("")
     : '<div class="wc-hist">Пока пусто.</div>';
+
+  renderShop();
+}
+
+/* ═══════════ СПИСОК ПОКУПОК ═══════════ */
+let shopOpen = store.get("shopOpen", {});
+function shopState(){ return store.get("shop", {}); }
+function shopKey(gi, ii){ return gi + "_" + ii; }
+function shopToggle(gi, ii){
+  const s = shopState();
+  const k = shopKey(gi, ii);
+  if(s[k]) delete s[k]; else s[k] = 1;
+  store.set("shop", s);
+  renderShop();
+}
+function shopFold(gi){
+  shopOpen[gi] = !shopOpen[gi];
+  store.set("shopOpen", shopOpen);
+  renderShop();
+}
+function resetWeekly(){
+  const s = shopState();
+  SHOP.forEach((g, gi) => {
+    if(g.wk) g.items.forEach((_, ii) => { delete s[shopKey(gi, ii)]; });
+  });
+  store.set("shop", s);
+  renderShop();
+  toast("Недельный список сброшен");
+}
+function renderShop(){
+  const box = document.getElementById("shopBox");
+  if(!box) return;
+  const s = shopState();
+  let totalDone = 0, totalAll = 0;
+  let html = "";
+  SHOP.forEach((g, gi) => {
+    const done = g.items.filter((_, ii) => s[shopKey(gi, ii)]).length;
+    totalDone += done; totalAll += g.items.length;
+    const open = !!shopOpen[gi];
+    html += '<div class="shop-g' + (open ? " open" : "") + '">';
+    html += '<div class="shop-h" onclick="shopFold(' + gi + ')">' + ico(g.ic, "ic-lg");
+    html += '<div class="nm">' + g.g + '</div>';
+    if(g.wk) html += '<span class="shop-tag wk">нед</span>';
+    html += '<div class="cnt' + (done === g.items.length ? " full" : "") + '">' + done + '/' + g.items.length + '</div>';
+    html += '<div class="arw">›</div></div>';
+    html += '<div class="shop-b">';
+    g.items.forEach((it, ii) => {
+      const on = !!s[shopKey(gi, ii)];
+      html += '<div class="shop-i' + (on ? " on" : "") + '" onclick="shopToggle(' + gi + ',' + ii + ')">';
+      html += '<div class="bx"></div><div class="tx">' + (it.star ? "<b>" + it.t + "</b>" : it.t) + '</div>';
+      if(it.n) html += '<div class="nb">' + it.n + '</div>';
+      html += '</div>';
+    });
+    html += '</div></div>';
+  });
+  box.innerHTML = html;
+  const tot = document.getElementById("shopTotal");
+  if(tot) tot.textContent = totalDone + " / " + totalAll;
 }
 
 /* ═══════════ СТАТИСТИКА / ИСТОРИЯ ═══════════ */
