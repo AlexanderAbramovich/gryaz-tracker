@@ -199,6 +199,8 @@
   .fbtn b { display: block; font-size: 13px; font-weight: 800; line-height: 1.2; }
   .fbtn small { display: block; font-size: 10.5px; color: var(--dim); margin-top: 4px; font-weight: 600; line-height: 1.35; }
   .fbtn small i { color: #9a9aa8; font-style: normal; font-weight: 700; }
+  .fbtn.rec { border-color: #33333f; }
+  .fbtn.rec .ic-lg { margin-bottom: 8px; }
   .fitem { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
   .fitem:last-child { border-bottom: none; }
   .fitem .fx { color: var(--blood); font-weight: 800; padding: 0 8px; cursor: pointer; }
@@ -272,8 +274,14 @@
   .fl-body { flex: 1; overflow-y: auto; padding: 10px 20px 20px; display: flex; flex-direction: column; }
   .fstep { animation: fin .38s cubic-bezier(.2,.8,.2,1); flex: 1; display: flex; flex-direction: column; }
   @keyframes fin { from { opacity: 0; transform: translateY(26px) scale(.98); } }
-  .fs-icon { font-size: 74px; line-height: 1; margin: 26px 0 18px; animation: pop .5s cubic-bezier(.2,.8,.2,1); }
+  .fs-icon { margin: 22px 0 18px; animation: pop .5s cubic-bezier(.2,.8,.2,1); }
+  .fs-icon svg { width: 92px; height: 92px; color: var(--org); display: block; }
   @keyframes pop { 0% { transform: scale(.4) rotate(-8deg); opacity: 0; } 60% { transform: scale(1.12) rotate(2deg); } 100% { transform: scale(1); } }
+  .ic { width: 1em; height: 1em; vertical-align: -.15em; color: var(--org); }
+  .ic-lg { width: 26px; height: 26px; color: var(--org); flex: 0 0 26px; }
+  .sk-sec { opacity: .42; }
+  .done-burst svg { width: 130px; height: 130px; color: var(--org); margin: 0 auto; animation: pop .6s cubic-bezier(.2,.8,.2,1); }
+  .rl-head { display: flex; align-items: center; gap: 10px; }
   .fs-kicker { font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--org); margin-bottom: 8px; }
   .fs-title { font-size: 28px; font-weight: 900; letter-spacing: -1px; line-height: 1.05; text-transform: uppercase; font-style: italic; }
   .fs-text { font-size: 16px; line-height: 1.55; margin-top: 14px; color: #d6d6de; }
@@ -291,6 +299,219 @@
 </style>
 </head>
 <body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="_s" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></g>
+</defs>
+<symbol id="i-cleanser" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M18 12h12v4c3 2 4 5 4 8v14a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V24c0-3 1-6 4-8v-4Z"/>
+  <path d="M20 6h8v6h-8z"/><path class="sk-sec" d="M19 28h10M19 34h6"/>
+</symbol>
+<symbol id="i-powder" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="13" y="18" width="22" height="24" rx="4"/><path d="M17 18v-4a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v4"/>
+  <circle class="sk-sec" cx="20" cy="9" r="1.6"/><circle class="sk-sec" cx="28" cy="6" r="1.6"/><circle class="sk-sec" cx="34" cy="11" r="1.6"/>
+  <path class="sk-sec" d="M19 28h10"/>
+</symbol>
+<symbol id="i-cream" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="10" y="20" width="28" height="20" rx="4"/><rect x="14" y="12" width="20" height="8" rx="3"/>
+  <path class="sk-sec" d="M17 30h14"/>
+</symbol>
+<symbol id="i-spf" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="24" cy="20" r="8"/>
+  <path d="M24 4v4M24 32v4M8 20h4M36 20h4M12.7 8.7l2.8 2.8M32.5 28.5l2.8 2.8M35.3 8.7l-2.8 2.8M15.5 28.5l-2.8 2.8"/>
+  <rect class="sk-sec" x="18" y="38" width="12" height="8" rx="2"/>
+</symbol>
+<symbol id="i-serum" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M22 6h4v9l4 6v19a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V21l4-6V6Z"/>
+  <path class="sk-sec" d="M18 30h12"/><circle class="sk-sec" cx="36" cy="14" r="2.4"/>
+</symbol>
+<symbol id="i-moon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M30 6a18 18 0 1 0 12 22A14 14 0 0 1 30 6Z"/>
+  <path class="sk-sec" d="M14 10l1.5 3 3 1.5-3 1.5L14 19l-1.5-3-3-1.5 3-1.5Z"/>
+</symbol>
+<symbol id="i-sun" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="24" cy="24" r="9"/>
+  <path d="M24 5v5M24 38v5M5 24h5M38 24h5M10.5 10.5l3.5 3.5M34 34l3.5 3.5M37.5 10.5L34 14M14 34l-3.5 3.5"/>
+</symbol>
+<symbol id="i-shampoo" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M17 16h14a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H17a4 4 0 0 1-4-4V20a4 4 0 0 1 4-4Z"/>
+  <path d="M22 16v-4h4v4"/><path d="M26 8h6a3 3 0 0 1 3 3v2"/>
+  <path class="sk-sec" d="M18 26h12"/>
+</symbol>
+<symbol id="i-conditioner" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M14 18h20a3 3 0 0 1 3 3v18a4 4 0 0 1-4 4H15a4 4 0 0 1-4-4V21a3 3 0 0 1 3-3Z"/>
+  <rect x="19" y="9" width="10" height="9" rx="2"/><path class="sk-sec" d="M17 28h14M17 34h8"/>
+</symbol>
+<symbol id="i-curl" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M14 40c0-6 6-6 6-12s-6-6-6-12 6-8 6-8"/>
+  <path class="sk-sec" d="M28 40c0-6 6-6 6-12s-6-6-6-12 6-8 6-8"/>
+</symbol>
+<symbol id="i-oil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M24 6s12 14 12 22a12 12 0 0 1-24 0c0-8 12-22 12-22Z"/>
+  <path class="sk-sec" d="M19 29a5 5 0 0 0 5 5"/>
+</symbol>
+<symbol id="i-shower" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10 20a14 14 0 0 1 28 0Z"/><path d="M24 20V8a4 4 0 0 1 4-4h6"/>
+  <path class="sk-sec" d="M16 28v4M24 28v6M32 28v4M20 36v3M28 36v3"/>
+</symbol>
+<symbol id="i-pullup" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 10h36"/><path d="M12 10v4M36 10v4"/>
+  <path d="M17 12l4 6M31 12l-4 6"/><circle cx="24" cy="23" r="4"/>
+  <path d="M24 27v9"/><path class="sk-sec" d="M24 36l-4 8M24 36l4 8"/>
+</symbol>
+<symbol id="i-press" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M8 24h32"/><rect x="4" y="16" width="6" height="16" rx="2"/><rect x="38" y="16" width="6" height="16" rx="2"/>
+  <rect class="sk-sec" x="12" y="19" width="4" height="10" rx="1.5"/><rect class="sk-sec" x="32" y="19" width="4" height="10" rx="1.5"/>
+</symbol>
+<symbol id="i-lateral" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="24" cy="11" r="4"/><path d="M24 15v16"/><path d="M24 19H10M24 19h14"/>
+  <rect x="4" y="15" width="6" height="8" rx="2"/><rect x="38" y="15" width="6" height="8" rx="2"/>
+  <path class="sk-sec" d="M24 31l-5 12M24 31l5 12"/>
+</symbol>
+<symbol id="i-flye" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M24 10v28"/><path d="M24 18c-8-8-16-6-18 2 6 4 12 4 18-2Z"/><path d="M24 18c8-8 16-6 18 2-6 4-12 4-18-2Z"/>
+  <path class="sk-sec" d="M24 30c-4-3-8-3-11-1M24 30c4-3 8-3 11-1"/>
+</symbol>
+<symbol id="i-biceps" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10 38V26a10 10 0 0 1 10-10h4a8 8 0 0 1 8 8c0 3-2 5-5 5"/>
+  <path d="M27 29c6 0 9 3 9 8v1H10"/><path class="sk-sec" d="M18 22c2-2 5-2 7 0"/>
+</symbol>
+<symbol id="i-core" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M24 5l15 6v10c0 11-7 18-15 22-8-4-15-11-15-22V11Z"/>
+  <path class="sk-sec" d="M24 15v18M17 21h14M17 27h14"/>
+</symbol>
+<symbol id="i-legs" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M32 6h6v10a20 20 0 0 1-20 20h-4"/><path d="M14 30v12"/><path d="M8 42h14"/>
+  <rect class="sk-sec" x="6" y="22" width="10" height="8" rx="3"/>
+</symbol>
+<symbol id="i-facepull" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M24 8v10"/><path d="M24 18c-6 0-10 3-12 8M24 18c6 0 10 3 12 8"/>
+  <circle cx="10" cy="29" r="4"/><circle cx="38" cy="29" r="4"/>
+  <path class="sk-sec" d="M6 40h36"/>
+</symbol>
+<symbol id="i-triceps" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M24 6v14"/><path d="M14 20h20"/><path d="M17 20l-3 12M31 20l3 12"/>
+  <circle class="sk-sec" cx="14" cy="36" r="3.5"/><circle class="sk-sec" cx="34" cy="36" r="3.5"/>
+</symbol>
+<symbol id="i-dips" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 16h14M28 16h14"/><path d="M10 16v24M38 16v24"/>
+  <circle cx="24" cy="20" r="4"/><path d="M24 24v8"/><path class="sk-sec" d="M24 32l-4 8M24 32l4 8"/>
+  <path class="sk-sec" d="M20 20h-6M28 20h6"/>
+</symbol>
+<symbol id="i-calf" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M18 6c0 8-2 12-2 18 0 6 3 10 3 14"/><path d="M19 38h14a3 3 0 0 1 0 6H12"/>
+  <path class="sk-sec" d="M28 20l6-6M32 26l7-3"/>
+</symbol>
+<symbol id="i-hamstring" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M8 34V18a4 4 0 0 1 4-4h10v20"/><path d="M22 24h12a6 6 0 0 1 0 12H22"/>
+  <circle class="sk-sec" cx="36" cy="30" r="3"/><path class="sk-sec" d="M8 40h16"/>
+</symbol>
+<symbol id="i-rdl" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M24 6l18 32H6Z"/><path d="M24 18v10"/><circle cx="24" cy="33" r="1.6" fill="currentColor"/>
+</symbol>
+<symbol id="i-shoulderpress" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10 10h28"/><rect x="4" y="4" width="6" height="12" rx="2"/><rect x="38" y="4" width="6" height="12" rx="2"/>
+  <circle cx="24" cy="22" r="4"/><path d="M24 26v10"/><path d="M17 12l5 8M31 12l-5 8"/>
+  <path class="sk-sec" d="M24 36l-5 8M24 36l5 8"/>
+</symbol>
+<symbol id="i-warmup" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M40 24a16 16 0 1 1-6-12.4"/><path d="M40 6v8h-8"/>
+  <path class="sk-sec" d="M24 16c-2.5-3-7-2-7 2 0 3.5 7 8 7 8s7-4.5 7-8c0-4-4.5-5-7-2Z"/>
+</symbol>
+<symbol id="i-pot" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M8 20h32v12a8 8 0 0 1-8 8H16a8 8 0 0 1-8-8V20Z"/>
+  <path d="M8 24H4M40 24h4"/>
+  <path class="sk-sec" d="M18 14c0-3 3-3 3-6M27 14c0-3 3-3 3-6"/>
+</symbol>
+<symbol id="i-bacon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 16c6-6 10 4 16-2s10 4 16-2v12c-6 6-10-4-16 2S12 22 6 28Z"/>
+  <path class="sk-sec" d="M6 32c6-6 10 4 16-2s10 4 16-2"/>
+</symbol>
+<symbol id="i-egg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M24 6c8 0 14 12 14 21a14 14 0 1 1-28 0C10 18 16 6 24 6Z"/>
+  <circle class="sk-sec" cx="24" cy="28" r="5"/>
+</symbol>
+<symbol id="i-pepper" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M18 14h12v24a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V14Z"/>
+  <path d="M20 14V8a4 4 0 0 1 8 0v6"/><path class="sk-sec" d="M18 22h12M18 30h12"/>
+</symbol>
+<symbol id="i-fire" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M25 4c1 7-5 9-5 15 0 3 2 5 4 5s4-2 4-5c0-2-.5-3-1-4 6 4 9 9 9 15a12 12 0 0 1-24 0C12 20 22 16 25 4Z"/>
+</symbol>
+<symbol id="i-sparkle" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M24 6l4 10 10 4-10 4-4 10-4-10-10-4 10-4Z"/>
+  <path class="sk-sec" d="M38 34l1.5 3.5L43 39l-3.5 1.5L38 44l-1.5-3.5L33 39l3.5-1.5ZM9 8l1 2.5L12.5 12 10 13l-1 2.5L8 13l-2.5-1L8 10.5Z"/>
+</symbol>
+<symbol id="i-onion" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M24 12c8 0 14 7 14 15a14 14 0 0 1-28 0c0-8 6-15 14-15Z"/>
+  <path d="M24 12c0-3-2-5-4-6M24 12c0-3 2-5 4-6"/>
+  <path class="sk-sec" d="M18 20c-2 4-2 9 0 13M30 20c2 4 2 9 0 13"/>
+</symbol>
+<symbol id="i-meat" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 34a12 12 0 0 1 0-20c8-5 20-3 24 4s-1 17-9 19c-6 1.5-12 0-15-3Z"/>
+  <path class="sk-sec" d="M20 20c3-2 7-2 10 1"/><circle class="sk-sec" cx="17" cy="27" r="3"/>
+</symbol>
+<symbol id="i-tomato" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="24" cy="27" r="15"/>
+  <path d="M24 12V8"/><path class="sk-sec" d="M24 12c-3-3-7-3-9-2 1 3 5 4 9 2ZM24 12c3-3 7-3 9-2-1 3-5 4-9 2Z"/>
+</symbol>
+<symbol id="i-milk" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M16 16h16v22a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4V16Z"/>
+  <path d="M18 16l3-8h6l3 8"/><path class="sk-sec" d="M16 28h16"/>
+</symbol>
+<symbol id="i-timer" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="24" cy="26" r="16"/><path d="M24 17v9l6 4"/><path d="M18 5h12"/>
+</symbol>
+<symbol id="i-knife" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 30 30 6c4 6 4 14-2 20L14 40Z"/><path d="M14 40l-6-6"/>
+  <path class="sk-sec" d="M34 30h10M34 38h10"/>
+</symbol>
+<symbol id="i-bread" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M8 22a8 8 0 0 1 8-8h16a8 8 0 0 1 8 8v14a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4Z"/>
+  <path class="sk-sec" d="M16 22v18M24 22v18M32 22v18"/>
+</symbol>
+<symbol id="i-cheese" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 32 26 12h16v20Z"/><path d="M6 32v6h36v-6"/>
+  <circle class="sk-sec" cx="30" cy="24" r="3"/><circle class="sk-sec" cx="20" cy="28" r="2"/>
+</symbol>
+<symbol id="i-pasta" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 28h36a18 18 0 0 1-36 0Z"/><path d="M4 38h40"/>
+  <path class="sk-sec" d="M16 26c0-6 4-10 8-10s8 4 8 10M20 26c0-4 2-6 4-6"/>
+</symbol>
+<symbol id="i-potato" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M14 12c10-4 24 2 24 14 0 10-10 16-18 14S6 30 8 22c1.5-6 3-8 6-10Z"/>
+  <circle class="sk-sec" cx="19" cy="22" r="1.8"/><circle class="sk-sec" cx="29" cy="20" r="1.8"/><circle class="sk-sec" cx="26" cy="31" r="1.8"/>
+</symbol>
+<symbol id="i-meatball" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="17" cy="20" r="8"/><circle cx="32" cy="24" r="8"/><circle cx="22" cy="34" r="8"/>
+</symbol>
+<symbol id="i-chicken" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M30 8a14 14 0 0 1 4 20l-9 9-8-8 9-9A14 14 0 0 1 30 8Z"/>
+  <path d="m17 29-8 8a4 4 0 0 0 6 6l8-8"/>
+  <path class="sk-sec" d="M28 16c2 1 4 3 4 6"/>
+</symbol>
+<symbol id="i-lasagna" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M8 34V18l16-8 16 8v16l-16 8Z"/>
+  <path class="sk-sec" d="M8 18l16 8 16-8M24 26v16M8 26l16 8 16-8"/>
+</symbol>
+<symbol id="i-gnocchi" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="8" y="14" width="14" height="10" rx="5" transform="rotate(-12 15 19)"/>
+  <rect x="26" y="20" width="14" height="10" rx="5" transform="rotate(10 33 25)"/>
+  <rect x="14" y="30" width="14" height="10" rx="5" transform="rotate(-6 21 35)"/>
+</symbol>
+<symbol id="i-dice" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="8" y="8" width="32" height="32" rx="7"/>
+  <circle cx="17" cy="17" r="2.2" fill="currentColor" stroke="none"/>
+  <circle cx="31" cy="17" r="2.2" fill="currentColor" stroke="none"/>
+  <circle cx="24" cy="24" r="2.2" fill="currentColor" stroke="none"/>
+  <circle cx="17" cy="31" r="2.2" fill="currentColor" stroke="none"/>
+  <circle cx="31" cy="31" r="2.2" fill="currentColor" stroke="none"/>
+</symbol>
+<symbol id="i-water" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M24 5s13 15 13 24a13 13 0 0 1-26 0C11 20 24 5 24 5Z"/>
+  <path class="sk-sec" d="M18 30a6 6 0 0 0 6 6"/>
+</symbol>
+</svg>
 
 <header>
   <div class="brand">ГРЯЗЬ<span>.</span> ХОЗА ХОЗА</div>
@@ -365,10 +586,13 @@
   </div>
 
   <div class="roulette">
-    <h3>🎲 Рулетка блюда</h3>
+    <h3 class="rl-head"><svg class="ic-lg"><use href="#i-dice"/></svg> Рулетка блюда</h3>
     <p>Не знаешь, что готовить - жми. Выпадет блюдо, и я проведу по шагам, как шеф.</p>
     <button class="save" style="margin:0" onclick="spinRecipe()">Крутить</button>
   </div>
+
+  <div class="sec-h">Рецепты · тап и я веду по шагам</div>
+  <div class="fgrid" id="recGrid"></div>
 
   <div class="sec-h">Быстро записать съеденное</div>
   <div class="fgrid" id="fastGrid"></div>
@@ -411,22 +635,22 @@ const PROGRAM = {
     title: "День A · Верх, акцент тяга",
     warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин до испарины. По 10: круги руками, вращения с палкой, кошка-корова, махи ногой, выпад с поворотом. Подводящие только к подтягиваниям: 50%×5, 75%×3.",
     ex: [
-      { id:"a1", name:"Подтягивания прямым хватом", icon:"🧗", sets:4, lo:4, hi:6, sum:true, sumGoal:24, bw:true, step:2.5,
+      { id:"a1", name:"Подтягивания прямым хватом", icon:"pullup", sets:4, lo:4, hi:6, sum:true, sumGoal:24, bw:true, step:2.5,
         note:"Хват ~1,5 ширины плеч, внизу руки распускать полностью. Первые 3 недели по 4 повтора.",
         swap:"Тяга верхнего блока 50 кг. Гравитрон НЕ трогать." },
-      { id:"a2", name:"Хаммер-жим сидя на грудь", icon:"🏋️", sets:3, lo:8, hi:12, w:17.5, step:2, dumb:true,
+      { id:"a2", name:"Хаммер-жим сидя на грудь", icon:"press", sets:3, lo:8, hi:12, w:17.5, step:2, dumb:true,
         note:"Рычажный тренажёр, жмёшь от груди вперёд. Вес одной стороны.",
         swap:"Жим гантелей горизонтально / Смит-жим." },
-      { id:"a3", name:"Махи гантелями в стороны", icon:"🦅", sets:3, lo:12, hi:15, w:4, step:2, dumb:true,
+      { id:"a3", name:"Махи гантелями в стороны", icon:"lateral", sets:3, lo:12, hi:15, w:4, step:2, dumb:true,
         note:"До параллели с полом, не выше. Никогда в отказ. Вес одной гантели.",
         swap:"Махи на нижнем блоке." },
-      { id:"a4", name:"Обратная бабочка", icon:"🦋", sets:3, lo:15, hi:18, w:15, step:2.5,
+      { id:"a4", name:"Обратная бабочка", icon:"flye", sets:3, lo:15, hi:18, w:15, step:2.5,
         note:"Пек-дек задом наперёд: грудью к спинке, разводишь руки назад.",
         swap:"Face pull / разведения на нижних блоках." },
-      { id:"a5", name:"Сгибания на бицепс", icon:"💪", sets:3, lo:10, hi:12, w:8, step:2, dumb:true,
+      { id:"a5", name:"Сгибания на бицепс", icon:"biceps", sets:3, lo:10, hi:12, w:8, step:2, dumb:true,
         note:"Стоя, локти прижаты. Вес одной гантели.",
         swap:"EZ-гриф 15 кг." },
-      { id:"a6", name:"Паллоф-пресс (на сторону)", icon:"🛡️", sets:2, lo:10, hi:10, w:10, step:2.5,
+      { id:"a6", name:"Паллоф-пресс (на сторону)", icon:"core", sets:2, lo:10, hi:10, w:10, step:2.5,
         note:"Боком к блоку, выжимаешь рукоять перед собой. Корпус не крутится.",
         swap:"Планка 3×40 сек." }
     ]
@@ -435,25 +659,25 @@ const PROGRAM = {
     title: "День B · Верх жим + лёгкие ноги",
     warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин. Динамика по 10 повторов. Подводящие только к жиму гантелей: 50%×5, 75%×3.",
     ex: [
-      { id:"b1", name:"Жим гантелей на наклонной 30°", icon:"🏋️", sets:3, lo:8, hi:10, w:16, step:2, dumb:true,
+      { id:"b1", name:"Жим гантелей на наклонной 30°", icon:"press", sets:3, lo:8, hi:10, w:16, step:2, dumb:true,
         note:"Гантели, не штанга. Вес одной гантели.",
         swap:"Смит-жим наклонный." },
-      { id:"b2", name:"Тяга верхнего блока к груди", icon:"🧗", sets:4, lo:8, hi:12, w:45, step:2.5,
+      { id:"b2", name:"Тяга верхнего блока к груди", icon:"pullup", sets:4, lo:8, hi:12, w:45, step:2.5,
         note:"Хват ~1,5 ширины плеч. К ГРУДИ, никогда за голову.",
         swap:"Хаммер-тяга." },
-      { id:"b3", name:"Жим в тренажёре Shoulder Press", icon:"🙌", sets:3, lo:8, hi:12, w:0, step:2.5, calib:true,
+      { id:"b3", name:"Жим в тренажёре Shoulder Press", icon:"shoulderpress", sets:3, lo:8, hi:12, w:0, step:2.5, calib:true,
         note:"Или жим гантелей сидя со спинкой. Первый раз калибруешь.",
         swap:"Жим гантелей сидя 2×10 кг." },
-      { id:"b4", name:"Жим ногами", icon:"🦵", sets:3, lo:10, hi:12, w:0, step:5, calib:true,
+      { id:"b4", name:"Жим ногами", icon:"legs", sets:3, lo:10, hi:12, w:0, step:5, calib:true,
         note:"Первые 4 недели: 2 подхода, укороченная амплитуда.",
         swap:"Гакк-машина." },
-      { id:"b5", name:"Махи на нижнем блоке", icon:"🦅", sets:3, lo:12, hi:15, w:5, step:2.5,
+      { id:"b5", name:"Махи на нижнем блоке", icon:"lateral", sets:3, lo:12, hi:15, w:5, step:2.5,
         note:"Рука от противоположного бедра через тело. Не в отказ.",
         swap:"Махи гантелями." },
-      { id:"b6", name:"Face pull", icon:"🎯", sets:2, lo:15, hi:18, w:15, step:2.5,
+      { id:"b6", name:"Face pull", icon:"facepull", sets:2, lo:15, hi:18, w:15, step:2.5,
         note:"Канат к лицу, локти в стороны.",
         swap:"Обратная бабочка." },
-      { id:"b7", name:"Разгибания на трицепс", icon:"🔨", sets:3, lo:10, hi:12, w:20, step:2.5,
+      { id:"b7", name:"Разгибания на трицепс", icon:"triceps", sets:3, lo:10, hi:12, w:20, step:2.5,
         note:"Локти прижаты, работает только предплечье.",
         swap:"Французский жим с гантелью." }
     ]
@@ -462,22 +686,22 @@ const PROGRAM = {
     title: "День C · Тяжёлый низ + верх",
     warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин. Динамика. Подводящие к гакку: 50%×5, 75%×3. Колени греть отдельно.",
     ex: [
-      { id:"c1", name:"Гакк-машина", icon:"🦵", sets:3, lo:8, hi:12, w:0, step:5, calib:true,
+      { id:"c1", name:"Гакк-машина", icon:"legs", sets:3, lo:8, hi:12, w:0, step:5, calib:true,
         note:"Спина на подушке, плечи под валиками. Записывай блины, а не кг.",
         swap:"Жим ногами узко / болгарские выпады в Смите." },
-      { id:"c2", name:"Румынская тяга с гантелями", icon:"⚠️", sets:3, lo:8, hi:10, w:7, step:2, dumb:true,
+      { id:"c2", name:"Румынская тяга с гантелями", icon:"rdl", sets:3, lo:8, hi:10, w:7, step:2, dumb:true,
         note:"ПЕРВЫЕ 3 НЕДЕЛИ: 3×10 чисто техника, 6-8 кг, вес НЕ растёт. Таз назад, гантели скользят по бедру.",
         swap:"Гиперэкстензия." },
-      { id:"c3", name:"Отжимания на брусьях", icon:"💥", sets:3, lo:8, hi:12, sum:true, sumGoal:30, bw:true, step:2.5,
+      { id:"c3", name:"Отжимания на брусьях", icon:"dips", sets:3, lo:8, hi:12, sum:true, sumGoal:30, bw:true, step:2.5,
         note:"Без пояса первые 8 недель. Прогрессия по сумме.",
         swap:"Отжимания с ногами на лавке." },
-      { id:"c4", name:"Хаммер-тяга с упором в грудь", icon:"🧗", sets:3, lo:8, hi:12, w:20, step:2, dumb:true,
+      { id:"c4", name:"Хаммер-тяга с упором в грудь", icon:"pullup", sets:3, lo:8, hi:12, w:20, step:2, dumb:true,
         note:"Или Т-гриф с упором. Вес одной стороны.",
         swap:"Горизонтальная тяга блока / тяга гантели в упоре." },
-      { id:"c5", name:"Сгибание ног СИДЯ", icon:"🪑", sets:3, lo:10, hi:12, w:25, step:2.5,
+      { id:"c5", name:"Сгибание ног СИДЯ", icon:"hamstring", sets:3, lo:10, hi:12, w:25, step:2.5,
         note:"Именно сидя: +14% против +9% у лёжа.",
         swap:"Сгибание лёжа - хуже на 5%, но лучше нуля." },
-      { id:"c6", name:"Подъёмы на носки СТОЯ", icon:"🦶", sets:2, lo:12, hi:15, w:40, step:5,
+      { id:"c6", name:"Подъёмы на носки СТОЯ", icon:"calf", sets:2, lo:12, hi:15, w:40, step:5,
         note:"Пауза 1 сек внизу. Первое, что выкидываешь, если не влезаешь в час.",
         swap:"Носками на платформе жима ногами." }
     ]
@@ -537,58 +761,58 @@ const KCAL_GOAL = 3000, PROT_GOAL = 130;
 
 /* ═══════════ РЕЦЕПТЫ (рулетка) ═══════════ */
 const RECIPES = [
-  { n:"Карбонара", k:900, p:45, time:"12 минут", icon:"🍝", steps:[
-    { i:"💧", t:"Вода", d:"Кастрюля, соль <b>10 г на литр</b>. Спагетти 120 г варить на минуту меньше, чем на пачке." },
-    { i:"🥓", t:"Грудинка", d:"80 г брусочками в <b>холодную</b> сковороду, огонь средне-малый, 6-8 минут.", s:"Ориентир: золотая, хрустит по краям, на дне лужица прозрачного жира" },
-    { i:"🥚", t:"Смесь", d:"В миске растереть 1 яйцо + 2 желтка + 50 г пармезана + много перца. Должна выйти густая паста.", s:"Сыр в яйцо ДО нагрева, иначе скомкуется" },
-    { i:"🌶️", t:"Перец в жир", d:"Сковороду снять с огня, полчайной ложки перца прямо в жир на 20 секунд.", s:"Перец раскрывается только в жире" },
-    { i:"🔥", t:"Сборка", d:"Пасту в сковороду + полполовника воды, мешать 30 сек. <b>Снять с огня. Подождать 30 сек.</b> Влить смесь и мешать быстро 60 секунд.", s:"Яйцо сворачивается при 70°C - огонь не нужен, тепла пасты достаточно" },
-    { i:"✨", t:"Финиш", d:"Соус глянцевый и обволакивает каждую спагеттину. Густо - плесни ещё воды по ложке." }
+  { n:"Карбонара", k:900, p:45, time:"12 минут", icon:"pasta", steps:[
+    { i:"water", t:"Вода", d:"Кастрюля, соль <b>10 г на литр</b>. Спагетти 120 г варить на минуту меньше, чем на пачке." },
+    { i:"bacon", t:"Грудинка", d:"80 г брусочками в <b>холодную</b> сковороду, огонь средне-малый, 6-8 минут.", s:"Ориентир: золотая, хрустит по краям, на дне лужица прозрачного жира" },
+    { i:"egg", t:"Смесь", d:"В миске растереть 1 яйцо + 2 желтка + 50 г пармезана + много перца. Должна выйти густая паста.", s:"Сыр в яйцо ДО нагрева, иначе скомкуется" },
+    { i:"pepper", t:"Перец в жир", d:"Сковороду снять с огня, полчайной ложки перца прямо в жир на 20 секунд.", s:"Перец раскрывается только в жире" },
+    { i:"fire", t:"Сборка", d:"Пасту в сковороду + полполовника воды, мешать 30 сек. <b>Снять с огня. Подождать 30 сек.</b> Влить смесь и мешать быстро 60 секунд.", s:"Яйцо сворачивается при 70°C - огонь не нужен, тепла пасты достаточно" },
+    { i:"sparkle", t:"Финиш", d:"Соус глянцевый и обволакивает каждую спагеттину. Густо - плесни ещё воды по ложке." }
   ]},
-  { n:"Болоньезе (база на 4 дня)", k:850, p:45, time:"3 часа, руками 20 мин", icon:"🍖", steps:[
-    { i:"🥓", t:"Грудинка", d:"100 г кубиком в холодную кастрюлю, средне-малый огонь, 5-6 минут до золота." },
-    { i:"🧅", t:"Соффритто", d:"Лук + морковь + сельдерей мелко, в тот же жир. <b>Малый огонь, 12-15 минут.</b>", s:"Овощи мягкие и сладкие, цвет НЕ золотистый. Спешка убивает блюдо" },
-    { i:"🥩", t:"Мясо", d:"Огонь сильный. Фарш 700 г <b>половинами</b>, первые 2 минуты не трогать - ждать корочку.", s:"Серый фарш в воде = потерянный вкус" },
-    { i:"🍅", t:"Паста томатная", d:"2 ложки в центр, обжарить 1-2 минуты до кирпичного цвета." },
-    { i:"🥛", t:"Молоко", d:"200 мл, средний огонь, 10 минут до впитывания.", s:"Главный секрет: молоко смягчает мясо. ВСЕГДА до томатов" },
-    { i:"⏳", t:"Томление", d:"Томаты 400 г раздавить руками, лавр, соль. Самый малый огонь, крышка приоткрыта, <b>2,5 часа</b>. Мешать раз в полчаса.", s:"Готово: жир выступил оранжевыми капельками, мясо разваливается" }
+  { n:"Болоньезе (база на 4 дня)", k:850, p:45, time:"3 часа, руками 20 мин", icon:"meat", steps:[
+    { i:"bacon", t:"Грудинка", d:"100 г кубиком в холодную кастрюлю, средне-малый огонь, 5-6 минут до золота." },
+    { i:"onion", t:"Соффритто", d:"Лук + морковь + сельдерей мелко, в тот же жир. <b>Малый огонь, 12-15 минут.</b>", s:"Овощи мягкие и сладкие, цвет НЕ золотистый. Спешка убивает блюдо" },
+    { i:"meat", t:"Мясо", d:"Огонь сильный. Фарш 700 г <b>половинами</b>, первые 2 минуты не трогать - ждать корочку.", s:"Серый фарш в воде = потерянный вкус" },
+    { i:"tomato", t:"Паста томатная", d:"2 ложки в центр, обжарить 1-2 минуты до кирпичного цвета." },
+    { i:"milk", t:"Молоко", d:"200 мл, средний огонь, 10 минут до впитывания.", s:"Главный секрет: молоко смягчает мясо. ВСЕГДА до томатов" },
+    { i:"timer", t:"Томление", d:"Томаты 400 г раздавить руками, лавр, соль. Самый малый огонь, крышка приоткрыта, <b>2,5 часа</b>. Мешать раз в полчаса.", s:"Готово: жир выступил оранжевыми капельками, мясо разваливается" }
   ]},
-  { n:"Свинина с картошкой", k:800, p:45, time:"40 минут", icon:"🥔", steps:[
-    { i:"🔪", t:"Нарезка", d:"Свинина 300 г кубиками 3 см, картошка 400 г дольками, лук полукольцами." },
-    { i:"🔥", t:"Мясо первым", d:"Сильный огонь, масло, свинину одним слоем. <b>Не мешать 2-3 минуты</b> - ждать корочку, потом перевернуть.", s:"Корочка = 80% вкуса. Серое мясо в воде = ошибка" },
-    { i:"🧅", t:"Лук", d:"Огонь средний, лук к мясу, 3-4 минуты до прозрачности." },
-    { i:"🥔", t:"Картошка", d:"Дольки туда же, посолить, перемешать. Средний огонь, <b>крышка</b>, 15-18 минут, мешать пару раз." },
-    { i:"✨", t:"Финиш", d:"Крышку снять, огонь сильный, 3 минуты для румяности. Чеснок и зелень в самом конце." }
+  { n:"Свинина с картошкой", k:800, p:45, time:"40 минут", icon:"potato", steps:[
+    { i:"knife", t:"Нарезка", d:"Свинина 300 г кубиками 3 см, картошка 400 г дольками, лук полукольцами." },
+    { i:"fire", t:"Мясо первым", d:"Сильный огонь, масло, свинину одним слоем. <b>Не мешать 2-3 минуты</b> - ждать корочку, потом перевернуть.", s:"Корочка = 80% вкуса. Серое мясо в воде = ошибка" },
+    { i:"onion", t:"Лук", d:"Огонь средний, лук к мясу, 3-4 минуты до прозрачности." },
+    { i:"potato", t:"Картошка", d:"Дольки туда же, посолить, перемешать. Средний огонь, <b>крышка</b>, 15-18 минут, мешать пару раз." },
+    { i:"sparkle", t:"Финиш", d:"Крышку снять, огонь сильный, 3 минуты для румяности. Чеснок и зелень в самом конце." }
   ]},
-  { n:"Полпетте (фрикадельки)", k:800, p:48, time:"45 минут", icon:"🧆", steps:[
-    { i:"🍞", t:"Панада", d:"Хлеб 80 г залить молоком 100 мл на 10 минут, отжать, размять.", s:"Панада держит влагу - без неё котлеты сухие" },
-    { i:"🥩", t:"Фарш", d:"Фарш 500 г + панада + яйцо + пармезан 50 г + чеснок. Мешать руками <b>недолго</b>.", s:"Долгий замес = резина" },
-    { i:"🔥", t:"Обжарка", d:"Шарики с грецкий орех, горячая сковорода, по 2 минуты со всех сторон. Внутри сырые - нормально." },
-    { i:"🍅", t:"Соус", d:"В той же сковороде лук 8 минут на малом, томаты 700 г, соль." },
-    { i:"⏳", t:"Тушение", d:"Фрикадельки в соус, малый огонь, крышка, <b>25 минут</b>. Базилик в конце." }
+  { n:"Полпетте (фрикадельки)", k:800, p:48, time:"45 минут", icon:"meatball", steps:[
+    { i:"bread", t:"Панада", d:"Хлеб 80 г залить молоком 100 мл на 10 минут, отжать, размять.", s:"Панада держит влагу - без неё котлеты сухие" },
+    { i:"meat", t:"Фарш", d:"Фарш 500 г + панада + яйцо + пармезан 50 г + чеснок. Мешать руками <b>недолго</b>.", s:"Долгий замес = резина" },
+    { i:"fire", t:"Обжарка", d:"Шарики с грецкий орех, горячая сковорода, по 2 минуты со всех сторон. Внутри сырые - нормально." },
+    { i:"tomato", t:"Соус", d:"В той же сковороде лук 8 минут на малом, томаты 700 г, соль." },
+    { i:"timer", t:"Тушение", d:"Фрикадельки в соус, малый огонь, крышка, <b>25 минут</b>. Базилик в конце." }
   ]},
-  { n:"Паста аль форно (4 сыра)", k:1000, p:45, time:"40 минут", icon:"🧀", steps:[
-    { i:"💧", t:"Паста", d:"Пенне 300 г варить <b>на 3 минуты меньше</b> пачки - дойдёт в духовке. Грудинку 150 г обжарить." },
-    { i:"🥛", t:"Бешамель", d:"Масло 40 г растопить, мука 40 г, мешать 2 минуты. Молоко 500 мл <b>тёплым, третями</b>, каждый раз до гладкости.", s:"Холодное молоко в горячее ру = комки" },
-    { i:"🧀", t:"Сыры", d:"<b>Снять с огня</b>, вмешать 200 г сыров (моцарелла + пармезан + острый) и мускат.", s:"Сыр на огне сворачивается в резину" },
-    { i:"🔥", t:"Запекание", d:"Смешать всё, в форму. Сверху остальной сыр + сухари + масло. <b>200°C, 20-25 минут</b> до корки." }
+  { n:"Паста аль форно (4 сыра)", k:1000, p:45, time:"40 минут", icon:"cheese", steps:[
+    { i:"water", t:"Паста", d:"Пенне 300 г варить <b>на 3 минуты меньше</b> пачки - дойдёт в духовке. Грудинку 150 г обжарить." },
+    { i:"milk", t:"Бешамель", d:"Масло 40 г растопить, мука 40 г, мешать 2 минуты. Молоко 500 мл <b>тёплым, третями</b>, каждый раз до гладкости.", s:"Холодное молоко в горячее ру = комки" },
+    { i:"cheese", t:"Сыры", d:"<b>Снять с огня</b>, вмешать 200 г сыров (моцарелла + пармезан + острый) и мускат.", s:"Сыр на огне сворачивается в резину" },
+    { i:"fire", t:"Запекание", d:"Смешать всё, в форму. Сверху остальной сыр + сухари + масло. <b>200°C, 20-25 минут</b> до корки." }
   ]},
-  { n:"Пармиджана из свинины", k:900, p:55, time:"35 минут", icon:"🍗", steps:[
-    { i:"🥩", t:"Мясо", d:"Корейку 400 г отбить до 1 см, посолить, 10 минут полежать." },
-    { i:"🍞", t:"Панировка", d:"Три тарелки: мука → яйцо → сухари с пармезаном. Строго в этом порядке.", s:"Пропустишь муку - панировка слезет" },
-    { i:"🔥", t:"Жарка", d:"Масло слоем 5 мм, средний огонь, по 3 минуты со стороны до золота." },
-    { i:"🧀", t:"Сборка", d:"В форму: соус на дно, отбивные, соус по центру, моцарелла, пармезан. <b>200°C, 15 минут.</b>", s:"Края панировки оставить сухими - они должны хрустеть" }
+  { n:"Пармиджана из свинины", k:900, p:55, time:"35 минут", icon:"chicken", steps:[
+    { i:"meat", t:"Мясо", d:"Корейку 400 г отбить до 1 см, посолить, 10 минут полежать." },
+    { i:"bread", t:"Панировка", d:"Три тарелки: мука → яйцо → сухари с пармезаном. Строго в этом порядке.", s:"Пропустишь муку - панировка слезет" },
+    { i:"fire", t:"Жарка", d:"Масло слоем 5 мм, средний огонь, по 3 минуты со стороны до золота." },
+    { i:"cheese", t:"Сборка", d:"В форму: соус на дно, отбивные, соус по центру, моцарелла, пармезан. <b>200°C, 15 минут.</b>", s:"Края панировки оставить сухими - они должны хрустеть" }
   ]},
-  { n:"Ньокки с горгонзолой", k:850, p:30, time:"8 минут", icon:"🥟", steps:[
-    { i:"💧", t:"Ньокки", d:"Покупные 500 г в кипящую солёную воду. <b>Всплыли - готовы</b> (2-3 минуты)." },
-    { i:"🧀", t:"Соус", d:"Сливки 200 мл на <b>малом</b> огне, горгонзола 150 г кусочками, растворить за 3 минуты.", s:"Сильный огонь свернёт сливки" },
-    { i:"✨", t:"Финиш", d:"Ньокки в соус + полполовника воды, минуту прогреть. Пармезан, перец, орехи. <b>Добавь 100 г обжаренной грудинки</b> - иначе мало белка." }
+  { n:"Ньокки с горгонзолой", k:850, p:30, time:"8 минут", icon:"gnocchi", steps:[
+    { i:"water", t:"Ньокки", d:"Покупные 500 г в кипящую солёную воду. <b>Всплыли - готовы</b> (2-3 минуты)." },
+    { i:"cheese", t:"Соус", d:"Сливки 200 мл на <b>малом</b> огне, горгонзола 150 г кусочками, растворить за 3 минуты.", s:"Сильный огонь свернёт сливки" },
+    { i:"sparkle", t:"Финиш", d:"Ньокки в соус + полполовника воды, минуту прогреть. Пармезан, перец, орехи. <b>Добавь 100 г обжаренной грудинки</b> - иначе мало белка." }
   ]},
-  { n:"Лазанья (из готового рагу)", k:950, p:50, time:"1 час", icon:"🫓", steps:[
-    { i:"🥛", t:"Бешамель", d:"Масло 60 г + мука 60 г, 2 минуты. Молоко 700 мл тёплым третями. Загустить, соль, мускат." },
-    { i:"🧱", t:"Сборка", d:"Форма: тонкий бешамель на дно, дальше ×4: <b>листы → рагу → бешамель → пармезан</b>. Сверху моцарелла.", s:"Слои рагу ТОНКИЕ, иначе разъедется" },
-    { i:"🔥", t:"Выпекание", d:"<b>180°C: 40 минут под фольгой + 15 без.</b> Верх золотой пятнами, края булькают." },
-    { i:"⏳", t:"Отдых", d:"15 минут перед нарезкой - желатин должен схватиться, иначе растечётся." }
+  { n:"Лазанья (из готового рагу)", k:950, p:50, time:"1 час", icon:"lasagna", steps:[
+    { i:"milk", t:"Бешамель", d:"Масло 60 г + мука 60 г, 2 минуты. Молоко 700 мл тёплым третями. Загустить, соль, мускат." },
+    { i:"lasagna", t:"Сборка", d:"Форма: тонкий бешамель на дно, дальше ×4: <b>листы → рагу → бешамель → пармезан</b>. Сверху моцарелла.", s:"Слои рагу ТОНКИЕ, иначе разъедется" },
+    { i:"fire", t:"Выпекание", d:"<b>180°C: 40 минут под фольгой + 15 без.</b> Верх золотой пятнами, края булькают." },
+    { i:"timer", t:"Отдых", d:"15 минут перед нарезкой - желатин должен схватиться, иначе растечётся." }
   ]}
 ];
 
@@ -596,30 +820,36 @@ const RECIPES = [
 function skincareAM(powderDay){
   const steps = [];
   if(powderDay){
-    steps.push({ i:"✨", t:"Энзимная пудра", d:"Полчайной ложки в мокрые ладони, вспенить, 40-60 секунд мягко по лицу, смыть.", s:"Сегодня день эксфолиации (2 раза в неделю). Вечером БЕЗ кислотной сыворотки" });
+    steps.push({ i:"sparkle", t:"Энзимная пудра", d:"Полчайной ложки в мокрые ладони, вспенить, 40-60 секунд мягко по лицу, смыть.", s:"Сегодня день эксфолиации (2 раза в неделю). Вечером БЕЗ кислотной сыворотки" });
   } else {
-    steps.push({ i:"🧼", t:"Умывание", d:"Гель с ниацинамидом, тёплая вода. 30-60 секунд массажа, смыть.", s:"Смывает ночной жир, не сдирая барьер" });
+    steps.push({ i:"cleanser", t:"Умывание", d:"Гель с ниацинамидом, тёплая вода. 30-60 секунд массажа, смыть.", s:"Смывает ночной жир, не сдирая барьер" });
   }
-  steps.push({ i:"💧", t:"Крем увлажняющий", d:"Горошина на всё лицо и шею, вбить подушечками пальцев, не растирать.", s:"Гиалуронка притягивает воду, сквалан запирает" });
-  steps.push({ i:"☀️", t:"SPF-стик", d:"<b>4-5 проходов</b> по каждой зоне: лоб, щёки, нос, подбородок. До лёгкого блеска.", s:"Главный шаг всего ухода. Тонкий мазок = SPF 15 вместо 50. Каждый день, и зимой тоже" });
+  steps.push({ i:"water", t:"Крем увлажняющий", d:"Горошина на всё лицо и шею, вбить подушечками пальцев, не растирать.", s:"Гиалуронка притягивает воду, сквалан запирает" });
+  steps.push({ i:"sun", t:"SPF-стик", d:"<b>4-5 проходов</b> по каждой зоне: лоб, щёки, нос, подбородок. До лёгкого блеска.", s:"Главный шаг всего ухода. Тонкий мазок = SPF 15 вместо 50. Каждый день, и зимой тоже" });
   return steps;
 }
 function skincarePM(powderDay){
   const steps = [
-    { i:"🧼", t:"Умывание", d:"Гель с ниацинамидом. Смыть день: пот, SPF, грязь. 30-60 секунд." }
+    { i:"cleanser", t:"Умывание", d:"Гель с ниацинамидом. Смыть день: пот, SPF, грязь. 30-60 секунд." }
   ];
   if(!powderDay){
-    steps.push({ i:"🧪", t:"Сыворотка BHA", d:"2-3 капли на зоны с чёрными точками и жирностью: нос, лоб, подбородок. Дать впитаться минуту.", s:"Салициловая кислота растворяет пробки внутри пор" });
+    steps.push({ i:"serum", t:"Сыворотка BHA", d:"2-3 капли на зоны с чёрными точками и жирностью: нос, лоб, подбородок. Дать впитаться минуту.", s:"Салициловая кислота растворяет пробки внутри пор" });
   }
-  steps.push({ i:"🌙", t:"Ночной крем", d:"Чуть больше горошины. Ночью кожа восстанавливается активнее всего.", s: powderDay ? "Сыворотку сегодня пропускаем - утром была пудра, двойная кислота = раздражение" : "Всё. Три минуты, а через месяц увидишь разницу" });
+  steps.push({ i:"moon", t:"Ночной крем", d:"Чуть больше горошины. Ночью кожа восстанавливается активнее всего.", s: powderDay ? "Сыворотку сегодня пропускаем - утром была пудра, двойная кислота = раздражение" : "Всё. Три минуты, а через месяц увидишь разницу" });
   return steps;
 }
 const HAIR_FLOW = [
-  { i:"🚿", t:"Шампунь", d:"Наносить на кожу головы, не на длину. Помассировать пальцами минуту, смыть." },
-  { i:"🧴", t:"Кондиционер", d:"По длине, кожу головы не трогать. Подержать 2-3 минуты, смыть прохладной водой.", s:"Прохладная вода закрывает чешуйки = блеск" },
-  { i:"💧", t:"Крем для кудрей", d:"На влажные волосы снизу вверх <b>сжимающими движениями</b>, как будто мнёшь бумагу.", s:"Это формирует завиток. Не расчёсывать после!" },
-  { i:"✨", t:"Масло", d:"2-3 капли растереть в ладонях, пройтись по кончикам. Не корни!" }
+  { i:"shower", t:"Шампунь", d:"Наносить на кожу головы, не на длину. Помассировать пальцами минуту, смыть." },
+  { i:"conditioner", t:"Кондиционер", d:"По длине, кожу головы не трогать. Подержать 2-3 минуты, смыть прохладной водой.", s:"Прохладная вода закрывает чешуйки = блеск" },
+  { i:"water", t:"Крем для кудрей", d:"На влажные волосы снизу вверх <b>сжимающими движениями</b>, как будто мнёшь бумагу.", s:"Это формирует завиток. Не расчёсывать после!" },
+  { i:"sparkle", t:"Масло", d:"2-3 капли растереть в ладонях, пройтись по кончикам. Не корни!" }
 ];
+
+/* ═══════════ ИКОНКИ ═══════════ */
+function ico(name, cls){
+  if(!name) name = "sparkle";
+  return '<svg viewBox="0 0 48 48" class="' + (cls || "") + '"><use href="#i-' + name + '"/></svg>';
+}
 
 /* ═══════════ STORE ═══════════ */
 const store = {
@@ -747,7 +977,7 @@ function markWake(){
   sl[key].up = pad(now.getHours()) + ":" + pad(now.getMinutes());
   store.set("sleep", sl);
   gMark("wake");
-  toast("Подъём " + sl[key].up + " 🌅");
+  toast("Подъём " + sl[key].up);
 }
 function markBed(){
   const sl = store.get("sleep", {});
@@ -757,7 +987,7 @@ function markBed(){
   sl[key].bed = pad(now.getHours()) + ":" + pad(now.getMinutes());
   store.set("sleep", sl);
   gMark("bed");
-  toast("Спокойной 🌙");
+  toast("Спокойной ночи");
 }
 function startAM(){ openFlow("Утренний уход", skincareAM(isPowderDay()), ()=>gMark("am")); }
 function startPM(){ openFlow("Вечерний уход", skincarePM(isPowderDay()), ()=>gMark("pm")); }
@@ -789,7 +1019,7 @@ function flowNext(){
   if(flowIdx >= flowSteps.length - 1){
     // финальный экран
     flowEl.innerHTML = '<div class="fl-head"><div class="fl-title">' + flowTitle + '</div></div>' +
-      '<div class="fl-body"><div class="done-burst"><div class="big">🔥</div><div class="t">Сделано</div></div></div>' +
+      '<div class="fl-body"><div class="done-burst"><svg viewBox="0 0 48 48"><use href="#i-fire"/></svg><div class="t">Сделано</div></div></div>' +
       '<div class="fl-foot"><button class="fl-next" onclick="finishFlow()">Готово</button></div>';
     return;
   }
@@ -814,7 +1044,7 @@ function renderFlowStep(){
     '<div class="fl-head"><div class="fl-title">' + flowTitle + ' · ' + (flowIdx+1) + '/' + flowSteps.length + '</div>' +
     '<button class="fl-x" onclick="closeFlow()">✕</button></div>' + prog +
     '<div class="fl-body"><div class="fstep">' +
-    '<div class="fs-icon">' + (s.i || "▪️") + '</div>' +
+    '<div class="fs-icon">' + ico(s.i) + '</div>' +
     '<div class="fs-kicker">Шаг ' + (flowIdx+1) + '</div>' +
     '<div class="fs-title">' + s.t + '</div>' +
     '<div class="fs-text">' + s.d + '</div>' +
@@ -843,16 +1073,23 @@ function startRest(btn, sec){
 }
 
 /* ═══════════ РЕЦЕПТЫ ═══════════ */
-function spinRecipe(){
-  const r = RECIPES[Math.floor(Math.random()*RECIPES.length)];
-  const hero = { i:r.icon, t:r.n, d:"<b>" + r.k + " ккал · " + r.p + " г белка</b> · " + r.time + ".<br>Веду по шагам. Погнали?", s:"Не нравится - закрой и крути ещё раз" };
-  openFlow("Готовим", [hero].concat(r.steps), ()=>{
+function cookRecipe(idx, fromSpin){
+  const r = RECIPES[idx];
+  const hero = {
+    i: r.icon, t: r.n,
+    d: "<b>" + r.k + " ккал · " + r.p + " г белка</b> · " + r.time + ".<br>Веду по шагам, как шеф. Погнали?",
+    s: fromSpin ? "Не нравится - закрой и крути ещё раз" : "В конце сам запишу калории в дневник"
+  };
+  openFlow("Готовим · " + r.n, [hero].concat(r.steps), ()=>{
     const list = foodToday();
     list.push({ n:r.n, k:r.k, p:r.p });
     foodSet(list);
     renderFood(); renderStats();
     toast("+" + r.k + " ккал записано");
   });
+}
+function spinRecipe(){
+  cookRecipe(Math.floor(Math.random()*RECIPES.length), true);
 }
 
 /* ═══════════ ЗАЛ ═══════════ */
@@ -978,7 +1215,7 @@ function saveDay(){
     vals[ex.id] = { w: wv, reps: reps };
   });
   if(persistWorkout(curDay, vals)){
-    toast("Записано 💪");
+    toast("Записано");
     gMark("tr");
     renderDay(); renderStats();
   } else toast("Пусто - нечего писать");
@@ -991,7 +1228,7 @@ function startWorkoutFlow(){
   const prevAll = store.get(lastKey(curDay), {});
   flowVals = {};
   const steps = [];
-  steps.push({ i:"🔥", t:"Разминка", d: d.warm.replace(/<b>|<\/b>/g, m => m), s:"8-10 минут. Без неё связки холодные - а связки у тебя сейчас слабее мышц" });
+  steps.push({ i:"fire", t:"Разминка", d: d.warm.replace(/<b>|<\/b>/g, m => m), s:"8-10 минут. Без неё связки холодные - а связки у тебя сейчас слабее мышц" });
   d.ex.forEach((ex, i) => {
     const prev = prevAll[ex.id];
     const tip = progressTip(ex, prev);
@@ -1005,7 +1242,7 @@ function startWorkoutFlow(){
     html += '<button class="rest-btn" onclick="startRest(this, 150)">▶ Таймер отдыха 2:30</button>';
     const target = ex.sum ? ex.sets + " подходов, цель по сумме " + ex.sumGoal : ex.sets + " × " + (ex.lo === ex.hi ? ex.lo : ex.lo + "-" + ex.hi);
     steps.push({
-      i: ex.icon || "🏋️", t: ex.name,
+      i: ex.icon || "press", t: ex.name,
       d: "<b>" + target + "</b>. " + ex.note,
       s: (prev ? "Прошлый раз: " + (prev.w ? prev.w + " кг · " : "") + prev.reps.filter(r=>r>0).join(" · ") + ". " : "") + (tip ? tip.txt : "") + " Если занято: " + ex.swap,
       html: html,
@@ -1026,7 +1263,7 @@ function startWorkoutFlow(){
   });
   openFlow(d.title, steps, ()=>{
     if(persistWorkout(curDay, flowVals)){
-      toast("Тренировка записана 💪");
+      toast("Тренировка записана");
       gMark("tr");
       renderDay(); renderStats();
     } else toast("Ничего не ввёл - не записал");
@@ -1171,6 +1408,12 @@ function renderFood(){
   gate.innerHTML = days >= 5
     ? '<div class="gate ok">ШЛЮЗ ОТКРЫТ · ' + days + ' из 7 дней в цели. Полный объём в зале.</div>'
     : '<div class="gate bad">ШЛЮЗ ЗАКРЫТ · ' + days + ' из 7 дней в цели. До 5 дней - работаешь на 2/3 объёма. Объём это награда за еду.</div>';
+
+  const rg = document.getElementById("recGrid");
+  rg.innerHTML = RECIPES.map((r,i) =>
+    '<button class="fbtn rec" onclick="cookRecipe('+i+')">' + ico(r.icon, "ic-lg") +
+    '<b>'+r.n+'</b><small><i>'+r.k+' ккал · '+r.p+' г</i><br>'+r.time+' · '+r.steps.length+' шагов</small></button>'
+  ).join("");
 
   const g = document.getElementById("fastGrid");
   g.innerHTML = FOODS.map((f,i) =>
