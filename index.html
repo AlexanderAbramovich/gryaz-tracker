@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>ГРЯЗЬ · Трекер</title>
+<title>ГРЯЗЬ · Гид</title>
 <meta name="theme-color" content="#0a0a0c">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icons/icon-192.png">
@@ -20,10 +20,11 @@
     --line: #26262f;
     --ink: #ececf1;
     --dim: #7c7c8a;
-    --acid: #c6ff2e;
-    --acid-dim: #7a9e1c;
+    --org: #ff7a1a;
+    --org-dim: #b05310;
     --blood: #ff3d3d;
     --gold: #ffb020;
+    --pool: #57a8ff;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; padding: 0; background: var(--bg); }
@@ -41,39 +42,71 @@
   header {
     padding: 22px 16px 16px;
     border-bottom: 1px solid var(--line);
-    position: relative;
-    overflow: hidden;
   }
   .brand {
     font-size: 34px; font-weight: 900; letter-spacing: -1.5px;
     line-height: 0.92; text-transform: uppercase; font-style: italic;
   }
-  .brand span { color: var(--acid); }
+  .brand span { color: var(--org); }
   .sub {
     font-size: 12px; color: var(--dim); margin-top: 8px;
     letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600;
   }
 
-  /* ── today banner ───────────────────── */
+  .sec-h { font-size: 12px; text-transform: uppercase; color: var(--dim); font-weight: 800; letter-spacing: 1px; margin: 20px 0 10px; }
+
+  /* ── today banner ── */
   .today-card {
-    margin: 16px 0 0; border-radius: 16px; padding: 18px;
+    margin: 16px 0 0; border-radius: 16px; padding: 16px;
     background: var(--panel); border: 1px solid var(--line);
-    position: relative; overflow: hidden;
   }
-  .today-card.iron { border-color: var(--acid-dim); }
+  .today-card.iron { border-color: var(--org-dim); }
   .today-card.ring { border-color: var(--blood); }
   .today-card.pool { border-color: #2b7bd6; }
   .tc-day { font-size: 11px; text-transform: uppercase; color: var(--dim); font-weight: 700; letter-spacing: 1.2px; }
-  .tc-what { font-size: 30px; font-weight: 900; letter-spacing: -1px; line-height: 1.05; margin-top: 6px; text-transform: uppercase; font-style: italic; }
-  .today-card.iron .tc-what { color: var(--acid); }
+  .tc-what { font-size: 26px; font-weight: 900; letter-spacing: -1px; line-height: 1.05; margin-top: 5px; text-transform: uppercase; font-style: italic; }
+  .today-card.iron .tc-what { color: var(--org); }
   .today-card.ring .tc-what { color: var(--blood); }
-  .today-card.pool .tc-what { color: #57a8ff; }
-  .tc-note { font-size: 13px; color: var(--dim); margin-top: 8px; line-height: 1.45; }
-  .tc-meta { display: flex; gap: 14px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
-  .tc-meta div { font-size: 11px; color: var(--dim); font-weight: 600; }
-  .tc-meta b { display: block; font-size: 16px; color: var(--ink); font-weight: 800; margin-top: 2px; }
+  .today-card.pool .tc-what { color: var(--pool); }
+  .tc-note { font-size: 12px; color: var(--dim); margin-top: 6px; line-height: 1.4; }
+  .tc-meta { display: flex; gap: 14px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+  .tc-meta div { font-size: 10px; color: var(--dim); font-weight: 600; text-transform: uppercase; }
+  .tc-meta b { display: block; font-size: 15px; color: var(--ink); font-weight: 800; margin-top: 2px; }
 
-  /* ── weight ─────────────────────────── */
+  /* ── timeline ── */
+  .tl { margin: 14px 0 0; position: relative; }
+  .tl:before { content:""; position: absolute; left: 21px; top: 10px; bottom: 10px; width: 2px; background: var(--line); }
+  .tstep {
+    display: flex; gap: 12px; align-items: flex-start; position: relative;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 13px 13px 13px 12px; margin-bottom: 8px; cursor: pointer;
+  }
+  .tstep:active { background: #17171e; }
+  .tstep .dot {
+    flex: 0 0 20px; width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--dim); margin-top: 1px; position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 900; color: #0a0a0c; background: var(--bg);
+    transition: all .25s;
+  }
+  .tstep.done .dot { background: var(--org); border-color: var(--org); }
+  .tstep.done .dot:after { content:"✓"; }
+  .tstep .tt { flex: 1; }
+  .tstep .tt-time { font-size: 10px; color: var(--dim); font-weight: 800; letter-spacing: .8px; }
+  .tstep .tt-name { font-size: 15px; font-weight: 800; margin-top: 2px; line-height: 1.2; }
+  .tstep .tt-sub { font-size: 12px; color: var(--dim); margin-top: 3px; line-height: 1.35; }
+  .tstep.done .tt-name { color: var(--dim); text-decoration: line-through; }
+  .tstep .go {
+    flex: 0 0 auto; align-self: center;
+    background: var(--panel-2); border: 1px solid var(--org-dim); color: var(--org);
+    font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px;
+    border-radius: 9px; padding: 9px 12px;
+  }
+  .tstep.done .go { display: none; }
+  .tstep.info { cursor: default; }
+  .tstep.info .dot { border-style: dashed; }
+
+  /* ── weight ── */
   .weight-card {
     margin: 12px 0 8px; background: var(--panel);
     border: 1px solid var(--line); border-radius: 16px; padding: 16px;
@@ -82,9 +115,9 @@
   .wc-label { font-size: 11px; text-transform: uppercase; color: var(--dim); font-weight: 700; letter-spacing: 1px; }
   .wc-now { font-size: 40px; font-weight: 900; letter-spacing: -2px; }
   .wc-now small { font-size: 16px; color: var(--dim); font-weight: 600; }
-  .wc-goal { font-size: 13px; color: var(--acid); font-weight: 700; }
+  .wc-goal { font-size: 13px; color: var(--org); font-weight: 700; }
   .track { height: 10px; background: var(--panel-2); border-radius: 6px; margin: 14px 0 6px; overflow: hidden; }
-  .track-fill { height: 100%; background: linear-gradient(90deg, var(--acid-dim), var(--acid)); border-radius: 6px; transition: width .5s cubic-bezier(.2,.8,.2,1); width: 0%; }
+  .track-fill { height: 100%; background: linear-gradient(90deg, var(--org-dim), var(--org)); border-radius: 6px; transition: width .5s cubic-bezier(.2,.8,.2,1); width: 0%; }
   .track-scale { display: flex; justify-content: space-between; font-size: 10px; color: var(--dim); font-weight: 600; }
   .wc-actions { display: flex; gap: 8px; margin-top: 14px; }
   .wbtn { flex: 1; background: var(--panel-2); border: 1px solid var(--line); color: var(--ink); border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; }
@@ -93,17 +126,7 @@
   .wchart svg { display: block; width: 100%; height: auto; }
   .wchart-hint { font-size: 11px; color: var(--dim); margin-top: 12px; text-align: center; padding: 14px 0; border: 1px dashed var(--line); border-radius: 10px; }
 
-  /* ── sleep ──────────────────────────── */
-  .sleep-card { margin: 8px 0; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; }
-  .sl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-  .sl-val { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; }
-  .sl-val small { font-size: 12px; color: var(--dim); font-weight: 600; }
-  .sl-btns { display: flex; gap: 8px; }
-  .sl-btn { background: var(--panel-2); border: 1px solid var(--line); color: var(--ink); border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 700; cursor: pointer; }
-  .sl-btn.on { border-color: var(--acid-dim); color: var(--acid); }
-  .sl-hint { font-size: 11px; color: var(--dim); margin-top: 8px; }
-
-  /* ── exercises ──────────────────────── */
+  /* ── exercises (классический зал) ── */
   .ex {
     background: var(--panel); border: 1px solid var(--line);
     border-radius: 14px; padding: 14px; margin-bottom: 10px;
@@ -111,12 +134,12 @@
   .ex-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
   .ex-name { font-size: 16px; font-weight: 800; line-height: 1.25; }
   .ex-idx { font-size: 11px; color: var(--dim); font-weight: 800; letter-spacing: 1px; }
-  .ex-target { font-size: 12px; color: var(--acid); font-weight: 700; margin-top: 4px; }
+  .ex-target { font-size: 12px; color: var(--org); font-weight: 700; margin-top: 4px; }
   .ex-note { font-size: 12px; color: var(--dim); margin-top: 6px; line-height: 1.45; }
   .ex-last { font-size: 12px; color: var(--gold); margin-top: 8px; font-weight: 600; }
   .ex-tip {
     font-size: 12px; font-weight: 700; margin-top: 8px; padding: 9px 11px;
-    border-radius: 9px; background: rgba(198,255,46,.09); border: 1px solid var(--acid-dim); color: var(--acid);
+    border-radius: 9px; background: rgba(255,122,26,.09); border: 1px solid var(--org-dim); color: var(--org);
     line-height: 1.4;
   }
   .ex-tip.warn { background: rgba(255,61,61,.09); border-color: #7d2222; color: #ff8080; }
@@ -129,15 +152,12 @@
     font-weight: 800; text-align: center; -moz-appearance: textfield;
   }
   input.cell::-webkit-outer-spin-button, input.cell::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-  input.cell:focus { outline: none; border-color: var(--acid-dim); }
+  input.cell:focus { outline: none; border-color: var(--org-dim); }
   input.cell.wcell { border-color: #3a3a48; }
   .ex-labels { display: flex; gap: 6px; margin-top: 5px; }
   .ex-labels .l1 { width: 78px; flex: 0 0 78px; font-size: 10px; color: var(--dim); text-align: center; font-weight: 700; letter-spacing: .5px; }
   .ex-labels .l2 { flex: 1; font-size: 10px; color: var(--dim); text-align: center; font-weight: 700; letter-spacing: .5px; }
-  .swap {
-    margin-top: 10px; font-size: 12px; color: var(--dim); cursor: pointer;
-    border-top: 1px dashed var(--line); padding-top: 9px;
-  }
+  .swap { margin-top: 10px; font-size: 12px; color: var(--dim); border-top: 1px dashed var(--line); padding-top: 9px; }
   .swap b { color: #9a9aa8; }
 
   .warmbox {
@@ -147,20 +167,28 @@
   .warmbox b { color: var(--ink); }
 
   .save {
-    width: 100%; background: var(--acid); color: #0a0a0c; border: none;
+    width: 100%; background: var(--org); color: #0a0a0c; border: none;
     border-radius: 14px; padding: 18px; font-size: 17px; font-weight: 900;
     text-transform: uppercase; letter-spacing: .5px; cursor: pointer; margin-top: 6px;
   }
   .save:active { transform: scale(.985); }
   .save.ghost { background: var(--panel-2); color: var(--ink); border: 1px solid var(--line); }
 
-  /* ── food ───────────────────────────── */
+  .tabs { display: flex; gap: 6px; margin: 16px 0 10px; }
+  .tab {
+    flex: 1; text-align: center; padding: 11px 4px; border-radius: 10px;
+    background: var(--panel); border: 1px solid var(--line); color: var(--dim);
+    font-size: 13px; font-weight: 800; cursor: pointer; text-transform: uppercase;
+  }
+  .tab.active { background: var(--org); color: #0a0a0c; border-color: var(--org); }
+
+  /* ── food ── */
   .food-card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
   .fbar-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 6px; }
   .fbar-label span:last-child { color: var(--dim); }
   .fbar { height: 12px; background: var(--panel-2); border-radius: 7px; overflow: hidden; margin-bottom: 14px; }
   .fbar-fill { height: 100%; border-radius: 7px; transition: width .4s; }
-  .fbar-fill.kcal { background: linear-gradient(90deg, var(--acid-dim), var(--acid)); }
+  .fbar-fill.kcal { background: linear-gradient(90deg, var(--org-dim), var(--org)); }
   .fbar-fill.prot { background: linear-gradient(90deg, #8a6a10, var(--gold)); }
   .fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .fbtn {
@@ -174,19 +202,23 @@
   .fitem { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
   .fitem:last-child { border-bottom: none; }
   .fitem .fx { color: var(--blood); font-weight: 800; padding: 0 8px; cursor: pointer; }
-  .gate {
-    border-radius: 12px; padding: 13px 14px; font-size: 13px; line-height: 1.5;
-    font-weight: 600; margin-bottom: 12px;
-  }
-  .gate.ok { background: rgba(198,255,46,.08); border: 1px solid var(--acid-dim); color: var(--acid); }
+  .gate { border-radius: 12px; padding: 13px 14px; font-size: 13px; line-height: 1.5; font-weight: 600; margin-bottom: 12px; }
+  .gate.ok { background: rgba(255,122,26,.08); border: 1px solid var(--org-dim); color: var(--org); }
   .gate.bad { background: rgba(255,61,61,.08); border: 1px solid #7d2222; color: #ff8080; }
 
-  /* ── history ────────────────────────── */
+  .roulette {
+    background: linear-gradient(135deg, #1d1207, #131318); border: 1px solid var(--org-dim);
+    border-radius: 16px; padding: 16px; margin-bottom: 12px;
+  }
+  .roulette h3 { margin: 0 0 4px; font-size: 17px; font-weight: 900; text-transform: uppercase; font-style: italic; color: var(--org); }
+  .roulette p { margin: 0 0 12px; font-size: 12px; color: var(--dim); line-height: 1.4; }
+
+  /* ── history ── */
   .h-title { font-size: 22px; font-weight: 900; letter-spacing: -.5px; margin: 18px 0 4px; text-transform: uppercase; font-style: italic; }
   .h-sub { font-size: 12px; color: var(--dim); margin-bottom: 14px; }
   .hcard { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 10px; }
   .hcard-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .hbadge { width: 34px; height: 34px; border-radius: 9px; background: var(--panel-2); border: 1px solid var(--acid-dim); color: var(--acid); font-weight: 900; font-size: 15px; display: flex; align-items: center; justify-content: center; }
+  .hbadge { width: 34px; height: 34px; border-radius: 9px; background: var(--panel-2); border: 1px solid var(--org-dim); color: var(--org); font-weight: 900; font-size: 15px; display: flex; align-items: center; justify-content: center; }
   .hdate { font-size: 13px; font-weight: 700; }
   .hday { font-size: 11px; color: var(--dim); text-transform: uppercase; font-weight: 700; letter-spacing: .5px; }
   .hrow { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; gap: 10px; }
@@ -195,7 +227,7 @@
 
   .stat-row { display: flex; gap: 8px; margin: 14px 0; }
   .stat { flex: 1; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; text-align: center; }
-  .stat-n { font-size: 26px; font-weight: 900; color: var(--acid); letter-spacing: -1px; }
+  .stat-n { font-size: 26px; font-weight: 900; color: var(--org); letter-spacing: -1px; }
   .stat-l { font-size: 10px; color: var(--dim); text-transform: uppercase; font-weight: 700; letter-spacing: .5px; margin-top: 3px; }
 
   .backup { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-top: 18px; }
@@ -203,7 +235,7 @@
   .backup p { margin: 0 0 12px; font-size: 12px; color: var(--dim); line-height: 1.5; }
   .backup .row { display: flex; gap: 8px; }
 
-  /* ── nav ────────────────────────────── */
+  /* ── nav ── */
   .nav {
     position: fixed; bottom: 0; left: 0; right: 0; display: flex;
     background: rgba(10,10,12,.94); backdrop-filter: blur(14px);
@@ -212,49 +244,74 @@
   }
   .nav-btn {
     flex: 1; background: none; border: none; color: var(--dim);
-    padding: 15px 6px 17px; font-size: 12px; font-weight: 800; cursor: pointer;
-    text-transform: uppercase; letter-spacing: .5px;
+    padding: 15px 4px 17px; font-size: 11.5px; font-weight: 800; cursor: pointer;
+    text-transform: uppercase; letter-spacing: .4px;
   }
-  .nav-btn.active { color: var(--acid); }
+  .nav-btn.active { color: var(--org); }
 
   .toast {
     position: fixed; bottom: 92px; left: 50%; transform: translateX(-50%) translateY(20px);
-    background: var(--acid); color: #0a0a0c; padding: 14px 26px; border-radius: 12px;
+    background: var(--org); color: #0a0a0c; padding: 14px 26px; border-radius: 12px;
     font-weight: 900; font-size: 15px; opacity: 0; pointer-events: none;
-    transition: all .28s cubic-bezier(.2,.8,.2,1); z-index: 100; white-space: nowrap;
+    transition: all .28s cubic-bezier(.2,.8,.2,1); z-index: 300; white-space: nowrap;
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  .tabs { display: flex; gap: 6px; margin: 16px 0 10px; }
-  .tab {
-    flex: 1; text-align: center; padding: 11px 4px; border-radius: 10px;
-    background: var(--panel); border: 1px solid var(--line); color: var(--dim);
-    font-size: 13px; font-weight: 800; cursor: pointer; text-transform: uppercase;
+  /* ── FLOW (пошаговый гид) ── */
+  #flow {
+    position: fixed; inset: 0; z-index: 200; background: var(--bg);
+    display: flex; flex-direction: column; max-width: 640px; margin: 0 auto;
+    padding-top: env(safe-area-inset-top);
   }
-  .tab.active { background: var(--acid); color: #0a0a0c; border-color: var(--acid); }
-  .sec-h { font-size: 12px; text-transform: uppercase; color: var(--dim); font-weight: 800; letter-spacing: 1px; margin: 20px 0 10px; }
+  .fl-head { display: flex; align-items: center; gap: 12px; padding: 16px; }
+  .fl-title { flex: 1; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .8px; color: var(--dim); }
+  .fl-x { background: var(--panel); border: 1px solid var(--line); color: var(--ink); width: 38px; height: 38px; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer; }
+  .fl-prog { display: flex; gap: 5px; padding: 0 16px 4px; }
+  .fl-prog i { flex: 1; height: 4px; border-radius: 2px; background: var(--panel-2); }
+  .fl-prog i.on { background: var(--org); }
+  .fl-body { flex: 1; overflow-y: auto; padding: 10px 20px 20px; display: flex; flex-direction: column; }
+  .fstep { animation: fin .38s cubic-bezier(.2,.8,.2,1); flex: 1; display: flex; flex-direction: column; }
+  @keyframes fin { from { opacity: 0; transform: translateY(26px) scale(.98); } }
+  .fs-icon { font-size: 74px; line-height: 1; margin: 26px 0 18px; animation: pop .5s cubic-bezier(.2,.8,.2,1); }
+  @keyframes pop { 0% { transform: scale(.4) rotate(-8deg); opacity: 0; } 60% { transform: scale(1.12) rotate(2deg); } 100% { transform: scale(1); } }
+  .fs-kicker { font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--org); margin-bottom: 8px; }
+  .fs-title { font-size: 28px; font-weight: 900; letter-spacing: -1px; line-height: 1.05; text-transform: uppercase; font-style: italic; }
+  .fs-text { font-size: 16px; line-height: 1.55; margin-top: 14px; color: #d6d6de; }
+  .fs-text b { color: var(--ink); }
+  .fs-sub { font-size: 13px; color: var(--dim); margin-top: 12px; line-height: 1.5; padding: 11px 13px; background: var(--panel); border: 1px solid var(--line); border-radius: 11px; }
+  .fs-html { margin-top: 16px; }
+  .fl-foot { display: flex; gap: 10px; padding: 14px 16px calc(16px + env(safe-area-inset-bottom)); }
+  .fl-back { flex: 0 0 90px; background: var(--panel); border: 1px solid var(--line); color: var(--ink); border-radius: 14px; padding: 17px 0; font-size: 15px; font-weight: 800; cursor: pointer; }
+  .fl-next { flex: 1; background: var(--org); border: none; color: #0a0a0c; border-radius: 14px; padding: 17px 0; font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: .5px; cursor: pointer; }
+  .fl-next:active { transform: scale(.985); }
+  .rest-btn { margin-top: 14px; width: 100%; background: var(--panel); border: 1px solid var(--org-dim); color: var(--org); border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 800; cursor: pointer; font-variant-numeric: tabular-nums; }
+  .done-burst { text-align: center; padding: 60px 0; }
+  .done-burst .big { font-size: 110px; animation: pop .6s cubic-bezier(.2,.8,.2,1); }
+  .done-burst .t { font-size: 26px; font-weight: 900; text-transform: uppercase; font-style: italic; margin-top: 10px; color: var(--org); }
 </style>
 </head>
 <body>
 
 <header>
   <div class="brand">ГРЯЗЬ<span>.</span> ХОЗА ХОЗА</div>
-  <div class="sub" id="hdrSub">Железо и ринг · путь на 70 кг</div>
+  <div class="sub" id="hdrSub">Личный гид · путь на 70 кг</div>
 </header>
 
-<!-- ══════════ СЕГОДНЯ ══════════ -->
-<div class="wrap" id="viewToday">
-
+<!-- ══════════ ГИД ══════════ -->
+<div class="wrap" id="viewGuide">
   <div class="today-card" id="todayCard">
     <div class="tc-day" id="tcDay">—</div>
     <div class="tc-what" id="tcWhat">—</div>
     <div class="tc-note" id="tcNote"></div>
     <div class="tc-meta">
-      <div>НЕДЕЛЯ<b id="tcWeek">1</b></div>
+      <div>Неделя<b id="tcWeek">1</b></div>
       <div>RIR<b id="tcRir">3-4</b></div>
-      <div>РЕЖИМ<b id="tcMode">ВВОД</b></div>
+      <div>Режим<b id="tcMode">ВВОД</b></div>
+      <div>Сон<b id="tcSleep">—</b></div>
     </div>
   </div>
+
+  <div class="tl" id="timeline"></div>
 
   <div class="weight-card">
     <div class="wc-top">
@@ -262,7 +319,7 @@
         <div class="wc-label">Вес тела</div>
         <div class="wc-now" id="wNow">63.0<small> кг</small></div>
       </div>
-      <div class="wc-goal" id="wGoalTxt">70 кг · прайм</div>
+      <div class="wc-goal">70 кг · прайм</div>
     </div>
     <div class="track"><div class="track-fill" id="wFill"></div></div>
     <div class="track-scale"><span>60</span><span>65</span><span>70</span></div>
@@ -275,34 +332,21 @@
     <div class="wc-hist" id="wHist"></div>
   </div>
 
-  <div class="sleep-card">
-    <div class="sl-row">
-      <div>
-        <div class="wc-label">Сон</div>
-        <div class="sl-val" id="slVal">—<small> ч</small></div>
-      </div>
-      <div class="sl-btns">
-        <button class="sl-btn" id="slBed" onclick="markSleep('bed')">Лёг</button>
-        <button class="sl-btn" id="slUp" onclick="markSleep('up')">Встал</button>
-      </div>
-    </div>
-    <div class="sl-hint" id="slHint">Цель: отбой 04:00-05:00, подъём 12:30</div>
-  </div>
-
-  <div id="dayBox"></div>
-
-  <div id="saveWrap" class="hidden">
-    <button class="save" id="saveBtn" onclick="saveDay()">Записать тренировку</button>
-  </div>
-
   <div class="stat-row">
     <div class="stat"><div class="stat-n" id="streakN">0</div><div class="stat-l">Дней подряд</div></div>
-    <div class="stat"><div class="stat-n" id="weekN">0</div><div class="stat-l">Тренировок за 7 дней</div></div>
+    <div class="stat"><div class="stat-n" id="weekN">0</div><div class="stat-l">Тренировок / 7 дн</div></div>
     <div class="stat"><div class="stat-n" id="foodN">0</div><div class="stat-l">Дней еды в цели</div></div>
   </div>
+</div>
 
-  <div class="sec-h">Сменить день вручную</div>
+<!-- ══════════ ЗАЛ ══════════ -->
+<div class="wrap hidden" id="viewGym">
+  <div class="h-title">Зал</div>
+  <div class="h-sub">Двойная прогрессия. Приложение само скажет, когда добавить вес.</div>
+  <button class="save" style="margin:0 0 8px" onclick="startWorkoutFlow()">▶ Начать тренировку с гидом</button>
   <div class="tabs" id="tabs"></div>
+  <div id="dayBox"></div>
+  <button class="save ghost" id="saveBtn" onclick="saveDay()">Записать без гида</button>
 </div>
 
 <!-- ══════════ ЕДА ══════════ -->
@@ -320,9 +364,14 @@
     <div class="wc-hist" id="foodLeft"></div>
   </div>
 
-  <div class="sec-h">Быстро добавить</div>
-  <div class="fgrid" id="fastGrid"></div>
+  <div class="roulette">
+    <h3>🎲 Рулетка блюда</h3>
+    <p>Не знаешь, что готовить - жми. Выпадет блюдо, и я проведу по шагам, как шеф.</p>
+    <button class="save" style="margin:0" onclick="spinRecipe()">Крутить</button>
+  </div>
 
+  <div class="sec-h">Быстро записать съеденное</div>
+  <div class="fgrid" id="fastGrid"></div>
   <button class="save ghost" style="margin-top:10px" onclick="addCustomFood()">+ Своё блюдо</button>
 
   <div class="sec-h">Съедено сегодня</div>
@@ -347,7 +396,8 @@
 </div>
 
 <div class="nav">
-  <button class="nav-btn active" id="navToday" onclick="switchView('today')">Сегодня</button>
+  <button class="nav-btn active" id="navGuide" onclick="switchView('guide')">Гид</button>
+  <button class="nav-btn" id="navGym" onclick="switchView('gym')">Зал</button>
   <button class="nav-btn" id="navFood" onclick="switchView('food')">Еда</button>
   <button class="nav-btn" id="navHistory" onclick="switchView('history')">История</button>
 </div>
@@ -355,107 +405,122 @@
 <div class="toast" id="toast">Записано</div>
 
 <script>
-/* ═══════════════════════════════════════════════════
-   ПРОГРАММА (август 2026)
-   step  — шаг прибавки веса, кг
-   lo/hi — диапазон повторов
-   sum   — прогрессия по СУММЕ повторов (подтягивания, брусья)
-   bw    — вес тела, поле веса = доп. отягощение
-   ═══════════════════════════════════════════════════ */
+/* ═══════════ ПРОГРАММА ЗАЛА ═══════════ */
 const PROGRAM = {
   A: {
     title: "День A · Верх, акцент тяга",
-    sub: "Завтра ринг. Махи не в отказ, подтягивания никогда до отказа.",
-    warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин до испарины. Потом по 10: круги руками, вращения в плечах с палкой, кошка-корова, махи ногой, выпад с поворотом. Подводящие только к подтягиваниям: 50%×5, 75%×3.",
+    warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин до испарины. По 10: круги руками, вращения с палкой, кошка-корова, махи ногой, выпад с поворотом. Подводящие только к подтягиваниям: 50%×5, 75%×3.",
     ex: [
-      { id:"a1", name:"Подтягивания прямым хватом", sets:4, lo:4, hi:6, sum:true, sumGoal:24, bw:true, step:2.5,
+      { id:"a1", name:"Подтягивания прямым хватом", icon:"🧗", sets:4, lo:4, hi:6, sum:true, sumGoal:24, bw:true, step:2.5,
         note:"Хват ~1,5 ширины плеч, внизу руки распускать полностью. Первые 3 недели по 4 повтора.",
         swap:"Тяга верхнего блока 50 кг. Гравитрон НЕ трогать." },
-      { id:"a2", name:"Хаммер-жим сидя на грудь", sets:3, lo:8, hi:12, w:17.5, step:2, dumb:true,
+      { id:"a2", name:"Хаммер-жим сидя на грудь", icon:"🏋️", sets:3, lo:8, hi:12, w:17.5, step:2, dumb:true,
         note:"Рычажный тренажёр, жмёшь от груди вперёд. Вес одной стороны.",
         swap:"Жим гантелей горизонтально / Смит-жим." },
-      { id:"a3", name:"Махи гантелями в стороны", sets:3, lo:12, hi:15, w:4, step:2, dumb:true,
+      { id:"a3", name:"Махи гантелями в стороны", icon:"🦅", sets:3, lo:12, hi:15, w:4, step:2, dumb:true,
         note:"До параллели с полом, не выше. Никогда в отказ. Вес одной гантели.",
         swap:"Махи на нижнем блоке." },
-      { id:"a4", name:"Обратная бабочка", sets:3, lo:15, hi:18, w:15, step:2.5,
-        note:"Пек-дек задом наперёд: садишься грудью к спинке, разводишь руки назад.",
-        swap:"Face pull / разведения на нижних блоках крест-накрест." },
-      { id:"a5", name:"Сгибания на бицепс с гантелями", sets:3, lo:10, hi:12, w:8, step:2, dumb:true,
+      { id:"a4", name:"Обратная бабочка", icon:"🦋", sets:3, lo:15, hi:18, w:15, step:2.5,
+        note:"Пек-дек задом наперёд: грудью к спинке, разводишь руки назад.",
+        swap:"Face pull / разведения на нижних блоках." },
+      { id:"a5", name:"Сгибания на бицепс", icon:"💪", sets:3, lo:10, hi:12, w:8, step:2, dumb:true,
         note:"Стоя, локти прижаты. Вес одной гантели.",
         swap:"EZ-гриф 15 кг." },
-      { id:"a6", name:"Паллоф-пресс (на сторону)", sets:2, lo:10, hi:10, w:10, step:2.5,
-        note:"Боком к блоку, тянешь рукоять к груди и выжимаешь прямо перед собой. Корпус не поворачивается.",
+      { id:"a6", name:"Паллоф-пресс (на сторону)", icon:"🛡️", sets:2, lo:10, hi:10, w:10, step:2.5,
+        note:"Боком к блоку, выжимаешь рукоять перед собой. Корпус не крутится.",
         swap:"Планка 3×40 сек." }
     ]
   },
   B: {
     title: "День B · Верх жим + лёгкие ноги",
-    sub: "До пятничного ринга 48 часов. Никакой румынской тяги и выпадов.",
     warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин. Динамика по 10 повторов. Подводящие только к жиму гантелей: 50%×5, 75%×3.",
     ex: [
-      { id:"b1", name:"Жим гантелей на наклонной 30°", sets:3, lo:8, hi:10, w:16, step:2, dumb:true,
-        note:"Гантели, не штанга: при твоих руках путь штанги максимальный. Вес одной гантели.",
+      { id:"b1", name:"Жим гантелей на наклонной 30°", icon:"🏋️", sets:3, lo:8, hi:10, w:16, step:2, dumb:true,
+        note:"Гантели, не штанга. Вес одной гантели.",
         swap:"Смит-жим наклонный." },
-      { id:"b2", name:"Тяга верхнего блока к груди", sets:4, lo:8, hi:12, w:45, step:2.5,
+      { id:"b2", name:"Тяга верхнего блока к груди", icon:"🧗", sets:4, lo:8, hi:12, w:45, step:2.5,
         note:"Хват ~1,5 ширины плеч. К ГРУДИ, никогда за голову.",
         swap:"Хаммер-тяга." },
-      { id:"b3", name:"Жим в тренажёре Shoulder Press", sets:3, lo:8, hi:12, w:0, step:2.5, calib:true,
-        note:"Или жим гантелей сидя с опорой на спинку. Первый раз калибруешь.",
+      { id:"b3", name:"Жим в тренажёре Shoulder Press", icon:"🙌", sets:3, lo:8, hi:12, w:0, step:2.5, calib:true,
+        note:"Или жим гантелей сидя со спинкой. Первый раз калибруешь.",
         swap:"Жим гантелей сидя 2×10 кг." },
-      { id:"b4", name:"Жим ногами", sets:3, lo:10, hi:12, w:0, step:5, calib:true,
-        note:"Первые 4 недели: 2 подхода, укороченная амплитуда. Дальше опускать до касания бёдрами корпуса.",
+      { id:"b4", name:"Жим ногами", icon:"🦵", sets:3, lo:10, hi:12, w:0, step:5, calib:true,
+        note:"Первые 4 недели: 2 подхода, укороченная амплитуда.",
         swap:"Гакк-машина." },
-      { id:"b5", name:"Махи на нижнем блоке", sets:3, lo:12, hi:15, w:5, step:2.5,
-        note:"Рука стартует у противоположного бедра, ведёт через тело. Не в отказ.",
+      { id:"b5", name:"Махи на нижнем блоке", icon:"🦅", sets:3, lo:12, hi:15, w:5, step:2.5,
+        note:"Рука от противоположного бедра через тело. Не в отказ.",
         swap:"Махи гантелями." },
-      { id:"b6", name:"Face pull", sets:2, lo:15, hi:18, w:15, step:2.5,
-        note:"Канатная рукоять к лицу, локти разводишь в стороны.",
+      { id:"b6", name:"Face pull", icon:"🎯", sets:2, lo:15, hi:18, w:15, step:2.5,
+        note:"Канат к лицу, локти в стороны.",
         swap:"Обратная бабочка." },
-      { id:"b7", name:"Разгибания на трицепс на блоке", sets:3, lo:10, hi:12, w:20, step:2.5,
-        note:"Локти прижаты к корпусу, работает только предплечье.",
+      { id:"b7", name:"Разгибания на трицепс", icon:"🔨", sets:3, lo:10, hi:12, w:20, step:2.5,
+        note:"Локти прижаты, работает только предплечье.",
         swap:"Французский жим с гантелью." }
     ]
   },
   C: {
     title: "День C · Тяжёлый низ + верх",
-    sub: "Самый плотный день. До вторничного ринга 72 часа.",
     warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин. Динамика. Подводящие к гакку: 50%×5, 75%×3. Колени греть отдельно.",
     ex: [
-      { id:"c1", name:"Гакк-машина", sets:3, lo:8, hi:12, w:0, step:5, calib:true,
-        note:"Наклонная рама, спина на подушке, плечи под валиками. Записывай блины, а не кг.",
-        swap:"Жим ногами узкой постановкой / болгарские выпады в Смите." },
-      { id:"c2", name:"Румынская тяга с гантелями", sets:3, lo:8, hi:10, w:7, step:2, dumb:true,
-        note:"ПЕРВЫЕ 3 НЕДЕЛИ: 3×10 чисто на технику, 6-8 кг, вес НЕ растёт. Таз назад, гантели скользят по бедру до середины голени. Прогрессия только после видео сбоку с прямой спиной.",
+      { id:"c1", name:"Гакк-машина", icon:"🦵", sets:3, lo:8, hi:12, w:0, step:5, calib:true,
+        note:"Спина на подушке, плечи под валиками. Записывай блины, а не кг.",
+        swap:"Жим ногами узко / болгарские выпады в Смите." },
+      { id:"c2", name:"Румынская тяга с гантелями", icon:"⚠️", sets:3, lo:8, hi:10, w:7, step:2, dumb:true,
+        note:"ПЕРВЫЕ 3 НЕДЕЛИ: 3×10 чисто техника, 6-8 кг, вес НЕ растёт. Таз назад, гантели скользят по бедру.",
         swap:"Гиперэкстензия." },
-      { id:"c3", name:"Отжимания на брусьях", sets:3, lo:8, hi:12, sum:true, sumGoal:30, bw:true, step:2.5,
-        note:"Без пояса первые 8 недель. Прогрессия по сумме повторов.",
+      { id:"c3", name:"Отжимания на брусьях", icon:"💥", sets:3, lo:8, hi:12, sum:true, sumGoal:30, bw:true, step:2.5,
+        note:"Без пояса первые 8 недель. Прогрессия по сумме.",
         swap:"Отжимания с ногами на лавке." },
-      { id:"c4", name:"Хаммер-тяга с упором в грудь", sets:3, lo:8, hi:12, w:20, step:2, dumb:true,
-        note:"Или Т-гриф с упором. Без упора грузит поясницу - в субботу нежелательно. Вес одной стороны.",
-        swap:"Горизонтальная тяга блока V-рукоятью / тяга гантели в упоре." },
-      { id:"c5", name:"Сгибание ног СИДЯ", sets:3, lo:10, hi:12, w:25, step:2.5,
-        note:"Именно сидя: +14,1% против +9,3% у версии лёжа за 12 недель.",
+      { id:"c4", name:"Хаммер-тяга с упором в грудь", icon:"🧗", sets:3, lo:8, hi:12, w:20, step:2, dumb:true,
+        note:"Или Т-гриф с упором. Вес одной стороны.",
+        swap:"Горизонтальная тяга блока / тяга гантели в упоре." },
+      { id:"c5", name:"Сгибание ног СИДЯ", icon:"🪑", sets:3, lo:10, hi:12, w:25, step:2.5,
+        note:"Именно сидя: +14% против +9% у лёжа.",
         swap:"Сгибание лёжа - хуже на 5%, но лучше нуля." },
-      { id:"c6", name:"Подъёмы на носки СТОЯ", sets:2, lo:12, hi:15, w:40, step:5,
-        note:"Пауза 1 сек внизу. Стоя +9-12%, сидя +0,6-1,7%. Первое, что выкидываешь, если не влезаешь в час.",
+      { id:"c6", name:"Подъёмы на носки СТОЯ", icon:"🦶", sets:2, lo:12, hi:15, w:40, step:5,
+        note:"Пауза 1 сек внизу. Первое, что выкидываешь, если не влезаешь в час.",
         swap:"Носками на платформе жима ногами." }
     ]
   }
 };
-
 const DAY_NAMES = { A:"Тяга", B:"Жим", C:"Ноги" };
 
-/* расписание недели: 0=вс */
+/* ═══════════ РАСПИСАНИЕ НЕДЕЛИ ═══════════ */
 const SCHEDULE = {
-  1: { kind:"iron", day:"A", what:"ЖЕЛЕЗО A", note:"Верх, акцент тяга. Ног нет вообще: до ринга 21-24 часа." },
-  2: { kind:"ring", what:"БОКС · 20:00", note:"Полтора часа ударки. Шейк сразу после: 900 ккал одним стаканом." },
+  1: { kind:"iron", day:"A", what:"ЖЕЛЕЗО A", note:"Верх, акцент тяга. Ног нет: до ринга сутки. Махи не в отказ." },
+  2: { kind:"ring", what:"БОКС · 20:00", note:"Бинты, капа, вода. Шейк сразу после - 900 ккал одним стаканом." },
   3: { kind:"iron", day:"B", what:"ЖЕЛЕЗО B", note:"Верх жим + лёгкие ноги. До пятничного ринга 48 часов." },
-  4: { kind:"pool", what:"БАССЕЙН + ХАМАМ", note:"15-20 минут спокойно, не заплывы. Потом хамам 10-15 мин. Это восстановление, а не тренировка." },
-  5: { kind:"ring", what:"БОКС · 20:00", note:"Полтора часа ударки. Если спарринг был жёсткий - завтра разгрузка." },
-  6: { kind:"iron", day:"C", what:"ЖЕЛЕЗО C", note:"Тяжёлый низ + верх. Самый плотный день." },
-  0: { kind:"pool", what:"БАССЕЙН + ХАМАМ", note:"Плюс 5-8 минут статики на растяжку - только здесь, на тёплом теле." }
+  4: { kind:"pool", what:"БАССЕЙН + ХАМАМ", note:"15-20 мин спокойно. Это восстановление, не тренировка." },
+  5: { kind:"ring", what:"БОКС · 20:00", note:"Жёсткий спарринг сегодня = суббота автоматически в разгрузке." },
+  6: { kind:"iron", day:"C", what:"ЖЕЛЕЗО C", note:"Тяжёлый низ. Самый плотный день - гакк, румынская, брусья не резать." },
+  0: { kind:"pool", what:"БАССЕЙН + ХАМАМ", note:"Плюс 5-8 минут растяжки - только здесь, на тёплом теле." }
 };
 
+const MEALS = {
+  iron: [
+    { t:"13:00", n:"Завтрак: яичница 4 яйца + хлеб с сыром", k:700 },
+    { t:"16:30", n:"Обед: паста / свинина", k:850 },
+    { t:"19:30", n:"Ужин: фокачча, бутеры", k:500 },
+    { t:"01:00", n:"ГЕЙНЕР сразу после зала", k:900 },
+    { t:"03:30", n:"Творог со сметаной", k:350 }
+  ],
+  ring: [
+    { t:"13:00", n:"Завтрак: яичница 4 яйца + хлеб с сыром", k:700 },
+    { t:"16:30", n:"Обед: паста / свинина", k:850 },
+    { t:"18:30", n:"Лёгкая еда за 1,5 ч до ринга", k:300 },
+    { t:"22:00", n:"ГЕЙНЕР сразу после ринга", k:900 },
+    { t:"03:30", n:"Творог со сметаной", k:350 }
+  ],
+  pool: [
+    { t:"13:00", n:"Завтрак: яичница 4 яйца + хлеб с сыром", k:700 },
+    { t:"16:30", n:"Обед: основное блюдо", k:850 },
+    { t:"20:00", n:"Ужин: паста / запеканка", k:800 },
+    { t:"00:00", n:"Перекус: банан + арахисовая паста", k:300 },
+    { t:"03:30", n:"Творог со сметаной", k:350 }
+  ]
+};
+
+/* ═══════════ ЕДА ═══════════ */
 const FOODS = [
   { n:"Гейнер-шейк", d:"после зала и после ринга", k:900, p:40 },
   { n:"Яичница", d:"4 яйца, хлеб, сыр", k:700, p:35 },
@@ -468,19 +533,99 @@ const FOODS = [
   { n:"Протеин", d:"30 г на молоке", k:220, p:28 },
   { n:"Пицца", d:"половина большой", k:750, p:32 }
 ];
-
 const KCAL_GOAL = 3000, PROT_GOAL = 130;
 
-const EX_NAMES = {};
-Object.values(PROGRAM).forEach(d => d.ex.forEach(e => { EX_NAMES[e.id] = e.name; }));
+/* ═══════════ РЕЦЕПТЫ (рулетка) ═══════════ */
+const RECIPES = [
+  { n:"Карбонара", k:900, p:45, time:"12 минут", icon:"🍝", steps:[
+    { i:"💧", t:"Вода", d:"Кастрюля, соль <b>10 г на литр</b>. Спагетти 120 г варить на минуту меньше, чем на пачке." },
+    { i:"🥓", t:"Грудинка", d:"80 г брусочками в <b>холодную</b> сковороду, огонь средне-малый, 6-8 минут.", s:"Ориентир: золотая, хрустит по краям, на дне лужица прозрачного жира" },
+    { i:"🥚", t:"Смесь", d:"В миске растереть 1 яйцо + 2 желтка + 50 г пармезана + много перца. Должна выйти густая паста.", s:"Сыр в яйцо ДО нагрева, иначе скомкуется" },
+    { i:"🌶️", t:"Перец в жир", d:"Сковороду снять с огня, полчайной ложки перца прямо в жир на 20 секунд.", s:"Перец раскрывается только в жире" },
+    { i:"🔥", t:"Сборка", d:"Пасту в сковороду + полполовника воды, мешать 30 сек. <b>Снять с огня. Подождать 30 сек.</b> Влить смесь и мешать быстро 60 секунд.", s:"Яйцо сворачивается при 70°C - огонь не нужен, тепла пасты достаточно" },
+    { i:"✨", t:"Финиш", d:"Соус глянцевый и обволакивает каждую спагеттину. Густо - плесни ещё воды по ложке." }
+  ]},
+  { n:"Болоньезе (база на 4 дня)", k:850, p:45, time:"3 часа, руками 20 мин", icon:"🍖", steps:[
+    { i:"🥓", t:"Грудинка", d:"100 г кубиком в холодную кастрюлю, средне-малый огонь, 5-6 минут до золота." },
+    { i:"🧅", t:"Соффритто", d:"Лук + морковь + сельдерей мелко, в тот же жир. <b>Малый огонь, 12-15 минут.</b>", s:"Овощи мягкие и сладкие, цвет НЕ золотистый. Спешка убивает блюдо" },
+    { i:"🥩", t:"Мясо", d:"Огонь сильный. Фарш 700 г <b>половинами</b>, первые 2 минуты не трогать - ждать корочку.", s:"Серый фарш в воде = потерянный вкус" },
+    { i:"🍅", t:"Паста томатная", d:"2 ложки в центр, обжарить 1-2 минуты до кирпичного цвета." },
+    { i:"🥛", t:"Молоко", d:"200 мл, средний огонь, 10 минут до впитывания.", s:"Главный секрет: молоко смягчает мясо. ВСЕГДА до томатов" },
+    { i:"⏳", t:"Томление", d:"Томаты 400 г раздавить руками, лавр, соль. Самый малый огонь, крышка приоткрыта, <b>2,5 часа</b>. Мешать раз в полчаса.", s:"Готово: жир выступил оранжевыми капельками, мясо разваливается" }
+  ]},
+  { n:"Свинина с картошкой", k:800, p:45, time:"40 минут", icon:"🥔", steps:[
+    { i:"🔪", t:"Нарезка", d:"Свинина 300 г кубиками 3 см, картошка 400 г дольками, лук полукольцами." },
+    { i:"🔥", t:"Мясо первым", d:"Сильный огонь, масло, свинину одним слоем. <b>Не мешать 2-3 минуты</b> - ждать корочку, потом перевернуть.", s:"Корочка = 80% вкуса. Серое мясо в воде = ошибка" },
+    { i:"🧅", t:"Лук", d:"Огонь средний, лук к мясу, 3-4 минуты до прозрачности." },
+    { i:"🥔", t:"Картошка", d:"Дольки туда же, посолить, перемешать. Средний огонь, <b>крышка</b>, 15-18 минут, мешать пару раз." },
+    { i:"✨", t:"Финиш", d:"Крышку снять, огонь сильный, 3 минуты для румяности. Чеснок и зелень в самом конце." }
+  ]},
+  { n:"Полпетте (фрикадельки)", k:800, p:48, time:"45 минут", icon:"🧆", steps:[
+    { i:"🍞", t:"Панада", d:"Хлеб 80 г залить молоком 100 мл на 10 минут, отжать, размять.", s:"Панада держит влагу - без неё котлеты сухие" },
+    { i:"🥩", t:"Фарш", d:"Фарш 500 г + панада + яйцо + пармезан 50 г + чеснок. Мешать руками <b>недолго</b>.", s:"Долгий замес = резина" },
+    { i:"🔥", t:"Обжарка", d:"Шарики с грецкий орех, горячая сковорода, по 2 минуты со всех сторон. Внутри сырые - нормально." },
+    { i:"🍅", t:"Соус", d:"В той же сковороде лук 8 минут на малом, томаты 700 г, соль." },
+    { i:"⏳", t:"Тушение", d:"Фрикадельки в соус, малый огонь, крышка, <b>25 минут</b>. Базилик в конце." }
+  ]},
+  { n:"Паста аль форно (4 сыра)", k:1000, p:45, time:"40 минут", icon:"🧀", steps:[
+    { i:"💧", t:"Паста", d:"Пенне 300 г варить <b>на 3 минуты меньше</b> пачки - дойдёт в духовке. Грудинку 150 г обжарить." },
+    { i:"🥛", t:"Бешамель", d:"Масло 40 г растопить, мука 40 г, мешать 2 минуты. Молоко 500 мл <b>тёплым, третями</b>, каждый раз до гладкости.", s:"Холодное молоко в горячее ру = комки" },
+    { i:"🧀", t:"Сыры", d:"<b>Снять с огня</b>, вмешать 200 г сыров (моцарелла + пармезан + острый) и мускат.", s:"Сыр на огне сворачивается в резину" },
+    { i:"🔥", t:"Запекание", d:"Смешать всё, в форму. Сверху остальной сыр + сухари + масло. <b>200°C, 20-25 минут</b> до корки." }
+  ]},
+  { n:"Пармиджана из свинины", k:900, p:55, time:"35 минут", icon:"🍗", steps:[
+    { i:"🥩", t:"Мясо", d:"Корейку 400 г отбить до 1 см, посолить, 10 минут полежать." },
+    { i:"🍞", t:"Панировка", d:"Три тарелки: мука → яйцо → сухари с пармезаном. Строго в этом порядке.", s:"Пропустишь муку - панировка слезет" },
+    { i:"🔥", t:"Жарка", d:"Масло слоем 5 мм, средний огонь, по 3 минуты со стороны до золота." },
+    { i:"🧀", t:"Сборка", d:"В форму: соус на дно, отбивные, соус по центру, моцарелла, пармезан. <b>200°C, 15 минут.</b>", s:"Края панировки оставить сухими - они должны хрустеть" }
+  ]},
+  { n:"Ньокки с горгонзолой", k:850, p:30, time:"8 минут", icon:"🥟", steps:[
+    { i:"💧", t:"Ньокки", d:"Покупные 500 г в кипящую солёную воду. <b>Всплыли - готовы</b> (2-3 минуты)." },
+    { i:"🧀", t:"Соус", d:"Сливки 200 мл на <b>малом</b> огне, горгонзола 150 г кусочками, растворить за 3 минуты.", s:"Сильный огонь свернёт сливки" },
+    { i:"✨", t:"Финиш", d:"Ньокки в соус + полполовника воды, минуту прогреть. Пармезан, перец, орехи. <b>Добавь 100 г обжаренной грудинки</b> - иначе мало белка." }
+  ]},
+  { n:"Лазанья (из готового рагу)", k:950, p:50, time:"1 час", icon:"🫓", steps:[
+    { i:"🥛", t:"Бешамель", d:"Масло 60 г + мука 60 г, 2 минуты. Молоко 700 мл тёплым третями. Загустить, соль, мускат." },
+    { i:"🧱", t:"Сборка", d:"Форма: тонкий бешамель на дно, дальше ×4: <b>листы → рагу → бешамель → пармезан</b>. Сверху моцарелла.", s:"Слои рагу ТОНКИЕ, иначе разъедется" },
+    { i:"🔥", t:"Выпекание", d:"<b>180°C: 40 минут под фольгой + 15 без.</b> Верх золотой пятнами, края булькают." },
+    { i:"⏳", t:"Отдых", d:"15 минут перед нарезкой - желатин должен схватиться, иначе растечётся." }
+  ]}
+];
 
+/* ═══════════ УХОД ═══════════ */
+function skincareAM(powderDay){
+  const steps = [];
+  if(powderDay){
+    steps.push({ i:"✨", t:"Энзимная пудра", d:"Полчайной ложки в мокрые ладони, вспенить, 40-60 секунд мягко по лицу, смыть.", s:"Сегодня день эксфолиации (2 раза в неделю). Вечером БЕЗ кислотной сыворотки" });
+  } else {
+    steps.push({ i:"🧼", t:"Умывание", d:"Гель с ниацинамидом, тёплая вода. 30-60 секунд массажа, смыть.", s:"Смывает ночной жир, не сдирая барьер" });
+  }
+  steps.push({ i:"💧", t:"Крем увлажняющий", d:"Горошина на всё лицо и шею, вбить подушечками пальцев, не растирать.", s:"Гиалуронка притягивает воду, сквалан запирает" });
+  steps.push({ i:"☀️", t:"SPF-стик", d:"<b>4-5 проходов</b> по каждой зоне: лоб, щёки, нос, подбородок. До лёгкого блеска.", s:"Главный шаг всего ухода. Тонкий мазок = SPF 15 вместо 50. Каждый день, и зимой тоже" });
+  return steps;
+}
+function skincarePM(powderDay){
+  const steps = [
+    { i:"🧼", t:"Умывание", d:"Гель с ниацинамидом. Смыть день: пот, SPF, грязь. 30-60 секунд." }
+  ];
+  if(!powderDay){
+    steps.push({ i:"🧪", t:"Сыворотка BHA", d:"2-3 капли на зоны с чёрными точками и жирностью: нос, лоб, подбородок. Дать впитаться минуту.", s:"Салициловая кислота растворяет пробки внутри пор" });
+  }
+  steps.push({ i:"🌙", t:"Ночной крем", d:"Чуть больше горошины. Ночью кожа восстанавливается активнее всего.", s: powderDay ? "Сыворотку сегодня пропускаем - утром была пудра, двойная кислота = раздражение" : "Всё. Три минуты, а через месяц увидишь разницу" });
+  return steps;
+}
+const HAIR_FLOW = [
+  { i:"🚿", t:"Шампунь", d:"Наносить на кожу головы, не на длину. Помассировать пальцами минуту, смыть." },
+  { i:"🧴", t:"Кондиционер", d:"По длине, кожу головы не трогать. Подержать 2-3 минуты, смыть прохладной водой.", s:"Прохладная вода закрывает чешуйки = блеск" },
+  { i:"💧", t:"Крем для кудрей", d:"На влажные волосы снизу вверх <b>сжимающими движениями</b>, как будто мнёшь бумагу.", s:"Это формирует завиток. Не расчёсывать после!" },
+  { i:"✨", t:"Масло", d:"2-3 капли растереть в ладонях, пройтись по кончикам. Не корни!" }
+];
+
+/* ═══════════ STORE ═══════════ */
 const store = {
   get(k, d){ try { const v = localStorage.getItem(k); return v===null? d : JSON.parse(v); } catch(e){ return d; } },
   set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
 };
-
-const ALL_KEYS = ["curDay","weight","wHist","sessions","startDate","sleep","food",
-  "last_A","last_B","last_C","prog_A","prog_B","prog_C"];
 
 let curDay = store.get("curDay", "A");
 let manualDay = false;
@@ -488,7 +633,6 @@ let manualDay = false;
 function todayISO(){ return new Date().toISOString().slice(0,10); }
 function pad(n){ return String(n).padStart(2,"0"); }
 
-/* ── неделя программы ───────────────── */
 function startDate(){
   let s = store.get("startDate", null);
   if(!s){ s = todayISO(); store.set("startDate", s); }
@@ -511,29 +655,30 @@ function modeFor(w){
   if(w > 5 && (w - 5) % 6 === 0) return "РАЗГРУЗКА";
   return "РАБОТА";
 }
+function todaySched(){ return SCHEDULE[new Date().getDay()]; }
+function isPowderDay(){ const d = new Date().getDay(); return d === 1 || d === 4; }
 
-/* ── views ──────────────────────────── */
-function switchView(v){
-  document.getElementById("viewToday").classList.toggle("hidden", v!=="today");
-  document.getElementById("viewFood").classList.toggle("hidden", v!=="food");
-  document.getElementById("viewHistory").classList.toggle("hidden", v!=="history");
-  document.getElementById("navToday").classList.toggle("active", v==="today");
-  document.getElementById("navFood").classList.toggle("active", v==="food");
-  document.getElementById("navHistory").classList.toggle("active", v==="history");
-  if(v==="history") renderHistory();
-  if(v==="food") renderFood();
-  window.scrollTo(0,0);
+/* ═══════════ ГИД: чек-лист дня ═══════════ */
+function gkey(){ return "guide_" + todayISO(); }
+function gState(){ return store.get(gkey(), {}); }
+function gMark(k){
+  const s = gState(); s[k] = 1; store.set(gkey(), s);
+  renderGuide();
+}
+function gToggle(k){
+  const s = gState();
+  if(s[k]) delete s[k]; else s[k] = 1;
+  store.set(gkey(), s);
+  renderGuide();
 }
 
-/* ── шапка «сегодня» ────────────────── */
-function renderToday(){
+function renderGuide(){
   const d = new Date();
-  const dow = d.getDay();
-  const sc = SCHEDULE[dow];
+  const sc = todaySched();
   const names = ["ВОСКРЕСЕНЬЕ","ПОНЕДЕЛЬНИК","ВТОРНИК","СРЕДА","ЧЕТВЕРГ","ПЯТНИЦА","СУББОТА"];
   const card = document.getElementById("todayCard");
   card.className = "today-card " + sc.kind;
-  document.getElementById("tcDay").textContent = names[dow] + " · " + pad(d.getDate()) + "." + pad(d.getMonth()+1);
+  document.getElementById("tcDay").textContent = names[d.getDay()] + " · " + pad(d.getDate()) + "." + pad(d.getMonth()+1);
   document.getElementById("tcWhat").textContent = sc.what;
   document.getElementById("tcNote").textContent = sc.note;
 
@@ -542,13 +687,353 @@ function renderToday(){
   document.getElementById("tcRir").textContent = rirFor(w);
   document.getElementById("tcMode").textContent = modeFor(w);
 
+  const sl = store.get("sleep", {})[todayISO()] || {};
+  let slTxt = "—";
+  if(sl.bed && sl.up){
+    const [bh,bm] = sl.bed.split(":").map(Number), [uh,um] = sl.up.split(":").map(Number);
+    let mins = (uh*60+um)-(bh*60+bm); if(mins<0) mins += 1440;
+    slTxt = Math.floor(mins/60) + "ч " + (mins%60) + "м";
+  } else if(sl.up) slTxt = "встал " + sl.up;
+  document.getElementById("tcSleep").textContent = slTxt;
+
+  const st = gState();
+  const meals = MEALS[sc.kind];
+  let steps = [];
+
+  steps.push({ k:"wake", time:"12:30", name:"Подъём", sub: sl.up ? "Встал в " + sl.up : "Фиксированный будильник. Отметь, как встал", btn:"Встал", act:"markWake()" });
+  steps.push({ k:"am", time:"12:45", name: isPowderDay() ? "Утренний уход · день пудры" : "Утренний уход", sub:"Умывание → крем → SPF. Три минуты", btn:"Начать", act:"startAM()" });
+
+  meals.forEach((m,i)=>{
+    steps.push({ k:"m"+i, time:m.t, name:m.n, sub:"~"+m.k+" ккал" + (i===1 ? " · не знаешь что готовить - рулетка в Еде" : ""), btn:"Съел", act:"gMark('m"+i+"')" });
+  });
+
+  steps.push({ k:"work", time:"14:00-23:00", name:"Окно Макса", sub:"Рабочее время по МСК. Быть на связи", info:true });
+
+  if(sc.kind === "iron"){
+    steps.push({ k:"tr", time:"23:00", name:"Тренировка: " + sc.what, sub:"Гид проведёт по упражнениям и запишет веса", btn:"В зал", act:"goWorkout()" });
+  } else if(sc.kind === "ring"){
+    steps.push({ k:"tr", time:"20:00", name:"Бокс", sub:"Бинты, капа, вода. После - шейк, не жди аппетита", btn:"Был", act:"gMark('tr')" });
+  } else {
+    steps.push({ k:"tr", time:"вечер", name:"Бассейн + хамам", sub:"Шапочка, шлёпки. 15-20 мин воды, 10-15 мин пара", btn:"Был", act:"gMark('tr')" });
+  }
+
+  steps.push({ k:"hair", time:"после душа", name:"Волосы", sub:"Кондиционер → крем для кудрей → масло", btn:"Гид", act:"startHair()" });
+  steps.push({ k:"pm", time:"03:00", name:"Вечерний уход", sub: isPowderDay() ? "Сегодня без кислоты (утром была пудра)" : "Умывание → BHA → ночной крем", btn:"Начать", act:"startPM()" });
+  steps.push({ k:"bed", time:"04:30", name:"Отбой", sub: sl.bed ? "Лёг в " + sl.bed : "Отметь, как ложишься - я посчитаю сон", btn:"Лёг", act:"markBed()" });
+
+  let html = "";
+  steps.forEach(s=>{
+    const done = st[s.k];
+    html += '<div class="tstep' + (done ? " done" : "") + (s.info ? " info" : "") + '"' +
+      (s.info ? "" : ' onclick="' + (done ? "gToggle('"+s.k+"')" : s.act) + '"') + '>';
+    html += '<div class="dot"></div><div class="tt">';
+    html += '<div class="tt-time">' + s.time + '</div>';
+    html += '<div class="tt-name">' + s.name + '</div>';
+    html += '<div class="tt-sub">' + s.sub + '</div></div>';
+    if(!s.info && !done) html += '<div class="go">' + s.btn + '</div>';
+    html += '</div>';
+  });
+  document.getElementById("timeline").innerHTML = html;
+
   if(sc.kind === "iron" && !manualDay){ curDay = sc.day; store.set("curDay", curDay); }
-  document.getElementById("saveWrap").classList.toggle("hidden", sc.kind !== "iron" && !manualDay);
-  renderTabs();
-  renderDay();
+  renderStats();
 }
 
-/* ── вес ────────────────────────────── */
+function markWake(){
+  const sl = store.get("sleep", {});
+  const now = new Date();
+  const key = todayISO();
+  if(!sl[key]) sl[key] = {};
+  sl[key].up = pad(now.getHours()) + ":" + pad(now.getMinutes());
+  store.set("sleep", sl);
+  gMark("wake");
+  toast("Подъём " + sl[key].up + " 🌅");
+}
+function markBed(){
+  const sl = store.get("sleep", {});
+  const now = new Date();
+  const key = todayISO();
+  if(!sl[key]) sl[key] = {};
+  sl[key].bed = pad(now.getHours()) + ":" + pad(now.getMinutes());
+  store.set("sleep", sl);
+  gMark("bed");
+  toast("Спокойной 🌙");
+}
+function startAM(){ openFlow("Утренний уход", skincareAM(isPowderDay()), ()=>gMark("am")); }
+function startPM(){ openFlow("Вечерний уход", skincarePM(isPowderDay()), ()=>gMark("pm")); }
+function startHair(){ openFlow("Волосы после мытья", HAIR_FLOW, ()=>gMark("hair")); }
+function goWorkout(){ switchView("gym"); }
+
+/* ═══════════ FLOW ENGINE ═══════════ */
+let flowSteps = [], flowIdx = 0, flowFinish = null, flowTitle = "", flowEl = null, restTimer = null;
+
+function openFlow(title, steps, onFinish){
+  flowTitle = title; flowSteps = steps; flowIdx = 0; flowFinish = onFinish;
+  if(flowEl) flowEl.remove();
+  flowEl = document.createElement("div");
+  flowEl.id = "flow";
+  document.body.appendChild(flowEl);
+  renderFlowStep();
+}
+function closeFlow(){
+  if(restTimer){ clearInterval(restTimer); restTimer = null; }
+  if(flowEl){ flowEl.remove(); flowEl = null; }
+}
+function flowCollect(){
+  const s = flowSteps[flowIdx];
+  if(s && s.collect) s.collect();
+}
+function flowNext(){
+  flowCollect();
+  if(restTimer){ clearInterval(restTimer); restTimer = null; }
+  if(flowIdx >= flowSteps.length - 1){
+    // финальный экран
+    flowEl.innerHTML = '<div class="fl-head"><div class="fl-title">' + flowTitle + '</div></div>' +
+      '<div class="fl-body"><div class="done-burst"><div class="big">🔥</div><div class="t">Сделано</div></div></div>' +
+      '<div class="fl-foot"><button class="fl-next" onclick="finishFlow()">Готово</button></div>';
+    return;
+  }
+  flowIdx++;
+  renderFlowStep();
+}
+function finishFlow(){
+  closeFlow();
+  if(flowFinish) flowFinish();
+}
+function flowBack(){
+  if(flowIdx === 0){ closeFlow(); return; }
+  flowIdx--;
+  renderFlowStep();
+}
+function renderFlowStep(){
+  const s = flowSteps[flowIdx];
+  let prog = '<div class="fl-prog">';
+  flowSteps.forEach((_,i)=>{ prog += '<i class="' + (i <= flowIdx ? "on" : "") + '"></i>'; });
+  prog += '</div>';
+  flowEl.innerHTML =
+    '<div class="fl-head"><div class="fl-title">' + flowTitle + ' · ' + (flowIdx+1) + '/' + flowSteps.length + '</div>' +
+    '<button class="fl-x" onclick="closeFlow()">✕</button></div>' + prog +
+    '<div class="fl-body"><div class="fstep">' +
+    '<div class="fs-icon">' + (s.i || "▪️") + '</div>' +
+    '<div class="fs-kicker">Шаг ' + (flowIdx+1) + '</div>' +
+    '<div class="fs-title">' + s.t + '</div>' +
+    '<div class="fs-text">' + s.d + '</div>' +
+    (s.s ? '<div class="fs-sub">' + s.s + '</div>' : '') +
+    (s.html ? '<div class="fs-html">' + s.html + '</div>' : '') +
+    '</div></div>' +
+    '<div class="fl-foot">' +
+    '<button class="fl-back" onclick="flowBack()">' + (flowIdx === 0 ? "✕" : "←") + '</button>' +
+    '<button class="fl-next" onclick="flowNext()">' + (flowIdx >= flowSteps.length-1 ? "Завершить" : "Дальше →") + '</button>' +
+    '</div>';
+}
+function startRest(btn, sec){
+  if(restTimer) clearInterval(restTimer);
+  let left = sec;
+  btn.disabled = true;
+  restTimer = setInterval(()=>{
+    left--;
+    btn.textContent = "Отдых · " + Math.floor(left/60) + ":" + pad(left%60);
+    if(left <= 0){
+      clearInterval(restTimer); restTimer = null;
+      btn.textContent = "Отдых закончен - следующий подход!";
+      btn.disabled = false;
+      if(navigator.vibrate) navigator.vibrate([200,100,200]);
+    }
+  }, 1000);
+}
+
+/* ═══════════ РЕЦЕПТЫ ═══════════ */
+function spinRecipe(){
+  const r = RECIPES[Math.floor(Math.random()*RECIPES.length)];
+  const hero = { i:r.icon, t:r.n, d:"<b>" + r.k + " ккал · " + r.p + " г белка</b> · " + r.time + ".<br>Веду по шагам. Погнали?", s:"Не нравится - закрой и крути ещё раз" };
+  openFlow("Готовим", [hero].concat(r.steps), ()=>{
+    const list = foodToday();
+    list.push({ n:r.n, k:r.k, p:r.p });
+    foodSet(list);
+    renderFood(); renderStats();
+    toast("+" + r.k + " ккал записано");
+  });
+}
+
+/* ═══════════ ЗАЛ ═══════════ */
+function lastKey(day){ return "last_"+day; }
+
+function progressTip(ex, prev){
+  if(!prev || !prev.reps || !prev.reps.length) return null;
+  const reps = prev.reps.filter(r => r > 0);
+  if(!reps.length) return null;
+  if(ex.sum){
+    const total = reps.reduce((a,b)=>a+b, 0);
+    if(total >= ex.sumGoal){
+      return { txt: "Сумма " + total + " ≥ " + ex.sumGoal + " → пора вешать пояс +" + ex.step + " кг и падать к " + (ex.sumGoal - 4), ok:true };
+    }
+    return { txt: "Прошлая сумма " + total + ". Задача сегодня: " + (total+1) + "-" + (total+2), ok:false };
+  }
+  const all = prev.reps.slice(0, ex.sets);
+  const check = all.length > 1 ? all.slice(0, -1) : all;
+  const hit = check.length && check.every(r => r >= ex.hi);
+  if(hit){
+    const nw = (prev.w || ex.w || 0) + ex.step;
+    return { txt: "Все подходы на потолке → сегодня " + nw + " кг" + (ex.dumb ? " (одна гантель)" : ""), ok:true };
+  }
+  const stuck = prev.stuck || 0;
+  if(stuck >= 3){
+    const nw = Math.round(((prev.w || ex.w || 0) * 0.9) * 2) / 2;
+    return { txt: "Застрял 3 тренировки → снять 10%, поставить " + nw + " кг и пройти заново", ok:false, warn:true };
+  }
+  return null;
+}
+
+function renderTabs(){
+  const box = document.getElementById("tabs");
+  box.innerHTML = "";
+  Object.keys(PROGRAM).forEach(k => {
+    const t = document.createElement("div");
+    t.className = "tab" + (k===curDay ? " active" : "");
+    t.textContent = k + " · " + DAY_NAMES[k];
+    t.onclick = () => { curDay = k; manualDay = true; store.set("curDay", k); renderTabs(); renderDay(); };
+    box.appendChild(t);
+  });
+}
+
+function renderDay(){
+  const d = PROGRAM[curDay];
+  const box = document.getElementById("dayBox");
+  const prevAll = store.get(lastKey(curDay), {});
+  const w = weekNum();
+  const deload = modeFor(w) === "РАЗГРУЗКА";
+
+  let html = '<div class="sec-h">' + d.title + '</div>';
+  html += '<div class="warmbox">' + d.warm + '</div>';
+  if(deload) html += '<div class="gate bad" style="margin-bottom:12px">РАЗГРУЗОЧНАЯ НЕДЕЛЯ. Тот же вес, подходов вдвое меньше, RIR 4-5.</div>';
+  if(w <= 3) html += '<div class="gate ok" style="margin-bottom:12px">НЕДЕЛЯ ' + w + ' · ВВОД. RIR ' + rirFor(w) + '. Первая неделя - подходов на треть меньше.</div>';
+
+  d.ex.forEach((ex, i) => {
+    const prev = prevAll[ex.id];
+    const tip = progressTip(ex, prev);
+    const target = ex.sum
+      ? ex.sets + " подходов · сумма " + (prev && prev.reps ? "было " + prev.reps.reduce((a,b)=>a+b,0) : "старт 16") + " → цель " + ex.sumGoal
+      : ex.sets + " × " + (ex.lo === ex.hi ? ex.lo : ex.lo + "-" + ex.hi);
+
+    html += '<div class="ex">';
+    html += '<div class="ex-head"><div><div class="ex-name">' + ex.name + '</div>';
+    html += '<div class="ex-target">' + target + '</div></div><div class="ex-idx">' + (i+1) + '</div></div>';
+    html += '<div class="ex-note">' + ex.note + '</div>';
+    if(prev){
+      const wTxt = ex.bw ? (prev.w ? " · пояс " + prev.w + " кг" : "") : (prev.w ? prev.w + " кг · " : "");
+      html += '<div class="ex-last">Прошлый раз: ' + (ex.bw ? "" : wTxt) + prev.reps.filter(r=>r>0).join(" · ") + (ex.bw ? wTxt : "") + '</div>';
+    }
+    if(tip) html += '<div class="ex-tip' + (tip.warn ? " warn" : "") + '">' + tip.txt + '</div>';
+
+    const wVal = prev && prev.w != null ? prev.w : (ex.calib ? "" : (ex.w != null ? ex.w : ""));
+    html += '<div class="ex-inputs">';
+    html += '<div class="ex-w"><input class="cell wcell" type="number" inputmode="decimal" step="0.5" id="w_'+ex.id+'" value="'+wVal+'" placeholder="'+(ex.calib?"?":"кг")+'"></div>';
+    html += '<div class="ex-reps">';
+    for(let s=0; s<ex.sets; s++){
+      html += '<input class="cell" type="number" inputmode="numeric" id="r_'+ex.id+'_'+s+'" placeholder="'+(s+1)+'">';
+    }
+    html += '</div></div>';
+    html += '<div class="ex-labels"><div class="l1">' + (ex.bw ? "ПОЯС, КГ" : (ex.dumb ? "КГ (ОДНА)" : "КГ")) + '</div><div class="l2">ПОВТОРЫ ПО ПОДХОДАМ</div></div>';
+    html += '<div class="swap"><b>Если занято:</b> ' + ex.swap + '</div>';
+    html += '</div>';
+  });
+  box.innerHTML = html;
+}
+
+function persistWorkout(dayKey, exVals){
+  const prevAll = store.get(lastKey(dayKey), {});
+  const rec = { date: todayISO(), day: dayKey, week: weekNum(), ex: {} };
+  let any = false;
+  Object.keys(exVals).forEach(id => {
+    const v = exVals[id];
+    if(v.reps.some(r => r > 0)){
+      any = true;
+      rec.ex[id] = { w: v.w, reps: v.reps };
+      const prev = prevAll[id];
+      let stuck = 0;
+      if(prev && prev.w != null && v.w != null && prev.w === v.w) stuck = (prev.stuck || 0) + 1;
+      prevAll[id] = { w: v.w, reps: v.reps, stuck: stuck };
+    }
+  });
+  if(!any) return false;
+  store.set(lastKey(dayKey), prevAll);
+  const sessions = store.get("sessions", []);
+  sessions.push(rec);
+  store.set("sessions", sessions);
+  return true;
+}
+
+function saveDay(){
+  const d = PROGRAM[curDay];
+  const vals = {};
+  d.ex.forEach(ex => {
+    const wEl = document.getElementById("w_"+ex.id);
+    const wv = wEl && wEl.value !== "" ? parseFloat(wEl.value) : null;
+    const reps = [];
+    for(let s=0; s<ex.sets; s++){
+      const el = document.getElementById("r_"+ex.id+"_"+s);
+      const v = el && el.value !== "" ? parseInt(el.value, 10) : 0;
+      reps.push(isNaN(v) ? 0 : v);
+    }
+    vals[ex.id] = { w: wv, reps: reps };
+  });
+  if(persistWorkout(curDay, vals)){
+    toast("Записано 💪");
+    gMark("tr");
+    renderDay(); renderStats();
+  } else toast("Пусто - нечего писать");
+}
+
+/* Тренировка через гид */
+let flowVals = {};
+function startWorkoutFlow(){
+  const d = PROGRAM[curDay];
+  const prevAll = store.get(lastKey(curDay), {});
+  flowVals = {};
+  const steps = [];
+  steps.push({ i:"🔥", t:"Разминка", d: d.warm.replace(/<b>|<\/b>/g, m => m), s:"8-10 минут. Без неё связки холодные - а связки у тебя сейчас слабее мышц" });
+  d.ex.forEach((ex, i) => {
+    const prev = prevAll[ex.id];
+    const tip = progressTip(ex, prev);
+    const wVal = prev && prev.w != null ? prev.w : (ex.calib ? "" : (ex.w != null ? ex.w : ""));
+    let html = '<div class="ex-inputs">';
+    html += '<div class="ex-w"><input class="cell wcell" type="number" inputmode="decimal" step="0.5" id="fw_'+ex.id+'" value="'+wVal+'" placeholder="'+(ex.calib?"?":"кг")+'"></div>';
+    html += '<div class="ex-reps">';
+    for(let s=0; s<ex.sets; s++) html += '<input class="cell" type="number" inputmode="numeric" id="fr_'+ex.id+'_'+s+'" placeholder="'+(s+1)+'">';
+    html += '</div></div>';
+    html += '<div class="ex-labels"><div class="l1">' + (ex.bw ? "ПОЯС" : (ex.dumb ? "КГ (ОДНА)" : "КГ")) + '</div><div class="l2">ПОВТОРЫ</div></div>';
+    html += '<button class="rest-btn" onclick="startRest(this, 150)">▶ Таймер отдыха 2:30</button>';
+    const target = ex.sum ? ex.sets + " подходов, цель по сумме " + ex.sumGoal : ex.sets + " × " + (ex.lo === ex.hi ? ex.lo : ex.lo + "-" + ex.hi);
+    steps.push({
+      i: ex.icon || "🏋️", t: ex.name,
+      d: "<b>" + target + "</b>. " + ex.note,
+      s: (prev ? "Прошлый раз: " + (prev.w ? prev.w + " кг · " : "") + prev.reps.filter(r=>r>0).join(" · ") + ". " : "") + (tip ? tip.txt : "") + " Если занято: " + ex.swap,
+      html: html,
+      collect: (function(exId, sets){
+        return function(){
+          const wEl = document.getElementById("fw_"+exId);
+          const wv = wEl && wEl.value !== "" ? parseFloat(wEl.value) : null;
+          const reps = [];
+          for(let s=0; s<sets; s++){
+            const el = document.getElementById("fr_"+exId+"_"+s);
+            const v = el && el.value !== "" ? parseInt(el.value, 10) : 0;
+            reps.push(isNaN(v) ? 0 : v);
+          }
+          flowVals[exId] = { w: wv, reps: reps };
+        };
+      })(ex.id, ex.sets)
+    });
+  });
+  openFlow(d.title, steps, ()=>{
+    if(persistWorkout(curDay, flowVals)){
+      toast("Тренировка записана 💪");
+      gMark("tr");
+      renderDay(); renderStats();
+    } else toast("Ничего не ввёл - не записал");
+  });
+}
+
+/* ═══════════ ВЕС ═══════════ */
 function renderWeight(){
   let w = store.get("weight", 63.0);
   const goal = 70, lo = 60;
@@ -564,10 +1049,9 @@ function renderWeight(){
   } else document.getElementById("wHist").textContent = "";
   renderWeightChart(hist);
 }
-
 function renderWeightChart(hist){
   const box = document.getElementById("wChart");
-  if(!hist || hist.length < 2){ box.innerHTML = '<div class="wchart-hint">Вводи вес - здесь появится кривая к 70</div>'; return; }
+  if(!hist || hist.length < 2){ box.innerHTML = '<div class="wchart-hint">Вводи вес утром натощак - здесь появится кривая к 70</div>'; return; }
   const W = 340, H = 150, padL = 34, padR = 14, padT = 16, padB = 22;
   const ws = hist.map(p=>p.w), ts = hist.map(p=>new Date(p.d+"T12:00:00").getTime());
   const goal = 70, lo = Math.floor(Math.min(...ws) - 1), hi = Math.max(Math.max(...ws) + 0.5, goal + 0.5);
@@ -575,7 +1059,7 @@ function renderWeightChart(hist){
   const x = t => t1===t0 ? padL + (W-padL-padR)/2 : padL + (t-t0)/(t1-t0)*(W-padL-padR);
   const y = v => padT + (hi-v)/(hi-lo)*(H-padT-padB);
   let s = '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg">';
-  s += '<defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c6ff2e" stop-opacity="0.22"/><stop offset="1" stop-color="#c6ff2e" stop-opacity="0"/></linearGradient></defs>';
+  s += '<defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff7a1a" stop-opacity="0.22"/><stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/></linearGradient></defs>';
   const step = (hi-lo) > 6 ? 2 : 1;
   for(let v = Math.ceil(lo); v <= hi; v += step){
     const yy = y(v);
@@ -588,19 +1072,18 @@ function renderWeightChart(hist){
   const pts = ts.map((t,i)=> x(t).toFixed(1)+","+y(ws[i]).toFixed(1));
   const baseY = (H-padB).toFixed(1);
   s += '<polygon points="'+padL+','+baseY+' '+pts.join(" ")+' '+(W-padR)+','+baseY+'" fill="url(#ag)"/>';
-  s += '<polyline points="'+pts.join(" ")+'" fill="none" stroke="#c6ff2e" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>';
+  s += '<polyline points="'+pts.join(" ")+'" fill="none" stroke="#ff7a1a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>';
   ts.forEach((t,i)=>{
     const isLast = i === ts.length-1;
-    s += '<circle cx="'+x(t).toFixed(1)+'" cy="'+y(ws[i]).toFixed(1)+'" r="'+(isLast?4:2.6)+'" fill="#c6ff2e"/>';
+    s += '<circle cx="'+x(t).toFixed(1)+'" cy="'+y(ws[i]).toFixed(1)+'" r="'+(isLast?4:2.6)+'" fill="#ff7a1a"/>';
     if(isLast){
       const lx = Math.min(x(t), W-padR-30);
-      s += '<text x="'+lx+'" y="'+(y(ws[i])-9)+'" fill="#c6ff2e" font-size="11" font-weight="800" text-anchor="middle">'+ws[i].toFixed(1)+'</text>';
+      s += '<text x="'+lx+'" y="'+(y(ws[i])-9)+'" fill="#ff7a1a" font-size="11" font-weight="800" text-anchor="middle">'+ws[i].toFixed(1)+'</text>';
     }
   });
   s += '</svg>';
   box.innerHTML = s;
 }
-
 function logWeight(d){
   let w = store.get("weight", 63.0);
   w = Math.round((w + d)*10)/10;
@@ -623,171 +1106,7 @@ function pushWeightHist(w){
   store.set("wHist", hist);
 }
 
-/* ── сон ────────────────────────────── */
-function markSleep(kind){
-  const sl = store.get("sleep", {});
-  const now = new Date();
-  const hhmm = pad(now.getHours())+":"+pad(now.getMinutes());
-  const key = todayISO();
-  if(!sl[key]) sl[key] = {};
-  sl[key][kind] = hhmm;
-  store.set("sleep", sl);
-  renderSleep();
-  toast(kind === "bed" ? "Отбой " + hhmm : "Подъём " + hhmm);
-}
-function renderSleep(){
-  const sl = store.get("sleep", {});
-  const t = sl[todayISO()] || {};
-  document.getElementById("slBed").classList.toggle("on", !!t.bed);
-  document.getElementById("slUp").classList.toggle("on", !!t.up);
-  if(t.bed && t.up){
-    const [bh,bm] = t.bed.split(":").map(Number);
-    const [uh,um] = t.up.split(":").map(Number);
-    let mins = (uh*60+um) - (bh*60+bm);
-    if(mins < 0) mins += 24*60;
-    const h = Math.floor(mins/60), m = mins%60;
-    document.getElementById("slVal").innerHTML = h + '<small> ч </small>' + m + '<small> мин</small>';
-    document.getElementById("slHint").textContent = "Отбой " + t.bed + " · подъём " + t.up + (h < 7 ? " · мало, следи" : "");
-  } else if(t.bed){
-    document.getElementById("slVal").innerHTML = 'спишь<small> с '+t.bed+'</small>';
-    document.getElementById("slHint").textContent = "Проснулся - жми «Встал»";
-  } else {
-    document.getElementById("slVal").innerHTML = '—<small> ч</small>';
-    document.getElementById("slHint").textContent = "Цель: отбой 04:00-05:00, подъём 12:30";
-  }
-}
-
-/* ── вкладки дней ───────────────────── */
-function renderTabs(){
-  const box = document.getElementById("tabs");
-  box.innerHTML = "";
-  Object.keys(PROGRAM).forEach(k => {
-    const t = document.createElement("div");
-    t.className = "tab" + (k===curDay ? " active" : "");
-    t.textContent = k + " · " + DAY_NAMES[k];
-    t.onclick = () => { curDay = k; manualDay = true; store.set("curDay", k);
-      document.getElementById("saveWrap").classList.remove("hidden"); renderTabs(); renderDay(); };
-    box.appendChild(t);
-  });
-}
-
-/* ── прогрессия ─────────────────────── */
-function lastKey(day){ return "last_"+day; }
-
-function progressTip(ex, prev){
-  if(!prev || !prev.reps || !prev.reps.length) return null;
-  const reps = prev.reps.filter(r => r > 0);
-  if(!reps.length) return null;
-
-  if(ex.sum){
-    const total = reps.reduce((a,b)=>a+b, 0);
-    if(total >= ex.sumGoal){
-      return { txt: "Сумма " + total + " ≥ " + ex.sumGoal + " → пора вешать пояс +" + ex.step + " кг и падать к " + (ex.sumGoal - 4), ok:true };
-    }
-    return { txt: "Прошлая сумма " + total + ". Задача сегодня: " + (total+1) + "-" + (total+2), ok:false };
-  }
-
-  const all = prev.reps.slice(0, ex.sets);
-  const check = all.length > 1 ? all.slice(0, -1) : all;
-  const hit = check.length && check.every(r => r >= ex.hi);
-  if(hit){
-    const nw = (prev.w || ex.w || 0) + ex.step;
-    return { txt: "Все подходы на потолке → сегодня " + nw + " кг" + (ex.dumb ? " (одна гантель)" : ""), ok:true };
-  }
-  const stuck = prev.stuck || 0;
-  if(stuck >= 3){
-    const nw = Math.round(((prev.w || ex.w || 0) * 0.9) * 2) / 2;
-    return { txt: "Застрял 3 тренировки → снять 10%, поставить " + nw + " кг и пройти заново", ok:false, warn:true };
-  }
-  return null;
-}
-
-function renderDay(){
-  const d = PROGRAM[curDay];
-  const box = document.getElementById("dayBox");
-  const prevAll = store.get(lastKey(curDay), {});
-  const w = weekNum();
-  const deload = modeFor(w) === "РАЗГРУЗКА";
-
-  let html = '<div class="sec-h">' + d.title + '</div>';
-  html += '<div class="warmbox">' + d.warm + '</div>';
-  if(deload){
-    html += '<div class="gate bad" style="margin-bottom:12px">РАЗГРУЗОЧНАЯ НЕДЕЛЯ. Те же упражнения и тот же вес, но подходов вдвое меньше и RIR 4-5. Частоту не снижаем.</div>';
-  }
-  if(w <= 3){
-    html += '<div class="gate ok" style="margin-bottom:12px">НЕДЕЛЯ ' + w + ' · ВВОД. RIR ' + rirFor(w) + '. Первая неделя: подходов на треть меньше. Ноги урезаны, румынская только на технику.</div>';
-  }
-
-  d.ex.forEach((ex, i) => {
-    const prev = prevAll[ex.id];
-    const tip = progressTip(ex, prev);
-    const target = ex.sum
-      ? ex.sets + " подходов · сумма " + (prev && prev.reps ? "было " + prev.reps.reduce((a,b)=>a+b,0) : "старт 16") + " → цель " + ex.sumGoal
-      : ex.sets + " × " + (ex.lo === ex.hi ? ex.lo : ex.lo + "-" + ex.hi);
-
-    html += '<div class="ex">';
-    html += '<div class="ex-head"><div><div class="ex-name">' + ex.name + '</div>';
-    html += '<div class="ex-target">' + target + '</div></div><div class="ex-idx">' + (i+1) + '</div></div>';
-    html += '<div class="ex-note">' + ex.note + '</div>';
-
-    if(prev){
-      const wTxt = ex.bw ? (prev.w ? " · пояс " + prev.w + " кг" : "") : (prev.w ? prev.w + " кг · " : "");
-      html += '<div class="ex-last">Прошлый раз: ' + (ex.bw ? "" : wTxt) + prev.reps.filter(r=>r>0).join(" · ") + (ex.bw ? wTxt : "") + '</div>';
-    }
-    if(tip) html += '<div class="ex-tip' + (tip.warn ? " warn" : "") + '">' + tip.txt + '</div>';
-
-    const wVal = prev && prev.w != null ? prev.w : (ex.calib ? "" : (ex.w != null ? ex.w : ""));
-    html += '<div class="ex-inputs">';
-    html += '<div class="ex-w"><input class="cell wcell" type="number" inputmode="decimal" step="0.5" id="w_'+ex.id+'" value="'+wVal+'" placeholder="'+(ex.calib?"?":"кг")+'"></div>';
-    html += '<div class="ex-reps">';
-    for(let s=0; s<ex.sets; s++){
-      html += '<input class="cell" type="number" inputmode="numeric" id="r_'+ex.id+'_'+s+'" placeholder="'+(s+1)+'">';
-    }
-    html += '</div></div>';
-    html += '<div class="ex-labels"><div class="l1">' + (ex.bw ? "ПОЯС, КГ" : (ex.dumb ? "КГ (ОДНА)" : "КГ")) + '</div><div class="l2">ПОВТОРЫ ПО ПОДХОДАМ</div></div>';
-    html += '<div class="swap"><b>Если занято:</b> ' + ex.swap + '</div>';
-    html += '</div>';
-  });
-
-  box.innerHTML = html;
-}
-
-function saveDay(){
-  const d = PROGRAM[curDay];
-  const prevAll = store.get(lastKey(curDay), {});
-  const rec = { date: todayISO(), day: curDay, week: weekNum(), ex: {} };
-  let any = false;
-
-  d.ex.forEach(ex => {
-    const wEl = document.getElementById("w_"+ex.id);
-    const wv = wEl && wEl.value !== "" ? parseFloat(wEl.value) : null;
-    const reps = [];
-    for(let s=0; s<ex.sets; s++){
-      const el = document.getElementById("r_"+ex.id+"_"+s);
-      const v = el && el.value !== "" ? parseInt(el.value, 10) : 0;
-      reps.push(isNaN(v) ? 0 : v);
-    }
-    if(reps.some(r => r > 0)){
-      any = true;
-      rec.ex[ex.id] = { w: wv, reps: reps };
-      const prev = prevAll[ex.id];
-      let stuck = 0;
-      if(prev && prev.w != null && wv != null && prev.w === wv) stuck = (prev.stuck || 0) + 1;
-      prevAll[ex.id] = { w: wv, reps: reps, stuck: stuck };
-    }
-  });
-
-  if(!any){ toast("Пусто - нечего писать"); return; }
-
-  store.set(lastKey(curDay), prevAll);
-  const sessions = store.get("sessions", []);
-  sessions.push(rec);
-  store.set("sessions", sessions);
-  toast("Записано");
-  renderDay(); renderStats();
-}
-
-/* ── еда ────────────────────────────── */
+/* ═══════════ ЕДА ═══════════ */
 function foodToday(){
   const f = store.get("food", {});
   return f[todayISO()] || [];
@@ -849,10 +1168,9 @@ function renderFood(){
 
   const days = foodDaysInGoal();
   const gate = document.getElementById("gateBox");
-  gate.className = "";
   gate.innerHTML = days >= 5
-    ? '<div class="gate ok">ШЛЮЗ ОТКРЫТ · ' + days + ' из 7 дней в цели. Работаешь на полном объёме.</div>'
-    : '<div class="gate bad">ШЛЮЗ ЗАКРЫТ · только ' + days + ' из 7 дней в цели. Пока не выйдешь на 5 - работаешь на 2/3 объёма, минус один подход в каждом упражнении. Объём это награда за еду.</div>';
+    ? '<div class="gate ok">ШЛЮЗ ОТКРЫТ · ' + days + ' из 7 дней в цели. Полный объём в зале.</div>'
+    : '<div class="gate bad">ШЛЮЗ ЗАКРЫТ · ' + days + ' из 7 дней в цели. До 5 дней - работаешь на 2/3 объёма. Объём это награда за еду.</div>';
 
   const g = document.getElementById("fastGrid");
   g.innerHTML = FOODS.map((f,i) =>
@@ -862,10 +1180,10 @@ function renderFood(){
   const fl = document.getElementById("foodList");
   fl.innerHTML = list.length
     ? list.map((it,i) => '<div class="fitem"><span>'+it.n+'</span><span><b>'+it.k+'</b> ккал · '+it.p+' г <span class="fx" onclick="delFood('+i+')">×</span></span></div>').join("")
-    : '<div class="wc-hist">Пока пусто. Жми кнопки выше.</div>';
+    : '<div class="wc-hist">Пока пусто.</div>';
 }
 
-/* ── статистика ─────────────────────── */
+/* ═══════════ СТАТИСТИКА / ИСТОРИЯ ═══════════ */
 function renderStats(){
   const sessions = store.get("sessions", []);
   const now = new Date();
@@ -890,8 +1208,8 @@ function renderStats(){
   }
   document.getElementById("streakN").textContent = streak;
 }
-
-/* ── история ────────────────────────── */
+const EX_NAMES = {};
+Object.values(PROGRAM).forEach(d => d.ex.forEach(e => { EX_NAMES[e.id] = e.name; }));
 function renderHistory(){
   const sessions = store.get("sessions", []).slice().reverse();
   document.getElementById("hSub").textContent = "Всего тренировок: " + sessions.length + " · неделя программы " + weekNum();
@@ -912,11 +1230,14 @@ function renderHistory(){
   }).join("");
 }
 
-/* ── бэкап ──────────────────────────── */
+/* ═══════════ БЭКАП ═══════════ */
 function exportData(){
   const data = {};
-  ALL_KEYS.forEach(k => { const v = localStorage.getItem(k); if(v !== null) data[k] = v; });
-  const blob = new Blob([JSON.stringify({ v:2, exported: new Date().toISOString(), data:data }, null, 2)], { type:"application/json" });
+  for(let i=0; i<localStorage.length; i++){
+    const k = localStorage.key(i);
+    data[k] = localStorage.getItem(k);
+  }
+  const blob = new Blob([JSON.stringify({ v:3, exported: new Date().toISOString(), data:data }, null, 2)], { type:"application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = "gryaz-backup-" + todayISO() + ".json";
@@ -930,7 +1251,7 @@ function importData(file){
     try {
       const parsed = JSON.parse(e.target.result);
       const data = parsed.data || parsed;
-      Object.keys(data).forEach(k => { if(ALL_KEYS.includes(k)) localStorage.setItem(k, data[k]); });
+      Object.keys(data).forEach(k => { localStorage.setItem(k, data[k]); });
       toast("Восстановлено");
       setTimeout(()=>location.reload(), 700);
     } catch(err){ toast("Файл не читается"); }
@@ -938,7 +1259,19 @@ function importData(file){
   r.readAsText(file);
 }
 
-/* ── прочее ─────────────────────────── */
+/* ═══════════ VIEWS ═══════════ */
+function switchView(v){
+  ["Guide","Gym","Food","History"].forEach(x=>{
+    document.getElementById("view"+x).classList.toggle("hidden", v.toLowerCase() !== x.toLowerCase());
+    document.getElementById("nav"+x).classList.toggle("active", v.toLowerCase() === x.toLowerCase());
+  });
+  if(v==="history") renderHistory();
+  if(v==="food") renderFood();
+  if(v==="gym"){ renderTabs(); renderDay(); }
+  if(v==="guide") renderGuide();
+  window.scrollTo(0,0);
+}
+
 let toastT;
 function toast(msg){
   const t = document.getElementById("toast");
@@ -948,9 +1281,8 @@ function toast(msg){
 }
 
 startDate();
-renderToday();
+renderGuide();
 renderWeight();
-renderSleep();
 renderStats();
 
 if("serviceWorker" in navigator){
