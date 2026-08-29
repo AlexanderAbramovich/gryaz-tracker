@@ -202,6 +202,60 @@
   .fbtn.rec { border-color: #33333f; }
   .fbtn.rec .ic-lg { margin-bottom: 8px; }
 
+  /* ── вес: недельная дельта и протокол ── */
+  .wc-week { display: flex; align-items: baseline; gap: 8px; margin-top: 12px; font-size: 12px; font-weight: 700; }
+  .wc-week .d { font-size: 17px; font-weight: 900; font-variant-numeric: tabular-nums; }
+  .wc-week .d.ok { color: var(--org); }
+  .wc-week .d.slow { color: var(--gold); }
+  .wc-week .d.fast { color: #ff8080; }
+  .wc-week .lbl { color: var(--dim); font-weight: 600; line-height: 1.35; }
+  .wc-warn { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: rgba(255,61,61,.08); border: 1px solid #7d2222; color: #ff8080; font-size: 11.5px; font-weight: 600; line-height: 1.45; }
+  .wc-warn.hidden { display: none; }
+
+  /* ── суперсет и кардио в зале ── */
+  .ssblock { border: 1px dashed var(--org-dim); border-radius: 16px; padding: 10px 10px 2px; margin-bottom: 12px; background: rgba(255,122,26,.03); }
+  .ss-tag { font-size: 10px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: var(--org); padding: 2px 4px 8px; }
+  .ssblock .ex { margin-bottom: 10px; }
+  .cardio-row { display: flex; align-items: center; gap: 12px; background: var(--panel); border: 1px dashed var(--org-dim); border-radius: 14px; padding: 13px 14px; margin-bottom: 12px; }
+  .cardio-t { font-size: 11px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: var(--org); flex: none; }
+  .cardio-x { font-size: 12.5px; color: var(--dim); line-height: 1.4; }
+
+  /* ── еда: съедено по факту ── */
+  .eaten-top { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+  .eaten-k { font-size: 44px; font-weight: 900; line-height: 1; letter-spacing: -1.5px; font-variant-numeric: tabular-nums; color: var(--org); }
+  .eaten-r { margin-left: auto; text-align: right; }
+  .eaten-goal { font-size: 11px; font-weight: 700; color: var(--dim); }
+  .eaten-left { font-size: 12px; font-weight: 700; margin-top: 3px; }
+  .macros3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .m3 { background: var(--panel-2); padding: 10px 8px; text-align: center; }
+  .m3-v { font-size: 19px; font-weight: 900; font-variant-numeric: tabular-nums; }
+  .m3-v.ok { color: var(--org); }
+  .m3-v small { font-size: 11px; font-weight: 700; color: var(--dim); }
+  .m3-k { font-size: 9.5px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--dim); margin-top: 3px; }
+  .mac-note { margin-top: 8px; font-size: 10.5px; color: var(--dim); font-weight: 600; line-height: 1.4; }
+  .mac-note.hidden { display: none; }
+  .fitem { display: flex; align-items: center; gap: 10px; }
+  .fi-l { flex: 1; min-width: 0; }
+  .fi-n { font-size: 13.5px; font-weight: 700; line-height: 1.25; }
+  .fi-m { font-size: 10.5px; color: var(--dim); margin-top: 2px; font-weight: 600; }
+  .fi-chip { flex: none; background: var(--panel-2); border: 1px solid var(--org-dim); color: var(--org); border-radius: 8px; padding: 5px 9px; font-size: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; }
+  .fi-chip:active { background: var(--org); color: #0a0a0c; }
+  .fi-k { flex: none; font-size: 14px; font-weight: 900; font-variant-numeric: tabular-nums; min-width: 46px; text-align: right; }
+
+  /* ── шторка выбора доли ── */
+  .sheet { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.66); display: flex; align-items: flex-end; touch-action: none; }
+  .sheet.hidden { display: none; }
+  .sheet-in { width: 100%; background: var(--panel); border-top: 1px solid var(--line); border-radius: 20px 20px 0 0; padding: 10px 16px calc(20px + env(safe-area-inset-bottom)); }
+  .sheet-grab { width: 38px; height: 4px; border-radius: 3px; background: var(--line); margin: 0 auto 14px; }
+  .sheet-t { font-size: 18px; font-weight: 900; text-transform: uppercase; font-style: italic; }
+  .sheet-sub { font-size: 12px; color: var(--dim); margin: 4px 0 14px; line-height: 1.4; }
+  .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .fracb { background: var(--panel-2); border: 1px solid var(--line); color: var(--ink); border-radius: 14px; padding: 15px 10px; font-size: 19px; font-weight: 900; cursor: pointer; }
+  .fracb small { display: block; font-size: 10.5px; font-weight: 700; color: var(--dim); margin-top: 4px; }
+  .fracb.on { border-color: var(--org); color: var(--org); }
+  .fracb.wide { grid-column: 1 / -1; font-size: 15px; }
+  .fracb:active { background: #22222b; }
+
   /* ── список покупок ── */
   .shop-g { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 8px; overflow: hidden; }
   .shop-h { display: flex; align-items: center; gap: 10px; padding: 14px; cursor: pointer; }
@@ -227,7 +281,7 @@
   .shop-tag.wk { color: var(--org); border: 1px solid var(--org-dim); }
   .fitem { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
   .fitem:last-child { border-bottom: none; }
-  .fitem .fx { color: var(--blood); font-weight: 800; padding: 0 8px; cursor: pointer; }
+  .fitem .fx { color: var(--blood); font-weight: 800; padding: 12px 8px; cursor: pointer; }
   .gate { border-radius: 12px; padding: 13px 14px; font-size: 13px; line-height: 1.5; font-weight: 600; margin-bottom: 12px; }
   .gate.ok { background: rgba(255,122,26,.08); border: 1px solid var(--org-dim); color: var(--org); }
   .gate.bad { background: rgba(255,61,61,.08); border: 1px solid #7d2222; color: #ff8080; }
@@ -539,7 +593,7 @@
 
 <header>
   <div class="brand">ГРЯЗЬ<span>.</span> ХОЗА ХОЗА</div>
-  <div class="sub" id="hdrSub">Личный гид · путь на 70 кг</div>
+  <div class="sub" id="hdrSub">Личный гид · путь на 70 кг</div>
 </header>
 
 <!-- ══════════ ГИД ══════════ -->
@@ -574,13 +628,15 @@
       <button class="wbtn" onclick="promptWeight()">Ввести</button>
       <button class="wbtn" onclick="logWeight(0.2)">+ 0.2</button>
     </div>
+    <div class="wc-week" id="wWeek"></div>
     <div class="wc-hist" id="wHist"></div>
+    <div class="wc-warn hidden" id="wWarn"></div>
   </div>
 
   <div class="stat-row">
     <div class="stat"><div class="stat-n" id="streakN">0</div><div class="stat-l">Дней подряд</div></div>
     <div class="stat"><div class="stat-n" id="weekN">0</div><div class="stat-l">Тренировок / 7 дн</div></div>
-    <div class="stat"><div class="stat-n" id="foodN">0</div><div class="stat-l">Дней еды в цели</div></div>
+    <div class="stat"><div class="stat-n" id="foodN">0</div><div class="stat-l">Дней еды в цели</div></div>
   </div>
 </div>
 
@@ -588,7 +644,7 @@
 <div class="wrap hidden" id="viewGym">
   <div class="h-title">Зал</div>
   <div class="h-sub">Двойная прогрессия. Приложение само скажет, когда добавить вес.</div>
-  <button class="save" style="margin:0 0 8px" onclick="startWorkoutFlow()">▶ Начать тренировку с гидом</button>
+  <button class="save" style="margin:0 0 8px" onclick="startWorkoutFlow()">▶ Начать тренировку с гидом</button>
   <div class="tabs" id="tabs"></div>
   <div id="dayBox"></div>
   <button class="save ghost" id="saveBtn" onclick="saveDay()">Записать без гида</button>
@@ -599,31 +655,37 @@
   <div class="h-title">Еда</div>
   <div class="h-sub" id="foodDate"></div>
 
-  <div id="gateBox"></div>
-
   <div class="food-card">
-    <div class="fbar-label"><span>Калории</span><span id="kcalTxt">0 / 3000</span></div>
+    <div class="eaten-top">
+      <div class="eaten-k" id="eatenK">0</div>
+      <div class="eaten-r">
+        <div class="eaten-goal" id="eatenGoal"></div>
+        <div class="eaten-left" id="eatenLeft"></div>
+      </div>
+    </div>
     <div class="fbar"><div class="fbar-fill kcal" id="kcalFill"></div></div>
-    <div class="fbar-label"><span>Белок</span><span id="protTxt">0 / 130 г</span></div>
-    <div class="fbar"><div class="fbar-fill prot" id="protFill"></div></div>
-    <div class="wc-hist" id="foodLeft"></div>
+    <div class="macros3" id="macros3"></div>
+    <div class="mac-note hidden" id="macNote"></div>
   </div>
+
+  <div class="sec-h">Съедено по факту</div>
+  <div class="food-card" id="foodList"></div>
+
+  <div class="sec-h">Записать · тап по блюду, потом доля</div>
+  <div class="fgrid" id="dishGrid"></div>
+  <button class="save ghost" style="margin-top:10px" onclick="addOther()">+ Прочее · только калории</button>
+
+  <div class="sec-h">Шлюз недели</div>
+  <div id="gateBox"></div>
 
   <div class="roulette">
     <h3 class="rl-head"><svg class="ic-lg"><use href="#i-dice"/></svg> Рулетка блюда</h3>
-    <p>Не знаешь, что готовить - жми. Выпадет блюдо, и я проведу по шагам, как шеф.</p>
+    <p>Не знаешь, что готовить - жми. Выпадет блюдо, и я проведу по шагам, как шеф.</p>
     <button class="save" style="margin:0" onclick="spinRecipe()">Крутить</button>
   </div>
 
-  <div class="sec-h">Рецепты · тап и я веду по шагам</div>
+  <div class="sec-h">Рецепты · тап и я веду по шагам</div>
   <div class="fgrid" id="recGrid"></div>
-
-  <div class="sec-h">Быстро записать съеденное</div>
-  <div class="fgrid" id="fastGrid"></div>
-  <button class="save ghost" style="margin-top:10px" onclick="addCustomFood()">+ Своё блюдо</button>
-
-  <div class="sec-h">Съедено сегодня</div>
-  <div class="food-card" id="foodList"></div>
 
   <div class="sec-h" style="display:flex;justify-content:space-between;align-items:center">
     <span>Список покупок</span>
@@ -631,6 +693,17 @@
   </div>
   <div id="shopBox"></div>
   <button class="save ghost" style="margin-top:4px" onclick="resetWeekly()">Сбросить недельное</button>
+</div>
+
+<!-- шторка выбора доли -->
+<div class="sheet hidden" id="fracSheet" onclick="closeSheet(event)">
+  <div class="sheet-in">
+    <div class="sheet-grab"></div>
+    <div class="sheet-t" id="sheetT"></div>
+    <div class="sheet-sub" id="sheetSub"></div>
+    <div class="frow" id="sheetBtns"></div>
+    <button class="save ghost" style="margin:12px 0 0" onclick="closeSheet()">Отмена</button>
+  </div>
 </div>
 
 <!-- ══════════ ИСТОРИЯ ══════════ -->
@@ -641,7 +714,7 @@
 
   <div class="backup">
     <h3>Бэкап данных</h3>
-    <p>Всё живёт в этом браузере. Перед сменой телефона или чисткой браузера скачай бэкап - потом восстановишь одной кнопкой.</p>
+    <p>Всё живёт в этом браузере. Перед сменой телефона или чисткой браузера скачай бэкап - потом восстановишь одной кнопкой.</p>
     <div class="row">
       <button class="wbtn" onclick="exportData()">Скачать бэкап</button>
       <button class="wbtn" onclick="document.getElementById('importFile').click()">Восстановить</button>
@@ -661,93 +734,149 @@
 
 <script>
 /* ═══════════ ПРОГРАММА ЗАЛА ═══════════ */
+/* Программа Димы, сентябрь 2026. Четырёхдневный сплит, везде 4 подхода. */
 const PROGRAM = {
-  A: {
-    title: "День A · Верх, акцент тяга",
-    warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин до испарины. По 10: круги руками, вращения с палкой, кошка-корова, махи ногой, выпад с поворотом. Подводящие только к подтягиваниям: 50%×5, 75%×3.",
+  1: {
+    title: "День 1 · Грудь · Дельты · Трицепс",
+    warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин до испарины. По 10: круги руками, вращения с палкой, кошка-корова. Подводящие к первому жиму: 50%×8, 75%×4.",
+    cardio: "15 мин · пульс 120-130 · эллипс или лестница",
     ex: [
-      { id:"a1", name:"Подтягивания прямым хватом", icon:"pullup", sets:4, lo:4, hi:6, sum:true, sumGoal:24, bw:true, step:2.5,
-        note:"Хват ~1,5 ширины плеч, внизу руки распускать полностью. Первые 3 недели по 4 повтора.",
-        swap:"Тяга верхнего блока 50 кг. Гравитрон НЕ трогать." },
-      { id:"a2", name:"Хаммер-жим сидя на грудь", icon:"press", sets:3, lo:8, hi:12, w:17.5, step:2, dumb:true,
-        note:"Рычажный тренажёр, жмёшь от груди вперёд. Вес одной стороны.",
-        swap:"Жим гантелей горизонтально / Смит-жим." },
-      { id:"a3", name:"Махи гантелями в стороны", icon:"lateral", sets:3, lo:12, hi:15, w:4, step:2, dumb:true,
-        note:"До параллели с полом, не выше. Никогда в отказ. Вес одной гантели.",
-        swap:"Махи на нижнем блоке." },
-      { id:"a4", name:"Обратная бабочка", icon:"flye", sets:3, lo:15, hi:18, w:15, step:2.5,
-        note:"Пек-дек задом наперёд: грудью к спинке, разводишь руки назад.",
-        swap:"Face pull / разведения на нижних блоках." },
-      { id:"a5", name:"Сгибания на бицепс", icon:"biceps", sets:3, lo:10, hi:12, w:8, step:2, dumb:true,
-        note:"Стоя, локти прижаты. Вес одной гантели.",
-        swap:"EZ-гриф 15 кг." },
-      { id:"a6", name:"Паллоф-пресс (на сторону)", icon:"core", sets:2, lo:10, hi:10, w:10, step:2.5,
-        note:"Боком к блоку, выжимаешь рукоять перед собой. Корпус не крутится.",
-        swap:"Планка 3×40 сек." }
+      { id:"d1e1", name:"Жим гантелей 45°", icon:"press", sets:4, lo:8, hi:12, w:0, step:2, dumb:true, calib:true,
+        note:"Скамья под 45°. Гантели вниз до растяжения груди, вверх не до щелчка локтей. Вес одной гантели.",
+        swap:"Жим в Смите на наклонной." },
+      { id:"d1e2", name:"Жим в горизонтальном хаммере", icon:"press", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+        note:"Рычажный тренажёр, жмёшь от груди вперёд. Вес одной стороны.",
+        swap:"Жим гантелей лёжа горизонтально." },
+      { id:"d1e3", name:"Бабочка на грудь", icon:"flye", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+        note:"Пек-дек. Локти слегка согнуты и зафиксированы, сводишь до касания рукоятей.",
+        swap:"Сведение в кроссовере стоя." },
+      { id:"d1e4", name:"Отведение гантелей в стороны стоя", icon:"lateral", sets:4, lo:15, hi:20, w:0, step:2, dumb:true, calib:true,
+        note:"До параллели с полом, не выше. Никогда в отказ - это средняя дельта, она мелкая. Вес одной гантели.",
+        swap:"Махи на нижнем блоке." },
+      { id:"d1e5", name:"Жим на переднюю дельту в рычажном", icon:"shoulderpress", sets:4, lo:10, hi:12, w:0, step:2.5, calib:true,
+        note:"Спина прижата к спинке, жмёшь вверх. Вес одной стороны.",
+        swap:"Жим гантелей сидя со спинкой." },
+      { id:"d1e6", name:"Разгибание с канатами на трицепс", icon:"triceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"start",
+        note:"Локти прижаты к корпусу, внизу канат разводишь в стороны.",
+        swap:"Разгибание с прямой рукоятью." },
+      { id:"d1e7", name:"Французский жим", icon:"triceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"end",
+        note:"Сразу после каната, без отдыха. Локти смотрят в потолок и не разъезжаются.",
+        swap:"Разгибание из-за головы с гантелью." }
     ]
   },
-  B: {
-    title: "День B · Верх жим + лёгкие ноги",
-    warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин. Динамика по 10 повторов. Подводящие только к жиму гантелей: 50%×5, 75%×3.",
+  2: {
+    title: "День 2 · Спина · Бицепс",
+    warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин. По 10: круги руками, вращения с палкой, кошка-корова. Подводящие к вертикальной тяге: 50%×8, 75%×4.",
+    cardio: "15 мин · пульс 120-130 · эллипс или лестница",
     ex: [
-      { id:"b1", name:"Жим гантелей на наклонной 30°", icon:"press", sets:3, lo:8, hi:10, w:16, step:2, dumb:true,
-        note:"Гантели, не штанга. Вес одной гантели.",
-        swap:"Смит-жим наклонный." },
-      { id:"b2", name:"Тяга верхнего блока к груди", icon:"pullup", sets:4, lo:8, hi:12, w:45, step:2.5,
-        note:"Хват ~1,5 ширины плеч. К ГРУДИ, никогда за голову.",
+      { id:"d2e1", name:"Вертикальная тяга средним параллельным хватом", icon:"pullup", sets:4, lo:10, hi:12, w:0, step:2.5, calib:true,
+        note:"Дима: выше 59 кг не брать - начинают работать руки. Тянешь лопатками, не бицепсом.",
+        swap:"Тяга в хаммере с упором в грудь." },
+      { id:"d2e2", name:"Тяга гантели к поясу в наклоне", icon:"pullup", sets:4, lo:10, hi:12, w:0, step:2, dumb:true, calib:true,
+        note:"Упор рукой и коленом в лавку, спина прямая. Тянешь к поясу, не к плечу. Вес одной гантели.",
+        swap:"Тяга в нижнем блоке одной рукой." },
+      { id:"d2e3", name:"Тяга в кроссовере сидя, по одной руке", icon:"pullup", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+        note:"Сидя, тянешь к поясу. Корпус не докручивать за рукой.",
+        swap:"Тяга гантели в наклоне." },
+      { id:"d2e4", name:"Горизонтальная тяга средним параллельным хватом", icon:"pullup", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+        note:"Грудь в упор, лопатки сводишь в конце движения.",
         swap:"Хаммер-тяга." },
-      { id:"b3", name:"Жим в тренажёре Shoulder Press", icon:"shoulderpress", sets:3, lo:8, hi:12, w:0, step:2.5, calib:true,
-        note:"Или жим гантелей сидя со спинкой. Первый раз калибруешь.",
-        swap:"Жим гантелей сидя 2×10 кг." },
-      { id:"b4", name:"Жим ногами", icon:"legs", sets:3, lo:10, hi:12, w:0, step:5, calib:true,
-        note:"Первые 4 недели: 2 подхода, укороченная амплитуда.",
-        swap:"Гакк-машина." },
-      { id:"b5", name:"Махи на нижнем блоке", icon:"lateral", sets:3, lo:12, hi:15, w:5, step:2.5,
-        note:"Рука от противоположного бедра через тело. Не в отказ.",
-        swap:"Махи гантелями." },
-      { id:"b6", name:"Face pull", icon:"facepull", sets:2, lo:15, hi:18, w:15, step:2.5,
-        note:"Канат к лицу, локти в стороны.",
-        swap:"Обратная бабочка." },
-      { id:"b7", name:"Разгибания на трицепс", icon:"triceps", sets:3, lo:10, hi:12, w:20, step:2.5,
-        note:"Локти прижаты, работает только предплечье.",
-        swap:"Французский жим с гантелью." }
+      { id:"d2e5", name:"Задняя дельта в бабочке", icon:"flye", sets:4, lo:15, hi:15, w:0, step:2.5, calib:true, ss:"start",
+        note:"Пек-дек задом наперёд: грудью к спинке, разводишь руки назад.",
+        swap:"Face pull на верхнем блоке." },
+      { id:"d2e6", name:"Разгибание на поясницу", icon:"rdl", sets:4, lo:15, hi:15, w:0, step:2.5, calib:true,
+        note:"Гиперэкстензия. Без веса, пока не станет легко. Не переразгибаться назад в верхней точке.",
+        swap:"Обратная гиперэкстензия.", ss:"end" },
+      { id:"d2e7", name:"Бицепс в тренажёре Скотта", icon:"biceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"start",
+        note:"Локти лежат на подушке и не отрываются. Внизу руку распускать полностью.",
+        swap:"Сгибания на скамье Скотта с EZ-грифом." },
+      { id:"d2e8", name:"Сгибание с нижнего блока, прямая рукоять", icon:"curl", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"end",
+        note:"Сразу после Скотта. Стоя, локти прижаты к бокам.",
+        swap:"Сгибания с гантелями стоя." }
     ]
   },
-  C: {
-    title: "День C · Тяжёлый низ + верх",
-    warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин. Динамика. Подводящие к гакку: 50%×5, 75%×3. Колени греть отдельно.",
+  3: {
+    title: "День 3 · Ноги",
+    warm: "<b>Разминка Димы:</b> 2 подхода приведение + 2 подхода отведение, по 20 повторений, НЕ в отказ. Плюс велотренажёр 4 мин и колени погреть отдельно.",
+    cardio: "15 мин · пульс 120-130 · после ног бери эллипс: лестница добьёт то, что ты уже убил",
     ex: [
-      { id:"c1", name:"Гакк-машина", icon:"legs", sets:3, lo:8, hi:12, w:0, step:5, calib:true,
-        note:"Спина на подушке, плечи под валиками. Записывай блины, а не кг.",
-        swap:"Жим ногами узко / болгарские выпады в Смите." },
-      { id:"c2", name:"Румынская тяга с гантелями", icon:"rdl", sets:3, lo:8, hi:10, w:7, step:2, dumb:true,
-        note:"ПЕРВЫЕ 3 НЕДЕЛИ: 3×10 чисто техника, 6-8 кг, вес НЕ растёт. Таз назад, гантели скользят по бедру.",
-        swap:"Гиперэкстензия." },
-      { id:"c3", name:"Отжимания на брусьях", icon:"dips", sets:3, lo:8, hi:12, sum:true, sumGoal:30, bw:true, step:2.5,
-        note:"Без пояса первые 8 недель. Прогрессия по сумме.",
-        swap:"Отжимания с ногами на лавке." },
-      { id:"c4", name:"Хаммер-тяга с упором в грудь", icon:"pullup", sets:3, lo:8, hi:12, w:20, step:2, dumb:true,
-        note:"Или Т-гриф с упором. Вес одной стороны.",
-        swap:"Горизонтальная тяга блока / тяга гантели в упоре." },
-      { id:"c5", name:"Сгибание ног СИДЯ", icon:"hamstring", sets:3, lo:10, hi:12, w:25, step:2.5,
-        note:"Именно сидя: +14% против +9% у лёжа.",
-        swap:"Сгибание лёжа - хуже на 5%, но лучше нуля." },
-      { id:"c6", name:"Подъёмы на носки СТОЯ", icon:"calf", sets:2, lo:12, hi:15, w:40, step:5,
-        note:"Пауза 1 сек внизу. Первое, что выкидываешь, если не влезаешь в час.",
-        swap:"Носками на платформе жима ногами." }
+      { id:"d3e1", name:"Присед в Смите", icon:"legs", sets:4, lo:10, hi:12, w:0, step:5, calib:true,
+        note:"Стопы чуть вперёд от грифа, спина по рельсе. Вниз до параллели бедра с полом.",
+        swap:"Гакк-машина." },
+      { id:"d3e2", name:"Жим двумя ногами", icon:"legs", sets:4, lo:10, hi:12, w:0, step:5, calib:true,
+        note:"Поясница прижата к спинке. Колени не сводить внутрь.",
+        swap:"Гакк-машина узкой постановкой." },
+      { id:"d3e3", name:"Выпады на месте с гантелями", icon:"legs", sets:4, lo:10, hi:12, w:0, step:2, dumb:true, calib:true,
+        note:"На месте, не в шаге. Колено задней ноги почти касается пола. Вес одной гантели.",
+        swap:"Болгарские выпады в Смите." },
+      { id:"d3e4", name:"Разгибание сидя", icon:"legs", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+        note:"Пауза 1 сек в верхней точке. Это добивка, не рекорд.",
+        swap:"Разгибание одной ногой." },
+      { id:"d3e5", name:"Голень стоя", icon:"calf", sets:4, lo:20, hi:20, w:0, step:5, calib:true, ss:"start",
+        note:"Пауза 1 сек внизу, на растяжении. Дима сказал делать в сете со сгибанием сидя.",
+        swap:"Носками на платформе жима ногами." },
+      { id:"d3e6", name:"Сгибание ног сидя", icon:"hamstring", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"end",
+        note:"Дима повторы не назвал - ставлю 12-15, при случае уточни. Именно сидя: растянутая позиция даёт больше роста.",
+        swap:"Сгибание лёжа." }
+    ]
+  },
+  4: {
+    title: "День 4 · Спина · Грудь",
+    warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин. По 10: круги руками, вращения с палкой, кошка-корова. Подводящие к вертикальной тяге: 50%×8, 75%×4.",
+    cardio: "15 мин · пульс 120-130 · эллипс или лестница",
+    ex: [
+      { id:"d4e1", name:"Вертикальная тяга хватом чуть шире плеч", icon:"pullup", sets:4, lo:10, hi:12, w:0, step:2.5, calib:true,
+        note:"Хват чуть шире плеч, к груди, никогда за голову.",
+        swap:"Подтягивания в гравитроне." },
+      { id:"d4e2", name:"Горизонтальная тяга узким параллельным хватом", icon:"pullup", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+        note:"Узкая рукоять, тянешь к животу. Корпус не раскачивать.",
+        swap:"Хаммер-тяга." },
+      { id:"d4e3", name:"Пуловер с изогнутой рукоятью", icon:"flye", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+        note:"Стоя у верхнего блока, руки почти прямые. Тянешь широчайшими, а не трицепсом.",
+        swap:"Пуловер с гантелью лёжа." },
+      { id:"d4e4", name:"Жим гантелей на скамье 15°", icon:"press", sets:4, lo:8, hi:12, w:0, step:2, dumb:true, calib:true,
+        note:"Почти горизонталь, наклон всего 15°. Вес одной гантели.",
+        swap:"Жим в хаммере." },
+      { id:"d4e5", name:"Сведение в кроссовере на низ груди", icon:"flye", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+        note:"Блоки сверху, сводишь вниз-внутрь к поясу. Лёгкий наклон корпуса вперёд.",
+        swap:"Бабочка / отжимания на брусьях с наклоном." }
     ]
   }
 };
-const DAY_NAMES = { A:"Тяга", B:"Жим", C:"Ноги" };
+const DAY_NAMES = { 1:"Грудь", 2:"Спина · бицепс", 3:"Ноги", 4:"Спина · грудь" };
+const DAY_ORDER = ["1","2","3","4"];
+
+/* Названия упражнений из старой программы - чтобы история до сентября 2026 читалась */
+const LEGACY_EX_NAMES = {
+  a1:"Подтягивания прямым хватом", a2:"Хаммер-жим сидя на грудь", a3:"Махи гантелями в стороны",
+  a4:"Обратная бабочка", a5:"Сгибания на бицепс", a6:"Паллоф-пресс (на сторону)",
+  b1:"Жим гантелей на наклонной 30°", b2:"Тяга верхнего блока к груди", b3:"Жим в тренажёре Shoulder Press",
+  b4:"Жим ногами", b5:"Махи на нижнем блоке", b6:"Face pull", b7:"Разгибания на трицепс",
+  c1:"Гакк-машина", c2:"Румынская тяга с гантелями", c3:"Отжимания на брусьях",
+  c4:"Хаммер-тяга с упором в грудь", c5:"Сгибание ног СИДЯ", c6:"Подъёмы на носки СТОЯ"
+};
+
+/* Следующий день сплита после последней записанной тренировки */
+function nextTrainDay(){
+  const sessions = store.get("sessions", []);
+  for(let i = sessions.length - 1; i >= 0; i--){
+    const idx = DAY_ORDER.indexOf(String(sessions[i].day));
+    if(idx < 0) continue;
+    /* Если сегодня уже отзанимался - показываем ТОТ день, а не следующий,
+       иначе экран убегает вперёд сразу после записи. */
+    return sessions[i].date === todayISO() ? DAY_ORDER[idx] : DAY_ORDER[(idx + 1) % DAY_ORDER.length];
+  }
+  return DAY_ORDER[0];
+}
 
 /* ═══════════ РАСПИСАНИЕ НЕДЕЛИ ═══════════ */
 const SCHEDULE = {
-  1: { kind:"iron", day:"A", what:"ЖЕЛЕЗО A", note:"Верх, акцент тяга. Ног нет: до ринга сутки. Махи не в отказ." },
+  1: { kind:"iron", what:"ЖЕЛЕЗО", note:"Программа Димы: четыре дня по кругу. Какой сегодня - смотри во вкладке Зал." },
   2: { kind:"ring", what:"БОКС · 20:00", note:"Бинты, капа, вода. Шейк сразу после - 900 ккал одним стаканом." },
-  3: { kind:"iron", day:"B", what:"ЖЕЛЕЗО B", note:"Верх жим + лёгкие ноги. До пятничного ринга 48 часов." },
+  3: { kind:"iron", what:"ЖЕЛЕЗО", note:"Кардио 15 мин на пульсе 120-130 идёт ПОСЛЕ зала, а не вместо." },
   4: { kind:"pool", what:"БАССЕЙН + ХАМАМ", note:"15-20 мин спокойно. Это восстановление, не тренировка." },
   5: { kind:"ring", what:"БОКС · 20:00", note:"Жёсткий спарринг сегодня = суббота автоматически в разгрузке." },
-  6: { kind:"iron", day:"C", what:"ЖЕЛЕЗО C", note:"Тяжёлый низ. Самый плотный день - гакк, румынская, брусья не резать." },
+  6: { kind:"iron", what:"ЖЕЛЕЗО", note:"Самый свободный день недели. Не сокращай, если успеваешь по времени." },
   0: { kind:"pool", what:"БАССЕЙН + ХАМАМ", note:"Плюс 5-8 минут растяжки - только здесь, на тёплом теле." }
 };
 
@@ -776,19 +905,55 @@ const MEALS = {
 };
 
 /* ═══════════ ЕДА ═══════════ */
-const FOODS = [
-  { n:"Гейнер-шейк", d:"после зала и после ринга", k:900, p:40 },
-  { n:"Яичница", d:"4 яйца, хлеб, сыр", k:700, p:35 },
-  { n:"Болоньезе", d:"паста с пармезаном", k:850, p:45 },
-  { n:"Лазанья", d:"порция", k:800, p:40 },
-  { n:"Свинина", d:"с картошкой и луком", k:800, p:45 },
-  { n:"Творог", d:"200 г, казеин на ночь", k:350, p:35 },
-  { n:"Бутерброды", d:"горячие, с сыром", k:500, p:25 },
-  { n:"Банан + паста", d:"арахисовая, перекус", k:300, p:8 },
-  { n:"Протеин", d:"30 г на молоке", k:220, p:28 },
-  { n:"Пицца", d:"половина большой", k:750, p:32 }
+/* Цифры сверены со справочниками 29.08.2026. Правки против первых оценок:
+   жареная овощная смесь 40 → 170 (масло впитывается), яйца С1 4 шт 280 → 325,
+   пельмени с майонезом 1250 → 1415, сосиски 1050 → 1065, позы 660 → 640.
+   Бедро считаю БЕЗ кожи. Готовишь с кожей - будет примерно +80 ккал и +10 г жира. */
+const DISHES = [
+  { id:"plate",  n:"Тарелка целиком",   d:"драник 2.0 + гарнир",            ic:"potato",   k:2040, p:100, f:107, c:168 },
+  { id:"dranik", n:"Драник 2.0",        d:"3 треугольника, без гарнира",    ic:"potato",   k:1610, p:88,  f:93,  c:106 },
+  { id:"garnir", n:"Гарнир",            d:"хлеб, жареные овощи, капуста",   ic:"bread",    k:430,  p:12,  f:14,  c:62  },
+  { id:"gainer", n:"Гейнер-коктейль",   d:"бутылка ~1000 мл на весь день",  ic:"milk",     k:1340, p:75,  f:50,  c:149, ml:1000 },
+  { id:"coffee", n:"Кофе с молоком",    d:"кружка, сироп 20 мл",            ic:"milk",     k:220,  p:9,   f:7,   c:29,  quick:true },
+  { id:"sos",    n:"Сосиски с лапшой",  d:"сосиски 200, макароны 100, сыр", ic:"pasta",    k:1065, p:45,  f:64,  c:74  },
+  { id:"pelm",   n:"Пельмени",          d:"400 г + майонез 50",             ic:"meat",     k:1415, p:55,  f:82,  c:125 },
+  { id:"pozy",   n:"Позы «Дали»",       d:"4 штуки, 300 г",                 ic:"meatball", k:640,  p:31,  f:31,  c:61  }
 ];
-const KCAL_GOAL = 3000, PROT_GOAL = 130;
+
+/* Цель: 3200-3500 ккал, белок не ниже 130 г, вес +0,3-0,5 кг в неделю */
+const KCAL_LO = 3200, KCAL_HI = 3500, KCAL_GOAL = KCAL_LO, PROT_GOAL = 130;
+const GAIN_LO = 0.3, GAIN_HI = 0.5;
+
+/* Доли порции. Ключ хранится в записи, чтобы долю можно было поправить задним числом */
+const FRACS = [
+  { k:"third", v:1/3, t:"1/3" },
+  { k:"half",  v:0.5, t:"1/2" },
+  { k:"two3",  v:2/3, t:"2/3" },
+  { k:"all",   v:1,   t:"всё" }
+];
+function fracVal(k){ const f = FRACS.find(x=>x.k===k); return f ? f.v : 1; }
+function fracTxt(k){ const f = FRACS.find(x=>x.k===k); return f ? f.t : "всё"; }
+
+/* Глотки коктейля: доля считается от миллилитров */
+const SIPS = [150, 250, 350, 500];
+
+/* Старые записи (до сентября 2026) лежали как {n,k,p} без долей и без Ж/У.
+   Нормализуем на лету, чтобы история за прошлые дни не рассыпалась. */
+function normEntry(e){
+  return {
+    id:   e.id || null,
+    n:    e.n,
+    base: { k: e.base ? e.base.k : e.k, p: e.base ? e.base.p : e.p,
+            f: e.base ? e.base.f : (e.f || 0), c: e.base ? e.base.c : (e.c || 0) },
+    frac: e.frac != null ? e.frac : 1,
+    fk:   e.fk || null,
+    ml:   e.ml || null
+  };
+}
+function entryK(e){ return Math.round(e.base.k * e.frac); }
+function entryP(e){ return Math.round(e.base.p * e.frac); }
+function entryF(e){ return Math.round(e.base.f * e.frac); }
+function entryC(e){ return Math.round(e.base.c * e.frac); }
 
 /* ═══════════ СПИСОК ПОКУПОК ═══════════ */
 const SHOP = [
@@ -799,12 +964,12 @@ const SHOP = [
     { t:"Грудинка сырокопчёная КУСКОМ", n:"300-400 г", star:true },
     { t:"Говяжий фарш (опционально)", n:"300 г" }
   ]},
-  { g:"Сыры и молочка", ic:"cheese", wk:true, items:[
-    { t:"Пармезан КУСКОМ (не тёртый)", n:"300 г", star:true },
+  { g:"Сыры и молочка", ic:"cheese", wk:true, items:[
+    { t:"Пармезан КУСКОМ (не тёртый)", n:"300 г", star:true },
     { t:"Моцарелла", n:"400 г" },
     { t:"Маскарпоне", n:"500 г" },
     { t:"Горгонзола / дор блю", n:"200 г" },
-    { t:"Полутвёрдый на каждый день", n:"500 г" },
+    { t:"Полутвёрдый на каждый день", n:"500 г" },
     { t:"Молоко 3,2%", n:"3-4 л", star:true },
     { t:"Сливки 20%", n:"400 мл" },
     { t:"Сливочное масло", n:"400 г" },
@@ -812,27 +977,27 @@ const SHOP = [
     { t:"Сметана", n:"" },
     { t:"Яйца", n:"30 шт", star:true }
   ]},
-  { g:"Овощи и зелень", ic:"onion", wk:true, items:[
+  { g:"Овощи и зелень", ic:"onion", wk:true, items:[
     { t:"Лук", n:"2 кг" }, { t:"Морковь", n:"1 кг" }, { t:"Чеснок", n:"3-4 головки" },
     { t:"Сельдерей стебли", n:"" }, { t:"Картофель", n:"3 кг" }, { t:"Помидоры свежие", n:"" },
-    { t:"Петрушка и базилик", n:"" }
+    { t:"Петрушка и базилик", n:"" }
   ]},
   { g:"Прочее свежее", ic:"bread", wk:true, items:[
     { t:"Хлеб белый", n:"" }, { t:"Савоярди", n:"" }, { t:"Бананы", n:"7 шт" },
     { t:"Арахисовая паста", n:"банка" }, { t:"Грецкие орехи", n:"" }
   ]},
-  { g:"Сухое и банки · раз в месяц", ic:"pasta", items:[
+  { g:"Сухое и банки · раз в месяц", ic:"pasta", items:[
     { t:"Паста: спагетти, пенне, ригатони, тальятелле", n:"по 2-3" },
-    { t:"Листы для лазаньи", n:"" },
+    { t:"Листы для лазаньи", n:"" },
     { t:"Мука, панировочные сухари, дрожжи", n:"" },
-    { t:"Овсянка для шейка", n:"" },
-    { t:"Томаты в собственном соку", n:"6-8 банок", star:true },
+    { t:"Овсянка для шейка", n:"" },
+    { t:"Томаты в собственном соку", n:"6-8 банок", star:true },
     { t:"Томатная паста", n:"3-4" },
     { t:"Оливковое масло", n:"большая бутыль" },
     { t:"Подсолнечное масло", n:"" },
     { t:"Протеин сывороточный концентрат", n:"900 г" }
   ]},
-  { g:"Специи · раз в месяц", ic:"pepper", items:[
+  { g:"Специи · раз в месяц", ic:"pepper", items:[
     { t:"Перец горошком", n:"", star:true },
     { t:"Розмарин, тимьян, орегано, базилик сушёный", n:"" },
     { t:"Семена фенхеля", n:"" },
@@ -840,10 +1005,10 @@ const SHOP = [
     { t:"Хлопья чили, лавровый лист", n:"" }
   ]},
   { g:"Купить один раз", ic:"knife", items:[
-    { t:"Мельница для перца", n:"300₽", star:true },
-    { t:"Мелкая тёрка для пармезана и муската", n:"" },
+    { t:"Мельница для перца", n:"300₽", star:true },
+    { t:"Мелкая тёрка для пармезана и муската", n:"" },
     { t:"Толстодонная кастрюля или казан", n:"" },
-    { t:"Форма для запекания 20×30", n:"" }
+    { t:"Форма для запекания 20×30", n:"" }
   ]},
   { g:"Аптечка", ic:"powder", items:[
     { t:"Креатин моногидрат", n:"5 г/день", star:true },
@@ -855,55 +1020,55 @@ const SHOP = [
 /* ═══════════ РЕЦЕПТЫ (рулетка) ═══════════ */
 const RECIPES = [
   { n:"Карбонара", k:900, p:45, time:"12 минут", icon:"pasta", steps:[
-    { i:"water", t:"Вода", d:"Кастрюля, соль <b>10 г на литр</b>. Спагетти 120 г варить на минуту меньше, чем на пачке." },
-    { i:"bacon", t:"Грудинка", d:"80 г брусочками в <b>холодную</b> сковороду, огонь средне-малый, 6-8 минут.", s:"Ориентир: золотая, хрустит по краям, на дне лужица прозрачного жира" },
-    { i:"egg", t:"Смесь", d:"В миске растереть 1 яйцо + 2 желтка + 50 г пармезана + много перца. Должна выйти густая паста.", s:"Сыр в яйцо ДО нагрева, иначе скомкуется" },
-    { i:"pepper", t:"Перец в жир", d:"Сковороду снять с огня, полчайной ложки перца прямо в жир на 20 секунд.", s:"Перец раскрывается только в жире" },
-    { i:"fire", t:"Сборка", d:"Пасту в сковороду + полполовника воды, мешать 30 сек. <b>Снять с огня. Подождать 30 сек.</b> Влить смесь и мешать быстро 60 секунд.", s:"Яйцо сворачивается при 70°C - огонь не нужен, тепла пасты достаточно" },
-    { i:"sparkle", t:"Финиш", d:"Соус глянцевый и обволакивает каждую спагеттину. Густо - плесни ещё воды по ложке." }
+    { i:"water", t:"Вода", d:"Кастрюля, соль <b>10 г на литр</b>. Спагетти 120 г варить на минуту меньше, чем на пачке." },
+    { i:"bacon", t:"Грудинка", d:"80 г брусочками в <b>холодную</b> сковороду, огонь средне-малый, 6-8 минут.", s:"Ориентир: золотая, хрустит по краям, на дне лужица прозрачного жира" },
+    { i:"egg", t:"Смесь", d:"В миске растереть 1 яйцо + 2 желтка + 50 г пармезана + много перца. Должна выйти густая паста.", s:"Сыр в яйцо ДО нагрева, иначе скомкуется" },
+    { i:"pepper", t:"Перец в жир", d:"Сковороду снять с огня, полчайной ложки перца прямо в жир на 20 секунд.", s:"Перец раскрывается только в жире" },
+    { i:"fire", t:"Сборка", d:"Пасту в сковороду + полполовника воды, мешать 30 сек. <b>Снять с огня. Подождать 30 сек.</b> Влить смесь и мешать быстро 60 секунд.", s:"Яйцо сворачивается при 70°C - огонь не нужен, тепла пасты достаточно" },
+    { i:"sparkle", t:"Финиш", d:"Соус глянцевый и обволакивает каждую спагеттину. Густо - плесни ещё воды по ложке." }
   ]},
-  { n:"Болоньезе (база на 4 дня)", k:850, p:45, time:"3 часа, руками 20 мин", icon:"meat", steps:[
-    { i:"bacon", t:"Грудинка", d:"100 г кубиком в холодную кастрюлю, средне-малый огонь, 5-6 минут до золота." },
-    { i:"onion", t:"Соффритто", d:"Лук + морковь + сельдерей мелко, в тот же жир. <b>Малый огонь, 12-15 минут.</b>", s:"Овощи мягкие и сладкие, цвет НЕ золотистый. Спешка убивает блюдо" },
-    { i:"meat", t:"Мясо", d:"Огонь сильный. Фарш 700 г <b>половинами</b>, первые 2 минуты не трогать - ждать корочку.", s:"Серый фарш в воде = потерянный вкус" },
-    { i:"tomato", t:"Паста томатная", d:"2 ложки в центр, обжарить 1-2 минуты до кирпичного цвета." },
-    { i:"milk", t:"Молоко", d:"200 мл, средний огонь, 10 минут до впитывания.", s:"Главный секрет: молоко смягчает мясо. ВСЕГДА до томатов" },
-    { i:"timer", t:"Томление", d:"Томаты 400 г раздавить руками, лавр, соль. Самый малый огонь, крышка приоткрыта, <b>2,5 часа</b>. Мешать раз в полчаса.", s:"Готово: жир выступил оранжевыми капельками, мясо разваливается" }
+  { n:"Болоньезе (база на 4 дня)", k:850, p:45, time:"3 часа, руками 20 мин", icon:"meat", steps:[
+    { i:"bacon", t:"Грудинка", d:"100 г кубиком в холодную кастрюлю, средне-малый огонь, 5-6 минут до золота." },
+    { i:"onion", t:"Соффритто", d:"Лук + морковь + сельдерей мелко, в тот же жир. <b>Малый огонь, 12-15 минут.</b>", s:"Овощи мягкие и сладкие, цвет НЕ золотистый. Спешка убивает блюдо" },
+    { i:"meat", t:"Мясо", d:"Огонь сильный. Фарш 700 г <b>половинами</b>, первые 2 минуты не трогать - ждать корочку.", s:"Серый фарш в воде = потерянный вкус" },
+    { i:"tomato", t:"Паста томатная", d:"2 ложки в центр, обжарить 1-2 минуты до кирпичного цвета." },
+    { i:"milk", t:"Молоко", d:"200 мл, средний огонь, 10 минут до впитывания.", s:"Главный секрет: молоко смягчает мясо. ВСЕГДА до томатов" },
+    { i:"timer", t:"Томление", d:"Томаты 400 г раздавить руками, лавр, соль. Самый малый огонь, крышка приоткрыта, <b>2,5 часа</b>. Мешать раз в полчаса.", s:"Готово: жир выступил оранжевыми капельками, мясо разваливается" }
   ]},
-  { n:"Свинина с картошкой", k:800, p:45, time:"40 минут", icon:"potato", steps:[
+  { n:"Свинина с картошкой", k:800, p:45, time:"40 минут", icon:"potato", steps:[
     { i:"knife", t:"Нарезка", d:"Свинина 300 г кубиками 3 см, картошка 400 г дольками, лук полукольцами." },
-    { i:"fire", t:"Мясо первым", d:"Сильный огонь, масло, свинину одним слоем. <b>Не мешать 2-3 минуты</b> - ждать корочку, потом перевернуть.", s:"Корочка = 80% вкуса. Серое мясо в воде = ошибка" },
-    { i:"onion", t:"Лук", d:"Огонь средний, лук к мясу, 3-4 минуты до прозрачности." },
+    { i:"fire", t:"Мясо первым", d:"Сильный огонь, масло, свинину одним слоем. <b>Не мешать 2-3 минуты</b> - ждать корочку, потом перевернуть.", s:"Корочка = 80% вкуса. Серое мясо в воде = ошибка" },
+    { i:"onion", t:"Лук", d:"Огонь средний, лук к мясу, 3-4 минуты до прозрачности." },
     { i:"potato", t:"Картошка", d:"Дольки туда же, посолить, перемешать. Средний огонь, <b>крышка</b>, 15-18 минут, мешать пару раз." },
-    { i:"sparkle", t:"Финиш", d:"Крышку снять, огонь сильный, 3 минуты для румяности. Чеснок и зелень в самом конце." }
+    { i:"sparkle", t:"Финиш", d:"Крышку снять, огонь сильный, 3 минуты для румяности. Чеснок и зелень в самом конце." }
   ]},
   { n:"Полпетте (фрикадельки)", k:800, p:48, time:"45 минут", icon:"meatball", steps:[
-    { i:"bread", t:"Панада", d:"Хлеб 80 г залить молоком 100 мл на 10 минут, отжать, размять.", s:"Панада держит влагу - без неё котлеты сухие" },
+    { i:"bread", t:"Панада", d:"Хлеб 80 г залить молоком 100 мл на 10 минут, отжать, размять.", s:"Панада держит влагу - без неё котлеты сухие" },
     { i:"meat", t:"Фарш", d:"Фарш 500 г + панада + яйцо + пармезан 50 г + чеснок. Мешать руками <b>недолго</b>.", s:"Долгий замес = резина" },
-    { i:"fire", t:"Обжарка", d:"Шарики с грецкий орех, горячая сковорода, по 2 минуты со всех сторон. Внутри сырые - нормально." },
-    { i:"tomato", t:"Соус", d:"В той же сковороде лук 8 минут на малом, томаты 700 г, соль." },
-    { i:"timer", t:"Тушение", d:"Фрикадельки в соус, малый огонь, крышка, <b>25 минут</b>. Базилик в конце." }
+    { i:"fire", t:"Обжарка", d:"Шарики с грецкий орех, горячая сковорода, по 2 минуты со всех сторон. Внутри сырые - нормально." },
+    { i:"tomato", t:"Соус", d:"В той же сковороде лук 8 минут на малом, томаты 700 г, соль." },
+    { i:"timer", t:"Тушение", d:"Фрикадельки в соус, малый огонь, крышка, <b>25 минут</b>. Базилик в конце." }
   ]},
   { n:"Паста аль форно (4 сыра)", k:1000, p:45, time:"40 минут", icon:"cheese", steps:[
-    { i:"water", t:"Паста", d:"Пенне 300 г варить <b>на 3 минуты меньше</b> пачки - дойдёт в духовке. Грудинку 150 г обжарить." },
-    { i:"milk", t:"Бешамель", d:"Масло 40 г растопить, мука 40 г, мешать 2 минуты. Молоко 500 мл <b>тёплым, третями</b>, каждый раз до гладкости.", s:"Холодное молоко в горячее ру = комки" },
-    { i:"cheese", t:"Сыры", d:"<b>Снять с огня</b>, вмешать 200 г сыров (моцарелла + пармезан + острый) и мускат.", s:"Сыр на огне сворачивается в резину" },
-    { i:"fire", t:"Запекание", d:"Смешать всё, в форму. Сверху остальной сыр + сухари + масло. <b>200°C, 20-25 минут</b> до корки." }
+    { i:"water", t:"Паста", d:"Пенне 300 г варить <b>на 3 минуты меньше</b> пачки - дойдёт в духовке. Грудинку 150 г обжарить." },
+    { i:"milk", t:"Бешамель", d:"Масло 40 г растопить, мука 40 г, мешать 2 минуты. Молоко 500 мл <b>тёплым, третями</b>, каждый раз до гладкости.", s:"Холодное молоко в горячее ру = комки" },
+    { i:"cheese", t:"Сыры", d:"<b>Снять с огня</b>, вмешать 200 г сыров (моцарелла + пармезан + острый) и мускат.", s:"Сыр на огне сворачивается в резину" },
+    { i:"fire", t:"Запекание", d:"Смешать всё, в форму. Сверху остальной сыр + сухари + масло. <b>200°C, 20-25 минут</b> до корки." }
   ]},
-  { n:"Пармиджана из свинины", k:900, p:55, time:"35 минут", icon:"chicken", steps:[
-    { i:"meat", t:"Мясо", d:"Корейку 400 г отбить до 1 см, посолить, 10 минут полежать." },
-    { i:"bread", t:"Панировка", d:"Три тарелки: мука → яйцо → сухари с пармезаном. Строго в этом порядке.", s:"Пропустишь муку - панировка слезет" },
-    { i:"fire", t:"Жарка", d:"Масло слоем 5 мм, средний огонь, по 3 минуты со стороны до золота." },
-    { i:"cheese", t:"Сборка", d:"В форму: соус на дно, отбивные, соус по центру, моцарелла, пармезан. <b>200°C, 15 минут.</b>", s:"Края панировки оставить сухими - они должны хрустеть" }
+  { n:"Пармиджана из свинины", k:900, p:55, time:"35 минут", icon:"chicken", steps:[
+    { i:"meat", t:"Мясо", d:"Корейку 400 г отбить до 1 см, посолить, 10 минут полежать." },
+    { i:"bread", t:"Панировка", d:"Три тарелки: мука → яйцо → сухари с пармезаном. Строго в этом порядке.", s:"Пропустишь муку - панировка слезет" },
+    { i:"fire", t:"Жарка", d:"Масло слоем 5 мм, средний огонь, по 3 минуты со стороны до золота." },
+    { i:"cheese", t:"Сборка", d:"В форму: соус на дно, отбивные, соус по центру, моцарелла, пармезан. <b>200°C, 15 минут.</b>", s:"Края панировки оставить сухими - они должны хрустеть" }
   ]},
-  { n:"Ньокки с горгонзолой", k:850, p:30, time:"8 минут", icon:"gnocchi", steps:[
-    { i:"water", t:"Ньокки", d:"Покупные 500 г в кипящую солёную воду. <b>Всплыли - готовы</b> (2-3 минуты)." },
-    { i:"cheese", t:"Соус", d:"Сливки 200 мл на <b>малом</b> огне, горгонзола 150 г кусочками, растворить за 3 минуты.", s:"Сильный огонь свернёт сливки" },
-    { i:"sparkle", t:"Финиш", d:"Ньокки в соус + полполовника воды, минуту прогреть. Пармезан, перец, орехи. <b>Добавь 100 г обжаренной грудинки</b> - иначе мало белка." }
+  { n:"Ньокки с горгонзолой", k:850, p:30, time:"8 минут", icon:"gnocchi", steps:[
+    { i:"water", t:"Ньокки", d:"Покупные 500 г в кипящую солёную воду. <b>Всплыли - готовы</b> (2-3 минуты)." },
+    { i:"cheese", t:"Соус", d:"Сливки 200 мл на <b>малом</b> огне, горгонзола 150 г кусочками, растворить за 3 минуты.", s:"Сильный огонь свернёт сливки" },
+    { i:"sparkle", t:"Финиш", d:"Ньокки в соус + полполовника воды, минуту прогреть. Пармезан, перец, орехи. <b>Добавь 100 г обжаренной грудинки</b> - иначе мало белка." }
   ]},
-  { n:"Лазанья (из готового рагу)", k:950, p:50, time:"1 час", icon:"lasagna", steps:[
+  { n:"Лазанья (из готового рагу)", k:950, p:50, time:"1 час", icon:"lasagna", steps:[
     { i:"milk", t:"Бешамель", d:"Масло 60 г + мука 60 г, 2 минуты. Молоко 700 мл тёплым третями. Загустить, соль, мускат." },
-    { i:"lasagna", t:"Сборка", d:"Форма: тонкий бешамель на дно, дальше ×4: <b>листы → рагу → бешамель → пармезан</b>. Сверху моцарелла.", s:"Слои рагу ТОНКИЕ, иначе разъедется" },
+    { i:"lasagna", t:"Сборка", d:"Форма: тонкий бешамель на дно, дальше ×4: <b>листы → рагу → бешамель → пармезан</b>. Сверху моцарелла.", s:"Слои рагу ТОНКИЕ, иначе разъедется" },
     { i:"fire", t:"Выпекание", d:"<b>180°C: 40 минут под фольгой + 15 без.</b> Верх золотой пятнами, края булькают." },
     { i:"timer", t:"Отдых", d:"15 минут перед нарезкой - желатин должен схватиться, иначе растечётся." }
   ]}
@@ -913,29 +1078,29 @@ const RECIPES = [
 function skincareAM(powderDay){
   const steps = [];
   if(powderDay){
-    steps.push({ i:"sparkle", t:"Энзимная пудра", d:"Полчайной ложки в мокрые ладони, вспенить, 40-60 секунд мягко по лицу, смыть.", s:"Сегодня день эксфолиации (2 раза в неделю). Вечером БЕЗ кислотной сыворотки" });
+    steps.push({ i:"sparkle", t:"Энзимная пудра", d:"Полчайной ложки в мокрые ладони, вспенить, 40-60 секунд мягко по лицу, смыть.", s:"Сегодня день эксфолиации (2 раза в неделю). Вечером БЕЗ кислотной сыворотки" });
   } else {
-    steps.push({ i:"cleanser", t:"Умывание", d:"Гель с ниацинамидом, тёплая вода. 30-60 секунд массажа, смыть.", s:"Смывает ночной жир, не сдирая барьер" });
+    steps.push({ i:"cleanser", t:"Умывание", d:"Гель с ниацинамидом, тёплая вода. 30-60 секунд массажа, смыть.", s:"Смывает ночной жир, не сдирая барьер" });
   }
-  steps.push({ i:"water", t:"Крем увлажняющий", d:"Горошина на всё лицо и шею, вбить подушечками пальцев, не растирать.", s:"Гиалуронка притягивает воду, сквалан запирает" });
-  steps.push({ i:"sun", t:"SPF-стик", d:"<b>4-5 проходов</b> по каждой зоне: лоб, щёки, нос, подбородок. До лёгкого блеска.", s:"Главный шаг всего ухода. Тонкий мазок = SPF 15 вместо 50. Каждый день, и зимой тоже" });
+  steps.push({ i:"water", t:"Крем увлажняющий", d:"Горошина на всё лицо и шею, вбить подушечками пальцев, не растирать.", s:"Гиалуронка притягивает воду, сквалан запирает" });
+  steps.push({ i:"sun", t:"SPF-стик", d:"<b>4-5 проходов</b> по каждой зоне: лоб, щёки, нос, подбородок. До лёгкого блеска.", s:"Главный шаг всего ухода. Тонкий мазок = SPF 15 вместо 50. Каждый день, и зимой тоже" });
   return steps;
 }
 function skincarePM(powderDay){
   const steps = [
-    { i:"cleanser", t:"Умывание", d:"Гель с ниацинамидом. Смыть день: пот, SPF, грязь. 30-60 секунд." }
+    { i:"cleanser", t:"Умывание", d:"Гель с ниацинамидом. Смыть день: пот, SPF, грязь. 30-60 секунд." }
   ];
   if(!powderDay){
-    steps.push({ i:"serum", t:"Сыворотка BHA", d:"2-3 капли на зоны с чёрными точками и жирностью: нос, лоб, подбородок. Дать впитаться минуту.", s:"Салициловая кислота растворяет пробки внутри пор" });
+    steps.push({ i:"serum", t:"Сыворотка BHA", d:"2-3 капли на зоны с чёрными точками и жирностью: нос, лоб, подбородок. Дать впитаться минуту.", s:"Салициловая кислота растворяет пробки внутри пор" });
   }
-  steps.push({ i:"moon", t:"Ночной крем", d:"Чуть больше горошины. Ночью кожа восстанавливается активнее всего.", s: powderDay ? "Сыворотку сегодня пропускаем - утром была пудра, двойная кислота = раздражение" : "Всё. Три минуты, а через месяц увидишь разницу" });
+  steps.push({ i:"moon", t:"Ночной крем", d:"Чуть больше горошины. Ночью кожа восстанавливается активнее всего.", s: powderDay ? "Сыворотку сегодня пропускаем - утром была пудра, двойная кислота = раздражение" : "Всё. Три минуты, а через месяц увидишь разницу" });
   return steps;
 }
 const HAIR_FLOW = [
-  { i:"shower", t:"Шампунь", d:"Наносить на кожу головы, не на длину. Помассировать пальцами минуту, смыть." },
-  { i:"conditioner", t:"Кондиционер", d:"По длине, кожу головы не трогать. Подержать 2-3 минуты, смыть прохладной водой.", s:"Прохладная вода закрывает чешуйки = блеск" },
-  { i:"water", t:"Крем для кудрей", d:"На влажные волосы снизу вверх <b>сжимающими движениями</b>, как будто мнёшь бумагу.", s:"Это формирует завиток. Не расчёсывать после!" },
-  { i:"sparkle", t:"Масло", d:"2-3 капли растереть в ладонях, пройтись по кончикам. Не корни!" }
+  { i:"shower", t:"Шампунь", d:"Наносить на кожу головы, не на длину. Помассировать пальцами минуту, смыть." },
+  { i:"conditioner", t:"Кондиционер", d:"По длине, кожу головы не трогать. Подержать 2-3 минуты, смыть прохладной водой.", s:"Прохладная вода закрывает чешуйки = блеск" },
+  { i:"water", t:"Крем для кудрей", d:"На влажные волосы снизу вверх <b>сжимающими движениями</b>, как будто мнёшь бумагу.", s:"Это формирует завиток. Не расчёсывать после!" },
+  { i:"sparkle", t:"Масло", d:"2-3 капли растереть в ладонях, пройтись по кончикам. Не корни!" }
 ];
 
 /* ═══════════ ИКОНКИ ═══════════ */
@@ -950,7 +1115,8 @@ const store = {
   set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
 };
 
-let curDay = store.get("curDay", "A");
+let curDay = String(store.get("curDay", "1"));
+if(!PROGRAM[curDay]) curDay = "1";   /* миграция со старого сплита A/B/C */
 let manualDay = false;
 
 function todayISO(){ return new Date().toISOString().slice(0,10); }
@@ -1002,7 +1168,8 @@ function renderGuide(){
   const card = document.getElementById("todayCard");
   card.className = "today-card " + sc.kind;
   document.getElementById("tcDay").textContent = names[d.getDay()] + " · " + pad(d.getDate()) + "." + pad(d.getMonth()+1);
-  document.getElementById("tcWhat").textContent = sc.what;
+  if(sc.kind === "iron" && !manualDay){ curDay = nextTrainDay(); store.set("curDay", curDay); }
+  document.getElementById("tcWhat").textContent = sc.kind === "iron" ? sc.what + " · " + DAY_NAMES[curDay] : sc.what;
   document.getElementById("tcNote").textContent = sc.note;
 
   const w = weekNum();
@@ -1027,22 +1194,22 @@ function renderGuide(){
   steps.push({ k:"am", time:"12:45", name: isPowderDay() ? "Утренний уход · день пудры" : "Утренний уход", sub:"Умывание → крем → SPF. Три минуты", btn:"Начать", act:"startAM()" });
 
   meals.forEach((m,i)=>{
-    steps.push({ k:"m"+i, time:m.t, name:m.n, sub:"~"+m.k+" ккал" + (i===1 ? " · не знаешь что готовить - рулетка в Еде" : ""), btn:"Съел", act:"gMark('m"+i+"')" });
+    steps.push({ k:"m"+i, time:m.t, name:m.n, sub:"~"+m.k+" ккал" + (i===1 ? " · не знаешь что готовить - рулетка в Еде" : ""), btn:"Съел", act:"gMark('m"+i+"')" });
   });
 
-  steps.push({ k:"work", time:"14:00-23:00", name:"Окно Макса", sub:"Рабочее время по МСК. Быть на связи", info:true });
+  steps.push({ k:"work", time:"14:00-23:00", name:"Окно Макса", sub:"Рабочее время по МСК. Быть на связи", info:true });
 
   if(sc.kind === "iron"){
-    steps.push({ k:"tr", time:"23:00", name:"Тренировка: " + sc.what, sub:"Гид проведёт по упражнениям и запишет веса", btn:"В зал", act:"goWorkout()" });
+    steps.push({ k:"tr", time:"23:00", name:"Тренировка: " + sc.what + " · " + DAY_NAMES[curDay], sub:"Гид проведёт по упражнениям и запишет веса", btn:"В зал", act:"goWorkout()" });
   } else if(sc.kind === "ring"){
-    steps.push({ k:"tr", time:"20:00", name:"Бокс", sub:"Бинты, капа, вода. После - шейк, не жди аппетита", btn:"Был", act:"gMark('tr')" });
+    steps.push({ k:"tr", time:"20:00", name:"Бокс", sub:"Бинты, капа, вода. После - шейк, не жди аппетита", btn:"Был", act:"gMark('tr')" });
   } else {
     steps.push({ k:"tr", time:"вечер", name:"Бассейн + хамам", sub:"Шапочка, шлёпки. 15-20 мин воды, 10-15 мин пара", btn:"Был", act:"gMark('tr')" });
   }
 
-  steps.push({ k:"hair", time:"после душа", name:"Волосы", sub:"Кондиционер → крем для кудрей → масло", btn:"Гид", act:"startHair()" });
+  steps.push({ k:"hair", time:"после душа", name:"Волосы", sub:"Кондиционер → крем для кудрей → масло", btn:"Гид", act:"startHair()" });
   steps.push({ k:"pm", time:"03:00", name:"Вечерний уход", sub: isPowderDay() ? "Сегодня без кислоты (утром была пудра)" : "Умывание → BHA → ночной крем", btn:"Начать", act:"startPM()" });
-  steps.push({ k:"bed", time:"04:30", name:"Отбой", sub: sl.bed ? "Лёг в " + sl.bed : "Отметь, как ложишься - я посчитаю сон", btn:"Лёг", act:"markBed()" });
+  steps.push({ k:"bed", time:"04:30", name:"Отбой", sub: sl.bed ? "Лёг в " + sl.bed : "Отметь, как ложишься - я посчитаю сон", btn:"Лёг", act:"markBed()" });
 
   let html = "";
   steps.forEach(s=>{
@@ -1058,7 +1225,6 @@ function renderGuide(){
   });
   document.getElementById("timeline").innerHTML = html;
 
-  if(sc.kind === "iron" && !manualDay){ curDay = sc.day; store.set("curDay", curDay); }
   renderStats();
 }
 
@@ -1148,6 +1314,18 @@ function renderFlowStep(){
     '<button class="fl-back" onclick="flowBack()">' + (flowIdx === 0 ? "✕" : "←") + '</button>' +
     '<button class="fl-next" onclick="flowNext()">' + (flowIdx >= flowSteps.length-1 ? "Завершить" : "Дальше →") + '</button>' +
     '</div>';
+
+  /* Шаблон шага строится один раз и без value, поэтому шаг назад стирал уже введённое.
+     Возвращаем на место то, что успели собрать. */
+  if(s.exId && flowVals[s.exId]){
+    const v = flowVals[s.exId];
+    const wEl = document.getElementById("fw_" + s.exId);
+    if(wEl && v.w != null) wEl.value = v.w;
+    (v.reps || []).forEach((r, i) => {
+      const el = document.getElementById("fr_" + s.exId + "_" + i);
+      if(el && r > 0) el.value = r;
+    });
+  }
 }
 function startRest(btn, sec){
   if(restTimer) clearInterval(restTimer);
@@ -1170,15 +1348,15 @@ function cookRecipe(idx, fromSpin){
   const r = RECIPES[idx];
   const hero = {
     i: r.icon, t: r.n,
-    d: "<b>" + r.k + " ккал · " + r.p + " г белка</b> · " + r.time + ".<br>Веду по шагам, как шеф. Погнали?",
-    s: fromSpin ? "Не нравится - закрой и крути ещё раз" : "В конце сам запишу калории в дневник"
+    d: "<b>" + r.k + " ккал · " + r.p + " г белка</b> · " + r.time + ".<br>Веду по шагам, как шеф. Погнали?",
+    s: fromSpin ? "Не нравится - закрой и крути ещё раз" : "В конце запишу порцию целиком, долю поправишь тапом"
   };
   openFlow("Готовим · " + r.n, [hero].concat(r.steps), ()=>{
     const list = foodToday();
-    list.push({ n:r.n, k:r.k, p:r.p });
+    list.push({ id:null, n:r.n, base:{ k:r.k, p:r.p, f:0, c:0 }, frac:1, fk:"all" });
     foodSet(list);
     renderFood(); renderStats();
-    toast("+" + r.k + " ккал записано");
+    toast("+" + r.k + " ккал · долю поправишь в списке");
   });
 }
 function spinRecipe(){
@@ -1195,7 +1373,7 @@ function progressTip(ex, prev){
   if(ex.sum){
     const total = reps.reduce((a,b)=>a+b, 0);
     if(total >= ex.sumGoal){
-      return { txt: "Сумма " + total + " ≥ " + ex.sumGoal + " → пора вешать пояс +" + ex.step + " кг и падать к " + (ex.sumGoal - 4), ok:true };
+      return { txt: "Сумма " + total + " ≥ " + ex.sumGoal + " → пора вешать пояс +" + ex.step + " кг и падать к " + (ex.sumGoal - 4), ok:true };
     }
     return { txt: "Прошлая сумма " + total + ". Задача сегодня: " + (total+1) + "-" + (total+2), ok:false };
   }
@@ -1204,12 +1382,12 @@ function progressTip(ex, prev){
   const hit = check.length && check.every(r => r >= ex.hi);
   if(hit){
     const nw = (prev.w || ex.w || 0) + ex.step;
-    return { txt: "Все подходы на потолке → сегодня " + nw + " кг" + (ex.dumb ? " (одна гантель)" : ""), ok:true };
+    return { txt: "Все подходы на потолке → сегодня " + nw + " кг" + (ex.dumb ? " (одна гантель)" : ""), ok:true };
   }
   const stuck = prev.stuck || 0;
   if(stuck >= 3){
     const nw = Math.round(((prev.w || ex.w || 0) * 0.9) * 2) / 2;
-    return { txt: "Застрял 3 тренировки → снять 10%, поставить " + nw + " кг и пройти заново", ok:false, warn:true };
+    return { txt: "Застрял 3 тренировки → снять 10%, поставить " + nw + " кг и пройти заново", ok:false, warn:true };
   }
   return null;
 }
@@ -1235,10 +1413,11 @@ function renderDay(){
 
   let html = '<div class="sec-h">' + d.title + '</div>';
   html += '<div class="warmbox">' + d.warm + '</div>';
-  if(deload) html += '<div class="gate bad" style="margin-bottom:12px">РАЗГРУЗОЧНАЯ НЕДЕЛЯ. Тот же вес, подходов вдвое меньше, RIR 4-5.</div>';
-  if(w <= 3) html += '<div class="gate ok" style="margin-bottom:12px">НЕДЕЛЯ ' + w + ' · ВВОД. RIR ' + rirFor(w) + '. Первая неделя - подходов на треть меньше.</div>';
+  if(deload) html += '<div class="gate bad" style="margin-bottom:12px">РАЗГРУЗОЧНАЯ НЕДЕЛЯ. Тот же вес, подходов вдвое меньше, RIR 4-5.</div>';
+  if(w <= 3) html += '<div class="gate ok" style="margin-bottom:12px">НЕДЕЛЯ ' + w + ' · ВВОД. RIR ' + rirFor(w) + '. Первая неделя - подходов на треть меньше.</div>';
 
   d.ex.forEach((ex, i) => {
+    if(ex.ss === "start") html += '<div class="ssblock"><div class="ss-tag">Суперсет · между ними не отдыхаешь</div>';
     const prev = prevAll[ex.id];
     const tip = progressTip(ex, prev);
     const target = ex.sum
@@ -1266,7 +1445,9 @@ function renderDay(){
     html += '<div class="ex-labels"><div class="l1">' + (ex.bw ? "ПОЯС, КГ" : (ex.dumb ? "КГ (ОДНА)" : "КГ")) + '</div><div class="l2">ПОВТОРЫ ПО ПОДХОДАМ</div></div>';
     html += '<div class="swap"><b>Если занято:</b> ' + ex.swap + '</div>';
     html += '</div>';
+    if(ex.ss === "end") html += '</div>';
   });
+  if(d.cardio) html += '<div class="cardio-row"><div class="cardio-t">Кардио</div><div class="cardio-x">' + d.cardio + '</div></div>';
   box.innerHTML = html;
 }
 
@@ -1310,7 +1491,7 @@ function saveDay(){
   if(persistWorkout(curDay, vals)){
     toast("Записано");
     gMark("tr");
-    renderDay(); renderStats();
+    renderTabs(); renderDay(); renderStats();
   } else toast("Пусто - нечего писать");
 }
 
@@ -1321,7 +1502,7 @@ function startWorkoutFlow(){
   const prevAll = store.get(lastKey(curDay), {});
   flowVals = {};
   const steps = [];
-  steps.push({ i:"fire", t:"Разминка", d: d.warm.replace(/<b>|<\/b>/g, m => m), s:"8-10 минут. Без неё связки холодные - а связки у тебя сейчас слабее мышц" });
+  steps.push({ i:"fire", t:"Разминка", d: d.warm.replace(/<b>|<\/b>/g, m => m), s:"8-10 минут. Без неё связки холодные - а связки у тебя сейчас слабее мышц" });
   d.ex.forEach((ex, i) => {
     const prev = prevAll[ex.id];
     const tip = progressTip(ex, prev);
@@ -1333,8 +1514,9 @@ function startWorkoutFlow(){
     html += '</div></div>';
     html += '<div class="ex-labels"><div class="l1">' + (ex.bw ? "ПОЯС" : (ex.dumb ? "КГ (ОДНА)" : "КГ")) + '</div><div class="l2">ПОВТОРЫ</div></div>';
     html += '<button class="rest-btn" onclick="startRest(this, 150)">▶ Таймер отдыха 2:30</button>';
-    const target = ex.sum ? ex.sets + " подходов, цель по сумме " + ex.sumGoal : ex.sets + " × " + (ex.lo === ex.hi ? ex.lo : ex.lo + "-" + ex.hi);
+    const target = ex.sum ? ex.sets + " подходов, цель по сумме " + ex.sumGoal : ex.sets + " × " + (ex.lo === ex.hi ? ex.lo : ex.lo + "-" + ex.hi);
     steps.push({
+      exId: ex.id,
       i: ex.icon || "press", t: ex.name,
       d: "<b>" + target + "</b>. " + ex.note,
       s: (prev ? "Прошлый раз: " + (prev.w ? prev.w + " кг · " : "") + prev.reps.filter(r=>r>0).join(" · ") + ". " : "") + (tip ? tip.txt : "") + " Если занято: " + ex.swap,
@@ -1354,12 +1536,13 @@ function startWorkoutFlow(){
       })(ex.id, ex.sets)
     });
   });
+  if(d.cardio) steps.push({ i:"timer", t:"Кардио", d:"<b>" + d.cardio + "</b>", s:"Последним, после железа. Пульс держи в зоне - это не гонка, это работоспособность и аппетит." });
   openFlow(d.title, steps, ()=>{
     if(persistWorkout(curDay, flowVals)){
       toast("Тренировка записана");
       gMark("tr");
-      renderDay(); renderStats();
-    } else toast("Ничего не ввёл - не записал");
+      renderTabs(); renderDay(); renderStats();
+    } else toast("Ничего не ввёл - не записал");
   });
 }
 
@@ -1374,14 +1557,67 @@ function renderWeight(){
   if(hist.length){
     const diff = w - hist[0].w;
     let txt = "Записей: " + hist.length;
-    if(hist.length > 1) txt += " · со старта " + (diff>=0?"+":"") + diff.toFixed(1) + " кг";
+    if(hist.length > 1) txt += " · со старта " + (diff>=0?"+":"") + diff.toFixed(1) + " кг";
     document.getElementById("wHist").textContent = txt;
   } else document.getElementById("wHist").textContent = "";
+
+  /* недельная дельта, а не разница между соседними днями */
+  const wk = weekDelta();
+  const wkBox = document.getElementById("wWeek");
+  if(wk){
+    const kg = wk.kg;
+    const cls = kg < GAIN_LO ? "slow" : (kg > GAIN_HI ? "fast" : "ok");
+    const lbl = kg < GAIN_LO
+      ? "в неделю. Цель " + GAIN_LO + "-" + GAIN_HI + " - добавь еды"
+      : (kg > GAIN_HI ? "в неделю. Быстрее цели " + GAIN_LO + "-" + GAIN_HI + " - смотри талию" : "в неделю. Ровно в цели " + GAIN_LO + "-" + GAIN_HI);
+    wkBox.innerHTML = '<span class="d ' + cls + '">' + (kg >= 0 ? "+" : "") + kg.toFixed(2) + ' кг</span>' +
+      '<span class="lbl">' + lbl + (wk.mode === "trend" ? " · тренд за " + wk.days + " дн." : "") + '</span>';
+  } else wkBox.innerHTML = '<span class="lbl">Взвесься ещё пару раз - посчитаю недельный темп</span>';
+
+  /* протокол замера */
+  const warn = document.getElementById("wWarn");
+  const last = hist[hist.length-1];
+  if(last && last.am === false){
+    warn.textContent = "Последний замер сделан не утром - он несравним с остальными. Протокол: утром, натощак, без одежды, после туалета.";
+    warn.classList.remove("hidden");
+  } else warn.classList.add("hidden");
+
   renderWeightChart(hist);
+}
+
+/* Утро у тебя позднее, поэтому считаю от фактического подъёма, а не от 8:00 */
+function isMorningNow(){
+  const sl = store.get("sleep", {})[todayISO()] || {};
+  const now = new Date();
+  const mins = now.getHours()*60 + now.getMinutes();
+  if(sl.up){
+    const [h,m] = sl.up.split(":").map(Number);
+    let diff = mins - (h*60 + m);
+    if(diff < 0) diff += 1440;
+    return diff <= 150;
+  }
+  return now.getHours() >= 6 && now.getHours() <= 14;
+}
+
+/* Недельный темп: среднее за 7 дней против среднего за предыдущие 7 */
+function weekDelta(){
+  const hist = store.get("wHist", []);
+  if(hist.length < 2) return null;
+  const DAY = 864e5;
+  const t = d => new Date(d + "T12:00:00").getTime();
+  const end = t(hist[hist.length-1].d);
+  const win = (a, b) => hist.filter(p => t(p.d) > end - b*DAY && t(p.d) <= end - a*DAY);
+  const avg = arr => arr.reduce((s,p) => s + p.w, 0) / arr.length;
+  const w1 = win(0, 7), w2 = win(7, 14);
+  if(w1.length && w2.length) return { kg: avg(w1) - avg(w2), mode:"avg" };
+  const first = hist[0];
+  const days = (end - t(first.d)) / DAY;
+  if(days < 3) return null;
+  return { kg: (hist[hist.length-1].w - first.w) / days * 7, mode:"trend", days: Math.round(days) };
 }
 function renderWeightChart(hist){
   const box = document.getElementById("wChart");
-  if(!hist || hist.length < 2){ box.innerHTML = '<div class="wchart-hint">Вводи вес утром натощак - здесь появится кривая к 70</div>'; return; }
+  if(!hist || hist.length < 2){ box.innerHTML = '<div class="wchart-hint">Вводи вес утром натощак - здесь появится кривая к 70</div>'; return; }
   const W = 340, H = 150, padL = 34, padR = 14, padT = 16, padB = 22;
   const ws = hist.map(p=>p.w), ts = hist.map(p=>new Date(p.d+"T12:00:00").getTime());
   const goal = 70, lo = Math.floor(Math.min(...ws) - 1), hi = Math.max(Math.max(...ws) + 0.5, goal + 0.5);
@@ -1415,52 +1651,86 @@ function renderWeightChart(hist){
   box.innerHTML = s;
 }
 function logWeight(d){
-  let w = store.get("weight", 63.0);
+  let w = store.get("weight", 68.0);
   w = Math.round((w + d)*10)/10;
-  store.set("weight", w); pushWeightHist(w); renderWeight();
+  store.set("weight", w); pushWeightHist(w, isMorningNow()); renderWeight();
 }
 function promptWeight(){
-  const cur = store.get("weight", 63.0);
-  const v = prompt("Вес утром натощак, кг:", cur.toFixed(1));
+  const cur = store.get("weight", 68.0);
+  const am = isMorningNow();
+  if(!am && !confirm("Сейчас не утро. Замер не натощак несравним с остальными и собьёт недельный темп.\n\nВсё равно записать?")) return;
+  const v = prompt("Вес: утром, натощак, без одежды, после туалета. Кг:", cur.toFixed(1));
   if(v === null) return;
   const n = parseFloat(String(v).replace(",", "."));
-  if(isNaN(n) || n < 40 || n > 150){ toast("Не похоже на вес"); return; }
+  if(isNaN(n) || n < 40 || n > 150){ toast("Не похоже на вес"); return; }
   const w = Math.round(n*10)/10;
-  store.set("weight", w); pushWeightHist(w); renderWeight(); toast("Вес записан");
+  store.set("weight", w); pushWeightHist(w, am); renderWeight();
+  toast(am ? "Вес записан" : "Записал, но замер не утренний");
 }
-function pushWeightHist(w){
+function pushWeightHist(w, am){
   const hist = store.get("wHist", []);
   const today = todayISO();
   const last = hist[hist.length-1];
-  if(last && last.d === today) last.w = w; else hist.push({ d: today, w: w });
+  if(last && last.d === today){ last.w = w; last.am = am !== false; }
+  else hist.push({ d: today, w: w, am: am !== false });
   store.set("wHist", hist);
 }
 
 /* ═══════════ ЕДА ═══════════ */
 function foodToday(){
   const f = store.get("food", {});
-  return f[todayISO()] || [];
+  return (f[todayISO()] || []).map(normEntry);
 }
 function foodSet(list){
   const f = store.get("food", {});
   f[todayISO()] = list;
   store.set("food", f);
 }
-function addFood(i){
-  const item = FOODS[i];
-  const list = foodToday();
-  list.push({ n:item.n, k:item.k, p:item.p });
-  foodSet(list); renderFood(); renderStats();
-  toast("+" + item.k + " ккал");
+function foodTotals(list){
+  const t = { k:0, p:0, f:0, c:0 };
+  list.forEach(e => { t.k += entryK(e); t.p += entryP(e); t.f += entryF(e); t.c += entryC(e); });
+  return t;
 }
-function addCustomFood(){
-  const n = prompt("Что съел?");
-  if(!n) return;
-  const k = parseInt(prompt("Сколько калорий примерно?"), 10);
-  if(isNaN(k)) return;
-  const p = parseInt(prompt("Белка, грамм? (не знаешь - 0)"), 10) || 0;
+
+/* ── запись ── */
+function addDish(id, fk){
+  const d = DISHES.find(x => x.id === id);
+  if(!d) return;
   const list = foodToday();
-  list.push({ n:n, k:k, p:p });
+  list.push({ id:d.id, n:d.n, base:{ k:d.k, p:d.p, f:d.f, c:d.c }, frac:fracVal(fk), fk:fk });
+  foodSet(list); closeSheet(); renderFood(); renderStats();
+  toast("+" + Math.round(d.k * fracVal(fk)) + " ккал · " + fracTxt(fk));
+}
+/* Коктейль копится одной строкой: бутылка стоит рядом, отпиваешь весь день */
+function addSip(ml){
+  const d = DISHES.find(x => x.id === "gainer");
+  const list = foodToday();
+  let e = list.find(x => x.id === "gainer");
+  if(e){
+    e.ml = Math.min(d.ml, (e.ml || 0) + ml);
+    e.frac = e.ml / d.ml;
+  } else {
+    list.push({ id:"gainer", n:d.n, base:{ k:d.k, p:d.p, f:d.f, c:d.c }, frac:ml / d.ml, ml:ml });
+    e = list[list.length - 1];
+  }
+  foodSet(list); closeSheet(); renderFood(); renderStats();
+  toast("Коктейль: " + e.ml + " мл из " + d.ml);
+}
+function addQuick(id){
+  const d = DISHES.find(x => x.id === id);
+  if(!d) return;
+  const list = foodToday();
+  list.push({ id:d.id, n:d.n, base:{ k:d.k, p:d.p, f:d.f, c:d.c }, frac:1, fk:"all" });
+  foodSet(list); renderFood(); renderStats();
+  toast("+" + d.k + " ккал");
+}
+function addOther(){
+  const raw = prompt("Прочее. Сколько калорий?");
+  if(raw === null) return;
+  const k = parseInt(raw, 10);
+  if(isNaN(k) || k <= 0){ toast("Нужно число больше нуля"); return; }
+  const list = foodToday();
+  list.push({ id:null, n:"Прочее", base:{ k:k, p:0, f:0, c:0 }, frac:1, fk:"all" });
   foodSet(list); renderFood(); renderStats();
   toast("+" + k + " ккал");
 }
@@ -1469,54 +1739,142 @@ function delFood(i){
   list.splice(i, 1);
   foodSet(list); renderFood(); renderStats();
 }
+function setFrac(i, fk){
+  const list = foodToday();
+  if(!list[i]) return;
+  list[i].frac = fracVal(fk); list[i].fk = fk;
+  foodSet(list); closeSheet(); renderFood(); renderStats();
+  toast("Теперь " + fracTxt(fk) + " · " + entryK(list[i]) + " ккал");
+}
+function setSip(i, ml){
+  const list = foodToday();
+  const d = DISHES.find(x => x.id === "gainer");
+  if(!list[i]) return;
+  list[i].ml = ml; list[i].frac = ml / d.ml;
+  foodSet(list); closeSheet(); renderFood(); renderStats();
+  toast("Коктейль: " + ml + " мл");
+}
+
+/* ── шторка выбора доли ── */
+function openSheet(html, title, sub){
+  document.getElementById("sheetT").textContent = title;
+  document.getElementById("sheetSub").textContent = sub;
+  document.getElementById("sheetBtns").innerHTML = html;
+  document.getElementById("fracSheet").classList.remove("hidden");
+}
+function closeSheet(e){
+  if(e && e.target !== e.currentTarget) return;
+  document.getElementById("fracSheet").classList.add("hidden");
+}
+/* Новая запись: тапнул блюдо → выбрал долю. Два тапа и всё */
+function pickDish(id){
+  const d = DISHES.find(x => x.id === id);
+  if(!d) return;
+  if(d.quick){ addQuick(id); return; }
+  if(d.ml){
+    const html = SIPS.map(ml => '<button class="fracb" onclick="addSip(' + ml + ')">' + ml + ' <small>мл</small></button>').join("")
+      + '<button class="fracb wide" onclick="addSip(' + d.ml + ')">Выпил всю бутылку</button>';
+    openSheet(html, d.n, "Сколько отпил? Строка одна на день, глотки складываются");
+    return;
+  }
+  const html = FRACS.map(f =>
+    '<button class="fracb" onclick="addDish(\'' + id + '\',\'' + f.k + '\')">' + f.t +
+    '<small>' + Math.round(d.k * f.v) + ' ккал</small></button>').join("");
+  openSheet(html, d.n, "Сколько съел? Целиком это " + d.k + " ккал");
+}
+/* Правка уже записанного: доедал в течение дня */
+function editEntry(i){
+  const list = foodToday();
+  const e = list[i];
+  if(!e) return;
+  if(e.id === "gainer"){
+    const d = DISHES.find(x => x.id === "gainer");
+    const html = [250, 500, 750, 1000].map(ml =>
+      '<button class="fracb' + (e.ml === ml ? " on" : "") + '" onclick="setSip(' + i + ',' + ml + ')">' + ml +
+      '<small>' + Math.round(d.k * ml / d.ml) + ' ккал</small></button>').join("");
+    openSheet(html, e.n, "Сколько выпито всего к этому моменту");
+    return;
+  }
+  if(!e.base.k) return;
+  const html = FRACS.map(f =>
+    '<button class="fracb' + (e.fk === f.k ? " on" : "") + '" onclick="setFrac(' + i + ',\'' + f.k + '\')">' + f.t +
+    '<small>' + Math.round(e.base.k * f.v) + ' ккал</small></button>').join("");
+  openSheet(html, e.n, "Доел? Подвинь долю - пересчитаю");
+}
+
 function foodDaysInGoal(){
   const f = store.get("food", {});
   let cnt = 0;
   for(let i=0; i<7; i++){
     const d = new Date(); d.setDate(d.getDate() - i);
     const key = d.toISOString().slice(0,10);
-    const list = f[key] || [];
-    const k = list.reduce((a,b)=>a+b.k, 0);
-    if(k >= KCAL_GOAL * 0.93) cnt++;
+    const k = (f[key] || []).map(normEntry).reduce((a,e)=>a+entryK(e), 0);
+    if(k >= KCAL_LO * 0.93) cnt++;
   }
   return cnt;
 }
+
 function renderFood(){
   const list = foodToday();
-  const k = list.reduce((a,b)=>a+b.k, 0);
-  const p = list.reduce((a,b)=>a+b.p, 0);
-  const d = new Date();
-  document.getElementById("foodDate").textContent = pad(d.getDate())+"."+pad(d.getMonth()+1)+" · цель " + KCAL_GOAL + " ккал и " + PROT_GOAL + " г белка";
-  document.getElementById("kcalTxt").textContent = k + " / " + KCAL_GOAL;
-  document.getElementById("protTxt").textContent = p + " / " + PROT_GOAL + " г";
-  document.getElementById("kcalFill").style.width = Math.min(100, k/KCAL_GOAL*100) + "%";
-  document.getElementById("protFill").style.width = Math.min(100, p/PROT_GOAL*100) + "%";
-  const leftK = KCAL_GOAL - k, leftP = PROT_GOAL - p;
-  document.getElementById("foodLeft").textContent = leftK > 0
-    ? "Осталось добрать: " + leftK + " ккал и " + (leftP > 0 ? leftP : 0) + " г белка"
-    : "Норма закрыта. Перебор " + (-leftK) + " ккал - это нормально";
+  const t = foodTotals(list);
+  /* Берём ту же дату, по которой лежат записи, иначе ночью подпись убегает на день вперёд */
+  const d = new Date(todayISO() + "T12:00:00");
+  document.getElementById("foodDate").textContent =
+    pad(d.getDate())+"."+pad(d.getMonth()+1)+" · цель " + KCAL_LO + "-" + KCAL_HI + " ккал, белок от " + PROT_GOAL + " г";
+
+  /* главная цифра - съедено ПО ФАКТУ */
+  document.getElementById("eatenK").textContent = t.k;
+  document.getElementById("eatenGoal").textContent = "из " + KCAL_LO + "-" + KCAL_HI + " ккал";
+  const leftLo = KCAL_LO - t.k, leftHi = KCAL_HI - t.k;
+  document.getElementById("eatenLeft").textContent =
+    leftLo > 0 ? "добрать ещё " + leftLo + "-" + leftHi
+    : (leftHi >= 0 ? "в коридоре, можно ещё " + leftHi : "перебор " + (-leftHi) + " - не страшно");
+  document.getElementById("kcalFill").style.width = Math.min(100, t.k / KCAL_HI * 100) + "%";
+
+  document.getElementById("macros3").innerHTML =
+    '<div class="m3"><div class="m3-v' + (t.p >= PROT_GOAL ? " ok" : "") + '">' + t.p + '<small> г</small></div><div class="m3-k">белок · ' + PROT_GOAL + '+</div></div>' +
+    '<div class="m3"><div class="m3-v">' + t.f + '<small> г</small></div><div class="m3-k">жиры</div></div>' +
+    '<div class="m3"><div class="m3-v">' + t.c + '<small> г</small></div><div class="m3-k">углеводы</div></div>';
+
+  /* У рецептов из рулетки нет разбивки по жирам и углеводам - честно об этом говорим,
+     иначе две плитки молча занижают итог */
+  const noMac = list.filter(e => e.base.k > 0 && !e.base.f && !e.base.c);
+  const macNote = document.getElementById("macNote");
+  if(noMac.length){
+    macNote.textContent = "Жиры и углеводы посчитаны без " + noMac.length +
+      (noMac.length === 1 ? " записи" : " записей") + ": у рецептов есть только калории и белок. Калории учтены полностью.";
+    macNote.classList.remove("hidden");
+  } else macNote.classList.add("hidden");
+
+  /* что съел */
+  const fl = document.getElementById("foodList");
+  fl.innerHTML = list.length
+    ? list.map((e,i) => {
+        const chip = e.id === "gainer" ? (e.ml || 0) + " мл" : fracTxt(e.fk);
+        const full = e.id === "gainer" ? e.base.k + " ккал бутылка" : e.base.k + " ккал целиком";
+        return '<div class="fitem">' +
+          '<div class="fi-l"><div class="fi-n">' + e.n + '</div><div class="fi-m">' + full + '</div></div>' +
+          '<div class="fi-chip" onclick="editEntry(' + i + ')">' + chip + '</div>' +
+          '<div class="fi-k">' + entryK(e) + '</div>' +
+          '<div class="fx" onclick="delFood(' + i + ')">×</div></div>';
+      }).join("")
+    : '<div class="wc-hist">Пока пусто. Жми блюдо ниже - спрошу только долю.</div>';
+
+  /* блюда */
+  document.getElementById("dishGrid").innerHTML = DISHES.map(x =>
+    '<button class="fbtn" onclick="pickDish(\'' + x.id + '\')">' + ico(x.ic, "ic-lg") +
+    '<b>' + x.n + '</b><small><i>' + x.k + ' ккал · Б' + x.p + ' Ж' + x.f + ' У' + x.c + '</i><br>' + x.d + '</small></button>'
+  ).join("");
 
   const days = foodDaysInGoal();
-  const gate = document.getElementById("gateBox");
-  gate.innerHTML = days >= 5
-    ? '<div class="gate ok">ШЛЮЗ ОТКРЫТ · ' + days + ' из 7 дней в цели. Полный объём в зале.</div>'
-    : '<div class="gate bad">ШЛЮЗ ЗАКРЫТ · ' + days + ' из 7 дней в цели. До 5 дней - работаешь на 2/3 объёма. Объём это награда за еду.</div>';
+  document.getElementById("gateBox").innerHTML = days >= 5
+    ? '<div class="gate ok">ШЛЮЗ ОТКРЫТ · ' + days + ' из 7 дней в цели. Полный объём в зале.</div>'
+    : '<div class="gate bad">ШЛЮЗ ЗАКРЫТ · ' + days + ' из 7 дней в цели. До 5 дней - работаешь на 2/3 объёма. Объём это награда за еду.</div>';
 
-  const rg = document.getElementById("recGrid");
-  rg.innerHTML = RECIPES.map((r,i) =>
+  document.getElementById("recGrid").innerHTML = RECIPES.map((r,i) =>
     '<button class="fbtn rec" onclick="cookRecipe('+i+')">' + ico(r.icon, "ic-lg") +
     '<b>'+r.n+'</b><small><i>'+r.k+' ккал · '+r.p+' г</i><br>'+r.time+' · '+r.steps.length+' шагов</small></button>'
   ).join("");
-
-  const g = document.getElementById("fastGrid");
-  g.innerHTML = FOODS.map((f,i) =>
-    '<button class="fbtn" onclick="addFood('+i+')"><b>'+f.n+'</b><small><i>'+f.k+' ккал · '+f.p+' г</i><br>'+f.d+'</small></button>'
-  ).join("");
-
-  const fl = document.getElementById("foodList");
-  fl.innerHTML = list.length
-    ? list.map((it,i) => '<div class="fitem"><span>'+it.n+'</span><span><b>'+it.k+'</b> ккал · '+it.p+' г <span class="fx" onclick="delFood('+i+')">×</span></span></div>').join("")
-    : '<div class="wc-hist">Пока пусто.</div>';
 
   renderShop();
 }
@@ -1602,7 +1960,7 @@ function renderStats(){
   }
   document.getElementById("streakN").textContent = streak;
 }
-const EX_NAMES = {};
+const EX_NAMES = Object.assign({}, LEGACY_EX_NAMES);
 Object.values(PROGRAM).forEach(d => d.ex.forEach(e => { EX_NAMES[e.id] = e.name; }));
 function renderHistory(){
   const sessions = store.get("sessions", []).slice().reverse();
@@ -1620,7 +1978,7 @@ function renderHistory(){
     });
     return '<div class="hcard"><div class="hcard-top"><div class="hbadge">'+s.day+'</div>'+
       '<div style="flex:1;margin-left:10px"><div class="hdate">'+pad(d.getDate())+"."+pad(d.getMonth()+1)+" · "+names[d.getDay()]+'</div>'+
-      '<div class="hday">'+(PROGRAM[s.day] ? PROGRAM[s.day].title.split("·")[1].trim() : "")+(s.week?" · неделя "+s.week:"")+'</div></div></div>'+rows+'</div>';
+      '<div class="hday">'+(PROGRAM[s.day] ? PROGRAM[s.day].title.split("·").slice(1).map(x=>x.trim()).join(" · ") : "")+(s.week?" · неделя "+s.week:"")+'</div></div></div>'+rows+'</div>';
   }).join("");
 }
 
@@ -1648,7 +2006,7 @@ function importData(file){
       Object.keys(data).forEach(k => { localStorage.setItem(k, data[k]); });
       toast("Восстановлено");
       setTimeout(()=>location.reload(), 700);
-    } catch(err){ toast("Файл не читается"); }
+    } catch(err){ toast("Файл не читается"); }
   };
   r.readAsText(file);
 }

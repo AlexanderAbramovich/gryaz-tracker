@@ -1,4 +1,4 @@
-const CACHE = "gryaz-v5";
+const CACHE = "gryaz-v6";
 const ASSETS = [
   "./",
   "./index.html",
