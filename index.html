@@ -212,6 +212,35 @@
   .wc-warn { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: rgba(255,61,61,.08); border: 1px solid #7d2222; color: #ff8080; font-size: 11.5px; font-weight: 600; line-height: 1.45; }
   .wc-warn.hidden { display: none; }
 
+  /* ── фото прогресса ── */
+  .ph-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .ph-slot { position: relative; border-radius: 14px; overflow: hidden; border: 2px solid var(--line); background: var(--panel-2); cursor: pointer; }
+  .ph-slot.active { border-color: var(--org); }
+  .ph-slot { aspect-ratio: 3 / 4; }
+  .ph-slot img { display: block; width: 100%; height: 100%; object-fit: contain; background: #0c0c0f; }
+  .ph-slot.empty { display: flex; align-items: center; justify-content: center; border-style: dashed; }
+  .ph-ph { font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--faint, var(--dim)); }
+  .ph-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 20px 4px 2px; display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,.55) 45%, rgba(0,0,0,.9)); font-size: 11px; font-weight: 800;
+    text-shadow: 0 1px 3px rgba(0,0,0,.9); }
+  .ph-cap b, .ph-cap span { padding: 7px 5px; cursor: pointer; }
+  .ph-cap span { color: var(--org); font-variant-numeric: tabular-nums; }
+  .ph-delta { text-align: center; font-size: 13px; color: var(--dim); font-weight: 600; margin-bottom: 12px; }
+  .ph-delta b { font-size: 19px; font-weight: 900; color: var(--org); font-variant-numeric: tabular-nums; }
+  .ph-delta.hidden { display: none; }
+  .ph-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+  .ph-th { position: relative; border-radius: 10px; overflow: hidden; border: 2px solid transparent; cursor: pointer; background: var(--panel-2); }
+  .ph-th.on { border-color: var(--org); }
+  .ph-th img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+  .ph-th-d { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 3px 2px; font-size: 9px; font-weight: 800; text-align: center;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,.85)); }
+  .ph-th-a { position: absolute; top: 3px; left: 3px; width: 15px; height: 15px; border-radius: 5px; background: var(--org); color: #0a0a0c;
+    font-size: 9px; font-weight: 900; display: flex; align-items: center; justify-content: center; }
+  .ph-th-x { position: absolute; top: 0; right: 0; padding: 7px 9px 10px 12px; font-size: 15px; font-weight: 900; color: #fff;
+    text-shadow: 0 1px 3px #000; line-height: 1; }
+  .ph-grid > .wc-hist { grid-column: 1 / -1; }
+  .ph-hint { font-size: 11px; color: var(--dim); line-height: 1.45; margin-top: 8px; }
+  .ph-hint b { color: var(--ink); }
   /* ── суперсет и кардио в зале ── */
   .ssblock { border: 1px dashed var(--org-dim); border-radius: 16px; padding: 10px 10px 2px; margin-bottom: 12px; background: rgba(255,122,26,.03); }
   .ss-tag { font-size: 10px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: var(--org); padding: 2px 4px 8px; }
@@ -710,11 +739,23 @@
 <div class="wrap hidden" id="viewHistory">
   <div class="h-title">История</div>
   <div class="h-sub" id="hSub"></div>
+  <div class="sec-h" style="display:flex;justify-content:space-between;align-items:center">
+    <span>Прогресс в кадре</span>
+    <span id="phCount" style="color:var(--org);font-size:11px"></span>
+  </div>
+  <div class="ph-compare" id="phCompare"></div>
+  <div class="ph-delta hidden" id="phDelta"></div>
+  <input type="file" id="phFile" accept="image/*" style="display:none" onchange="phPick(this.files[0])">
+  <button class="save" style="margin:0" onclick="document.getElementById('phFile').click()">+ Добавить кадр</button>
+  <div class="ph-grid" id="phGrid"></div>
+  <div class="ph-hint"><b>Контрольный кадр</b> - это линейка: та же комната, тот же свет, та же поза руки в стороны, утром. Меняешь условия - и через два месяца не поймёшь, вырос или просто удачно встал. Красивые кадры со светом снимай отдельно, они в сравнение не идут.</div>
+
+  <div class="sec-h">Тренировки</div>
   <div id="hList"></div>
 
   <div class="backup">
     <h3>Бэкап данных</h3>
-    <p>Всё живёт в этом браузере. Перед сменой телефона или чисткой браузера скачай бэкап - потом восстановишь одной кнопкой.</p>
+    <p>Тренировки, еда и вес живут в этом браузере. Перед сменой телефона или чисткой браузера скачай бэкап - потом восстановишь одной кнопкой. Кадры прогресса тоже входят в бэкап, поэтому файл получается тяжёлым: считай 300-400 КБ на снимок. Если приложение открыто вкладкой, а не иконкой с домашнего экрана, Safari может стереть данные после недели без заходов - бэкап тут единственная страховка.</p>
     <div class="row">
       <button class="wbtn" onclick="exportData()">Скачать бэкап</button>
       <button class="wbtn" onclick="document.getElementById('importFile').click()">Восстановить</button>
@@ -1528,7 +1569,7 @@ function startWorkoutFlow(){
 function renderWeight(){
   let w = store.get("weight", 63.0);
   const goal = 70, lo = 60;
-  document.getElementById("wNow").innerHTML = w.toFixed(1) + '<small> кг</small>';
+  document.getElementById("wNow").innerHTML = kgTxt(w) + '<small> кг</small>';
   let pct = Math.max(0, Math.min(100, ((w - lo)/(goal - lo))*100));
   document.getElementById("wFill").style.width = pct + "%";
   const hist = store.get("wHist", []);
@@ -1548,7 +1589,7 @@ function renderWeight(){
     const lbl = kg < GAIN_LO
       ? "в неделю. Цель " + GAIN_LO + "-" + GAIN_HI + " - добавь еды"
       : (kg > GAIN_HI ? "в неделю. Быстрее цели " + GAIN_LO + "-" + GAIN_HI + " - смотри талию" : "в неделю. Ровно в цели " + GAIN_LO + "-" + GAIN_HI);
-    wkBox.innerHTML = '<span class="d ' + cls + '">' + (kg >= 0 ? "+" : "") + kg.toFixed(2) + ' кг</span>' +
+    wkBox.innerHTML = '<span class="d ' + cls + '">' + (kg >= 0 ? "+" : "") + kg.toFixed(2).replace(".", ",") + ' кг</span>' +
       '<span class="lbl">' + lbl + (wk.mode === "trend" ? " · тренд за " + wk.days + " дн." : "") + '</span>';
   } else wkBox.innerHTML = '<span class="lbl">Взвесься ещё пару раз - посчитаю недельный темп</span>';
 
@@ -1960,19 +2001,319 @@ function renderHistory(){
   }).join("");
 }
 
+/* ═══════════ ФОТО ПРОГРЕССА ═══════════ */
+/* Кадры лежат в IndexedDB, а не в localStorage: там лимит 5 МБ на всё,
+   и пара снимков вынесла бы тренировки вместе с едой. */
+const PH_MAX = 1280, PH_Q = 0.82, PH_THUMB = 260;
+let phShots = [], phSel = [null, null], phActive = 1;
+
+function phOpen(){
+  return new Promise((res, rej) => {
+    const r = indexedDB.open("gryaz-photos", 1);
+    r.onupgradeneeded = () => {
+      const db = r.result;
+      if(!db.objectStoreNames.contains("shots")) db.createObjectStore("shots", { keyPath:"id" });
+    };
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+  });
+}
+function phTx(mode, fn){
+  return phOpen().then(db => new Promise((res, rej) => {
+    const tx = db.transaction("shots", mode);
+    const req = fn(tx.objectStore("shots"));
+    tx.oncomplete = () => res(req && req.result);
+    tx.onerror = () => rej(tx.error);
+    tx.onabort = () => rej(tx.error);
+  }));
+}
+function phLoad(){ return phTx("readonly", st => st.getAll()); }
+function phSave(rec){ return phTx("readwrite", st => st.put(rec)); }
+function phDrop(id){ return phTx("readwrite", st => st.delete(id)); }
+
+/* Сжимаем до 1280 px: iPhone отдаёт 12 Мп кадры, в них нет смысла для сравнения поз */
+async function phShrink(file, max, q){
+  let bmp = null;
+  try { bmp = await createImageBitmap(file, { imageOrientation:"from-image" }); }
+  catch(e){
+    try { bmp = await createImageBitmap(file); }
+    catch(e2){ bmp = null; }
+  }
+  if(!bmp){
+    /* Старый браузер: грузим через img, он сам применяет поворот из EXIF */
+    const url = URL.createObjectURL(file);
+    try {
+      bmp = await new Promise((res, rej) => {
+        const im = new Image();
+        im.onload = () => res(im);
+        im.onerror = rej;
+        im.src = url;
+      });
+    } finally { setTimeout(() => URL.revokeObjectURL(url), 5000); }
+  }
+  const bw = bmp.width || bmp.naturalWidth, bh = bmp.height || bmp.naturalHeight;
+  const scale = Math.min(1, max / Math.max(bw, bh));
+  const w = Math.round(bw * scale), h = Math.round(bh * scale);
+  const c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  c.getContext("2d").drawImage(bmp, 0, 0, w, h);
+  if(bmp.close) bmp.close();
+  return c.toDataURL("image/jpeg", q);
+}
+
+/* Дата съёмки из EXIF. iOS при выборе из галереи отдаёт свежую копию файла
+   (HEIC пережимается в JPEG), поэтому lastModified показывает момент выбора,
+   а не когда снято. EXIF внутри копии сохраняется - читаем его. */
+function phExifDate(file){
+  return new Promise(res => {
+    const r = new FileReader();
+    r.onerror = () => res(null);
+    r.onload = () => { try { res(phExifScan(new DataView(r.result))); } catch(e){ res(null); } };
+    r.readAsArrayBuffer(file.slice(0, 256 * 1024));
+  });
+}
+function phExifScan(v){
+  if(v.byteLength < 8 || v.getUint16(0) !== 0xFFD8) return null;
+  let off = 2;
+  while(off + 4 <= v.byteLength){
+    const marker = v.getUint16(off);
+    if((marker & 0xFF00) !== 0xFF00) return null;
+    if(marker === 0xFFDA) return null;
+    const size = v.getUint16(off + 2);
+    if(marker === 0xFFE1 && off + 10 <= v.byteLength && v.getUint32(off + 4) === 0x45786966){
+      return phExifTiff(v, off + 10);
+    }
+    off += 2 + size;
+  }
+  return null;
+}
+function phExifTiff(v, base){
+  if(base + 8 > v.byteLength) return null;
+  const le = v.getUint16(base) === 0x4949;
+  const u16 = o => v.getUint16(o, le);
+  const u32 = o => v.getUint32(o, le);
+  if(u16(base + 2) !== 0x002A) return null;
+  const ascii = (o, len) => {
+    let s = "";
+    for(let i = 0; i < len - 1 && o + i < v.byteLength; i++) s += String.fromCharCode(v.getUint8(o + i));
+    return s;
+  };
+  const scan = (ifd, want, isPtr) => {
+    if(ifd + 2 > v.byteLength) return null;
+    const n = u16(ifd);
+    for(let i = 0; i < n; i++){
+      const e = ifd + 2 + i * 12;
+      if(e + 12 > v.byteLength) return null;
+      if(u16(e) !== want) continue;
+      const cnt = u32(e + 4), val = u32(e + 8);
+      return isPtr ? base + val : ascii(base + val, cnt);
+    }
+    return null;
+  };
+  const ifd0 = base + u32(base + 4);
+  const sub = scan(ifd0, 0x8769, true);
+  let d = sub ? scan(sub, 0x9003, false) : null;
+  if(!d) d = scan(ifd0, 0x0132, false);
+  const m = d && String(d).match(/^(\d{4}):(\d{2}):(\d{2})/);
+  if(!m) return null;
+  const iso = m[1] + "-" + m[2] + "-" + m[3];
+  return isNaN(new Date(iso + "T12:00:00").getTime()) ? null : iso;
+}
+
+/* Заливаешь старое фото из галереи - берём дату съёмки из файла, а не сегодняшнюю.
+   Свежий кадр с камеры даст сегодняшнюю сам. */
+function phFileDate(file){
+  const t = file && file.lastModified;
+  if(!t) return todayISO();
+  const d = new Date(t);
+  if(isNaN(d.getTime()) || t > Date.now() + 864e5 || t < Date.parse("2015-01-01")) return todayISO();
+  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+}
+let phPending = null;
+async function phPick(file){
+  if(!file) return;
+  document.getElementById("phFile").value = "";
+  if(!/^image\//.test(file.type)){ toast("Это не картинка"); return; }
+  toast("Обрабатываю кадр");
+  try {
+    phPending = {
+      id: Date.now(),
+      date: (await phExifDate(file)) || phFileDate(file),
+      img: await phShrink(file, PH_MAX, PH_Q),
+      thumb: await phShrink(file, PH_THUMB, 0.7)
+    };
+  } catch(e){ toast("Не смог прочитать фото"); return; }
+  openSheet(
+    '<button class="fracb wide" onclick="phCommit(\'a\')">Контрольный кадр<small>та же комната, тот же свет, поза руки в стороны - это линейка</small></button>' +
+    '<button class="fracb wide" onclick="phCommit(\'b\')">Просто фото<small>для красоты, в сравнение не пойдёт</small></button>',
+    "Что за кадр?",
+    "Дата кадра: " + phFmt(phPending.date) + ". Контрольные снимаются одинаково, поэтому по ним видно правду."
+  );
+}
+function phCommit(track){
+  if(!phPending) return;
+  phPending.track = track;
+  if(track === "a"){
+    const cur = store.get("weight", 68.0);
+    const v = prompt("Вес на этом кадре, кг:", cur.toFixed(1));
+    if(v !== null){
+      const num = parseFloat(String(v).replace(",", "."));
+      if(!isNaN(num) && num >= 40 && num <= 150) phPending.w = Math.round(num * 10) / 10;
+      else toast("Вес не разобрал, допишешь тапом по кадру");
+    }
+  }
+  const rec = phPending;
+  phPending = null;
+  closeSheet();
+  phSave(rec).then(() => {
+    toast(track === "a" ? "Контрольный кадр записан" : "Кадр записан");
+    return phRender();
+  }).catch(() => toast("Память браузера переполнена - удали старые кадры"));
+}
+function phDelete(id){
+  if(!confirm("Удалить этот кадр? В галерее телефона он останется.")) return;
+  phDrop(id).then(() => {
+    if(phSel[0] === id) phSel[0] = null;
+    if(phSel[1] === id) phSel[1] = null;
+    phRender();
+  });
+}
+function phEditWeight(id){
+  const s = phFind(id);
+  if(!s) return;
+  const v = prompt("Вес на этом кадре, кг:", s.w ? s.w.toFixed(1) : store.get("weight", 68.0).toFixed(1));
+  if(v === null) return;
+  const num = parseFloat(String(v).replace(",", "."));
+  if(isNaN(num) || num < 40 || num > 150){ toast("Не похоже на вес"); return; }
+  s.w = Math.round(num * 10) / 10;
+  phSave(s).then(phRender);
+}
+function phEditDate(id){
+  const s = phFind(id);
+  if(!s) return;
+  const v = prompt("Дата кадра в формате ГГГГ-ММ-ДД:", s.date);
+  if(v === null) return;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(v.trim()) || isNaN(new Date(v.trim() + "T12:00:00").getTime())){
+    toast("Формат: 2026-07-15"); return;
+  }
+  s.date = v.trim();
+  phSave(s).then(phRender);
+}
+function phSlot(i){ phActive = i; phDraw(); }
+function phTap(id){
+  const other = phActive === 0 ? 1 : 0;
+  /* Тапнул кадр, который уже стоит напротив - меняем слоты местами,
+     иначе оба слота станут одинаковыми и сравнение исчезнет. */
+  if(phSel[other] === id){
+    phSel[other] = phSel[phActive];
+    phSel[phActive] = id;
+  } else {
+    phSel[phActive] = id;
+    phActive = other;
+  }
+  phDraw();
+}
+
+function kgTxt(n){ return n.toFixed(1).replace(".", ","); }
+function phPlural(n, one, few, many){
+  const a = Math.abs(n) % 100, b = a % 10;
+  if(a > 10 && a < 20) return many;
+  if(b > 1 && b < 5) return few;
+  if(b === 1) return one;
+  return many;
+}
+function phFmt(iso){
+  const d = new Date(iso + "T12:00:00");
+  const m = ["янв","фев","мар","апр","мая","июн","июл","авг","сен","окт","ноя","дек"];
+  return d.getDate() + " " + m[d.getMonth()];
+}
+function phFind(id){ return phShots.find(s => s.id === id); }
+
+function phDraw(){
+  const box = document.getElementById("phCompare");
+  const a = phFind(phSel[0]), b = phFind(phSel[1]);
+  const slot = (s, i) => {
+    const on = phActive === i ? " active" : "";
+    if(!s) return '<div class="ph-slot empty' + on + '" onclick="phSlot(' + i + ')"><div class="ph-ph">' +
+      (i === 0 ? "было" : "стало") + '</div></div>';
+    return '<div class="ph-slot' + on + '" onclick="phSlot(' + i + ')">' +
+      '<img src="' + s.img + '" alt="">' +
+      '<div class="ph-cap">' +
+      '<b onclick="event.stopPropagation();phEditDate(' + s.id + ')">' + phFmt(s.date) + '</b>' +
+      '<span onclick="event.stopPropagation();phEditWeight(' + s.id + ')">' + (s.w ? kgTxt(s.w) + ' кг' : '+ вес') + '</span>' +
+      '</div></div>';
+  };
+  box.innerHTML = slot(a, 0) + slot(b, 1);
+
+  const d = document.getElementById("phDelta");
+  if(a && b && a.id !== b.id){
+    /* Всегда меряем от раннего кадра к позднему: иначе поставил новый слева -
+       и набранные килограммы показываются как откат. */
+    const early = a.date <= b.date ? a : b, late = a.date <= b.date ? b : a;
+    const days = Math.round((new Date(late.date + "T12:00:00") - new Date(early.date + "T12:00:00")) / 864e5);
+    const dayTxt = days + " " + phPlural(days, "день", "дня", "дней");
+    let txt = dayTxt + " между кадрами";
+    if(early.w && late.w){
+      const dw = late.w - early.w;
+      txt = '<b>' + (dw >= 0 ? "+" : "") + kgTxt(dw) + ' кг</b> за ' + dayTxt;
+    }
+    d.innerHTML = txt;
+    d.classList.remove("hidden");
+  } else d.classList.add("hidden");
+
+  const g = document.getElementById("phGrid");
+  g.innerHTML = phShots.length
+    ? phShots.map(s =>
+        '<div class="ph-th' + (phSel.indexOf(s.id) >= 0 ? " on" : "") + '" onclick="phTap(' + s.id + ')">' +
+        '<img src="' + s.thumb + '" alt="">' +
+        '<div class="ph-th-d">' + phFmt(s.date) + '</div>' +
+        (s.track === "a" ? '<div class="ph-th-a">A</div>' : "") +
+        '<div class="ph-th-x" onclick="event.stopPropagation();phDelete(' + s.id + ')">×</div></div>'
+      ).join("")
+    : '<div class="wc-hist">Пусто. Первый кадр станет точкой отсчёта.</div>';
+}
+
+function phRender(){
+  return phLoad().then(list => {
+    phShots = (list || []).sort((x, y) => x.date < y.date ? -1 : (x.date > y.date ? 1 : x.id - y.id));
+    const ctrl = phShots.filter(s => s.track === "a");
+    const pool = ctrl.length >= 2 ? ctrl : phShots;
+    if(phSel[0] == null || !phFind(phSel[0])) phSel[0] = pool.length ? pool[0].id : null;
+    if(phSel[1] == null || !phFind(phSel[1])) phSel[1] = pool.length ? pool[pool.length - 1].id : null;
+    /* Первый снимок занимает оба слота. Появился второй - разводим их по краям. */
+    if(pool.length > 1 && phSel[0] === phSel[1]){
+      phSel[0] = pool[0].id;
+      phSel[1] = pool[pool.length - 1].id;
+    }
+    document.getElementById("phCount").textContent =
+      phShots.length ? phShots.length + " " + phPlural(phShots.length, "кадр", "кадра", "кадров") : "";
+    phDraw();
+  }).catch(() => {
+    document.getElementById("phGrid").innerHTML =
+      '<div class="wc-hist">Браузер не дал доступ к хранилищу фото. В приватной вкладке это нормально.</div>';
+  });
+}
+
+/* Просим браузер не выбрасывать данные при нехватке места */
+try { if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e){}
+
 /* ═══════════ БЭКАП ═══════════ */
-function exportData(){
+async function exportData(){
   const data = {};
   for(let i=0; i<localStorage.length; i++){
     const k = localStorage.key(i);
     data[k] = localStorage.getItem(k);
   }
-  const blob = new Blob([JSON.stringify({ v:3, exported: new Date().toISOString(), data:data }, null, 2)], { type:"application/json" });
+  /* Кадры лежат в IndexedDB, поэтому кладём их в бэкап руками -
+     иначе при смене телефона серия контрольных снимков остаётся на старом. */
+  let photos = [];
+  try { photos = (await phLoad()) || []; } catch(e){}
+  const blob = new Blob([JSON.stringify({ v:4, exported: new Date().toISOString(), data:data, photos:photos }, null, 2)], { type:"application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = "gryaz-backup-" + todayISO() + ".json";
   a.click();
-  toast("Бэкап скачан");
+  toast(photos.length ? "Бэкап скачан, кадров внутри " + photos.length : "Бэкап скачан");
 }
 function importData(file){
   if(!file) return;
@@ -1982,8 +2323,11 @@ function importData(file){
       const parsed = JSON.parse(e.target.result);
       const data = parsed.data || parsed;
       Object.keys(data).forEach(k => { localStorage.setItem(k, data[k]); });
-      toast("Восстановлено");
-      setTimeout(()=>location.reload(), 700);
+      const shots = Array.isArray(parsed.photos) ? parsed.photos : [];
+      Promise.all(shots.map(s => phSave(s).catch(()=>null))).then(()=>{
+        toast(shots.length ? "Восстановлено, кадров " + shots.length : "Восстановлено");
+        setTimeout(()=>location.reload(), 700);
+      });
     } catch(err){ toast("Файл не читается"); }
   };
   r.readAsText(file);
@@ -1995,7 +2339,7 @@ function switchView(v){
     document.getElementById("view"+x).classList.toggle("hidden", v.toLowerCase() !== x.toLowerCase());
     document.getElementById("nav"+x).classList.toggle("active", v.toLowerCase() === x.toLowerCase());
   });
-  if(v==="history") renderHistory();
+  if(v==="history"){ renderHistory(); phRender(); }
   if(v==="food") renderFood();
   if(v==="gym"){ renderTabs(); renderDay(); }
   if(v==="guide") renderGuide();
