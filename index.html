@@ -135,6 +135,7 @@
   .ex-name { font-size: 16px; font-weight: 800; line-height: 1.25; }
   .ex-idx { font-size: 11px; color: var(--dim); font-weight: 800; letter-spacing: 1px; }
   .ex-target { font-size: 12px; color: var(--org); font-weight: 700; margin-top: 4px; }
+  .ex-m { font-size: 11px; font-weight: 800; letter-spacing: .3px; text-transform: uppercase; color: var(--org); margin: 6px 0 2px; line-height: 1.35; }
   .ex-note { font-size: 12px; color: var(--dim); margin-top: 6px; line-height: 1.45; }
   .ex-last { font-size: 12px; color: var(--gold); margin-top: 8px; font-weight: 600; }
   .ex-tip {
@@ -201,6 +202,26 @@
   .fbtn small i { color: #9a9aa8; font-style: normal; font-weight: 700; }
   .fbtn.rec { border-color: #33333f; }
   .fbtn.rec .ic-lg { margin-bottom: 8px; }
+
+  /* ── чек-лист дня ── */
+  .ck-head { display: flex; justify-content: space-between; align-items: baseline; margin: 2px 2px 10px; }
+  .ck-head span { font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--dim); }
+  .ck-head b { font-size: 15px; font-weight: 900; font-variant-numeric: tabular-nums; }
+  .ck-head b.full { color: var(--org); }
+  .tstep.opt { opacity: .68; }
+  .tstep.opt .tt-name i { font-style: normal; font-size: 10px; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: .4px; }
+
+  /* ── дни в истории ── */
+  .dayrow { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 12px;
+    background: var(--panel); margin-bottom: 6px; }
+  .dayrow.full { border-color: var(--org-dim); }
+  .dr-d { font-size: 12.5px; font-weight: 800; font-variant-numeric: tabular-nums; flex: none; }
+  .dr-w { font-size: 11px; color: var(--dim); font-weight: 700; flex: none; width: 18px; }
+  .dr-dots { display: flex; gap: 4px; flex: 1; flex-wrap: wrap; }
+  .dr-dots i { width: 9px; height: 9px; border-radius: 3px; background: var(--panel-2); border: 1px solid var(--line); }
+  .dr-dots i.on { background: var(--org); border-color: var(--org); }
+  .dr-n { font-size: 12px; font-weight: 900; color: var(--dim); font-variant-numeric: tabular-nums; flex: none; }
+  .dayrow.full .dr-n { color: var(--org); }
 
   /* ── вес: недельная дельта и протокол ── */
   .wc-week { display: flex; align-items: baseline; gap: 8px; margin-top: 12px; font-size: 12px; font-weight: 700; }
@@ -739,6 +760,9 @@
 <div class="wrap hidden" id="viewHistory">
   <div class="h-title">История</div>
   <div class="h-sub" id="hSub"></div>
+  <div class="sec-h">Дни</div>
+  <div id="daysBox"></div>
+
   <div class="sec-h" style="display:flex;justify-content:space-between;align-items:center">
     <span>Прогресс в кадре</span>
     <span id="phCount" style="color:var(--org);font-size:11px"></span>
@@ -782,25 +806,25 @@ const PROGRAM = {
     warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин до испарины. По 10: круги руками, вращения с палкой, кошка-корова. Подводящие к первому жиму: 50%×8, 75%×4.",
     cardio: "15 мин · пульс 120-130 · эллипс или лестница",
     ex: [
-      { id:"d1e1", name:"Жим гантелей 45°", icon:"press", sets:4, lo:8, hi:12, w:0, step:2, dumb:true, calib:true,
+      { id:"d1e1", name:"Жим гантелей 45°", m:"Верх грудной · передняя дельта · трицепс", icon:"press", sets:4, lo:8, hi:12, w:0, step:2, dumb:true, calib:true,
         note:"Скамья под 45°. Гантели вниз до растяжения груди, вверх не до щелчка локтей. Вес одной гантели.",
         swap:"Жим в Смите на наклонной." },
-      { id:"d1e2", name:"Жим в горизонтальном хаммере", icon:"press", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+      { id:"d1e2", name:"Жим в горизонтальном хаммере", m:"Середина грудной · трицепс", icon:"press", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
         note:"Рычажный тренажёр, жмёшь от груди вперёд. Вес одной стороны.",
         swap:"Жим гантелей лёжа горизонтально." },
-      { id:"d1e3", name:"Бабочка на грудь", icon:"flye", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+      { id:"d1e3", name:"Бабочка на грудь", m:"Грудная целиком, внутренний край", icon:"flye", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
         note:"Пек-дек. Локти слегка согнуты и зафиксированы, сводишь до касания рукоятей.",
         swap:"Сведение в кроссовере стоя." },
-      { id:"d1e4", name:"Отведение гантелей в стороны стоя", icon:"lateral", sets:4, lo:15, hi:20, w:0, step:2, dumb:true, calib:true,
+      { id:"d1e4", name:"Отведение гантелей в стороны стоя", m:"Средняя дельта", icon:"lateral", sets:4, lo:15, hi:20, w:0, step:2, dumb:true, calib:true,
         note:"До параллели с полом, не выше. Никогда в отказ - это средняя дельта, она мелкая. Вес одной гантели.",
         swap:"Махи на нижнем блоке." },
-      { id:"d1e5", name:"Жим на переднюю дельту в рычажном", icon:"shoulderpress", sets:4, lo:10, hi:12, w:0, step:2.5, calib:true,
+      { id:"d1e5", name:"Жим на переднюю дельту в рычажном", m:"Передняя дельта · трицепс", icon:"shoulderpress", sets:4, lo:10, hi:12, w:0, step:2.5, calib:true,
         note:"Спина прижата к спинке, жмёшь вверх. Вес одной стороны.",
         swap:"Жим гантелей сидя со спинкой." },
-      { id:"d1e6", name:"Разгибание с канатами на трицепс", icon:"triceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"start",
+      { id:"d1e6", name:"Разгибание с канатами на трицепс", m:"Трицепс, боковая и средняя головки", icon:"triceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"start",
         note:"Локти прижаты к корпусу, внизу канат разводишь в стороны.",
         swap:"Разгибание с прямой рукоятью." },
-      { id:"d1e7", name:"Французский жим", icon:"triceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"end",
+      { id:"d1e7", name:"Французский жим", m:"Трицепс, длинная головка", icon:"triceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"end",
         note:"Сразу после каната, без отдыха. Локти смотрят в потолок и не разъезжаются.",
         swap:"Разгибание из-за головы с гантелью." }
     ]
@@ -810,28 +834,28 @@ const PROGRAM = {
     warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин. По 10: круги руками, вращения с палкой, кошка-корова. Подводящие к вертикальной тяге: 50%×8, 75%×4.",
     cardio: "15 мин · пульс 120-130 · эллипс или лестница",
     ex: [
-      { id:"d2e1", name:"Вертикальная тяга средним параллельным хватом", icon:"pullup", sets:4, lo:10, hi:12, w:0, step:2.5, calib:true,
+      { id:"d2e1", name:"Вертикальная тяга средним параллельным хватом", m:"Широчайшие · низ трапеции · бицепс", icon:"pullup", sets:4, lo:10, hi:12, w:0, step:2.5, calib:true,
         note:"Дима: выше 59 кг не брать - начинают работать руки. Тянешь лопатками, не бицепсом.",
         swap:"Тяга в хаммере с упором в грудь." },
-      { id:"d2e2", name:"Тяга гантели к поясу в наклоне", icon:"pullup", sets:4, lo:10, hi:12, w:0, step:2, dumb:true, calib:true,
+      { id:"d2e2", name:"Тяга гантели к поясу в наклоне", m:"Широчайшие · ромбовидные · задняя дельта", icon:"pullup", sets:4, lo:10, hi:12, w:0, step:2, dumb:true, calib:true,
         note:"Упор рукой и коленом в лавку, спина прямая. Тянешь к поясу, не к плечу. Вес одной гантели.",
         swap:"Тяга в нижнем блоке одной рукой." },
-      { id:"d2e3", name:"Тяга в кроссовере сидя, по одной руке", icon:"pullup", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+      { id:"d2e3", name:"Тяга в кроссовере сидя, по одной руке", m:"Широчайшие · середина спины", icon:"pullup", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
         note:"Сидя, тянешь к поясу. Корпус не докручивать за рукой.",
         swap:"Тяга гантели в наклоне." },
-      { id:"d2e4", name:"Горизонтальная тяга средним параллельным хватом", icon:"pullup", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+      { id:"d2e4", name:"Горизонтальная тяга средним параллельным хватом", m:"Середина трапеции · ромбовидные · широчайшие", icon:"pullup", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
         note:"Грудь в упор, лопатки сводишь в конце движения.",
         swap:"Хаммер-тяга." },
-      { id:"d2e5", name:"Задняя дельта в бабочке", icon:"flye", sets:4, lo:15, hi:15, w:0, step:2.5, calib:true, ss:"start",
+      { id:"d2e5", name:"Задняя дельта в бабочке", m:"Задняя дельта", icon:"flye", sets:4, lo:15, hi:15, w:0, step:2.5, calib:true, ss:"start",
         note:"Пек-дек задом наперёд: грудью к спинке, разводишь руки назад.",
         swap:"Face pull на верхнем блоке." },
-      { id:"d2e6", name:"Разгибание на поясницу", icon:"rdl", sets:4, lo:15, hi:15, w:0, step:2.5, calib:true,
+      { id:"d2e6", name:"Разгибание на поясницу", m:"Разгибатели спины · ягодицы · бицепс бедра", icon:"rdl", sets:4, lo:15, hi:15, w:0, step:2.5, calib:true,
         note:"Гиперэкстензия. Без веса, пока не станет легко. Не переразгибаться назад в верхней точке.",
         swap:"Обратная гиперэкстензия.", ss:"end" },
-      { id:"d2e7", name:"Бицепс в тренажёре Скотта", icon:"biceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"start",
+      { id:"d2e7", name:"Бицепс в тренажёре Скотта", m:"Бицепс, короткая головка", icon:"biceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"start",
         note:"Локти лежат на подушке и не отрываются. Внизу руку распускать полностью.",
         swap:"Сгибания на скамье Скотта с EZ-грифом." },
-      { id:"d2e8", name:"Сгибание с нижнего блока, прямая рукоять", icon:"curl", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"end",
+      { id:"d2e8", name:"Сгибание с нижнего блока, прямая рукоять", m:"Бицепс · брахиалис", icon:"curl", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"end",
         note:"Сразу после Скотта. Стоя, локти прижаты к бокам.",
         swap:"Сгибания с гантелями стоя." }
     ]
@@ -841,22 +865,22 @@ const PROGRAM = {
     warm: "<b>Разминка Димы:</b> 2 подхода приведение + 2 подхода отведение, по 20 повторений, НЕ в отказ. Плюс велотренажёр 4 мин и колени погреть отдельно.",
     cardio: "15 мин · пульс 120-130 · после ног бери эллипс: лестница добьёт то, что ты уже убил",
     ex: [
-      { id:"d3e1", name:"Присед в Смите", icon:"legs", sets:4, lo:10, hi:12, w:0, step:5, calib:true,
+      { id:"d3e1", name:"Присед в Смите", m:"Квадрицепс · ягодицы", icon:"legs", sets:4, lo:10, hi:12, w:0, step:5, calib:true,
         note:"Стопы чуть вперёд от грифа, спина по рельсе. Вниз до параллели бедра с полом.",
         swap:"Гакк-машина." },
-      { id:"d3e2", name:"Жим двумя ногами", icon:"legs", sets:4, lo:10, hi:12, w:0, step:5, calib:true,
+      { id:"d3e2", name:"Жим двумя ногами", m:"Квадрицепс · ягодицы", icon:"legs", sets:4, lo:10, hi:12, w:0, step:5, calib:true,
         note:"Поясница прижата к спинке. Колени не сводить внутрь.",
         swap:"Гакк-машина узкой постановкой." },
-      { id:"d3e3", name:"Выпады на месте с гантелями", icon:"legs", sets:4, lo:10, hi:12, w:0, step:2, dumb:true, calib:true,
+      { id:"d3e3", name:"Выпады на месте с гантелями", m:"Квадрицепс · ягодицы · приводящие", icon:"legs", sets:4, lo:10, hi:12, w:0, step:2, dumb:true, calib:true,
         note:"На месте, не в шаге. Колено задней ноги почти касается пола. Вес одной гантели.",
         swap:"Болгарские выпады в Смите." },
-      { id:"d3e4", name:"Разгибание сидя", icon:"legs", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+      { id:"d3e4", name:"Разгибание сидя", m:"Квадрицепс, изоляция", icon:"legs", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
         note:"Пауза 1 сек в верхней точке. Это добивка, не рекорд.",
         swap:"Разгибание одной ногой." },
-      { id:"d3e5", name:"Голень стоя", icon:"calf", sets:4, lo:20, hi:20, w:0, step:5, calib:true, ss:"start",
+      { id:"d3e5", name:"Голень стоя", m:"Икроножная", icon:"calf", sets:4, lo:20, hi:20, w:0, step:5, calib:true, ss:"start",
         note:"Пауза 1 сек внизу, на растяжении. Дима сказал делать в сете со сгибанием сидя.",
         swap:"Носками на платформе жима ногами." },
-      { id:"d3e6", name:"Сгибание ног сидя", icon:"hamstring", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"end",
+      { id:"d3e6", name:"Сгибание ног сидя", m:"Бицепс бедра", icon:"hamstring", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"end",
         note:"Дима повторы не назвал - ставлю 12-15, при случае уточни. Именно сидя: растянутая позиция даёт больше роста.",
         swap:"Сгибание лёжа." }
     ]
@@ -866,19 +890,19 @@ const PROGRAM = {
     warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин. По 10: круги руками, вращения с палкой, кошка-корова. Подводящие к вертикальной тяге: 50%×8, 75%×4.",
     cardio: "15 мин · пульс 120-130 · эллипс или лестница",
     ex: [
-      { id:"d4e1", name:"Вертикальная тяга хватом чуть шире плеч", icon:"pullup", sets:4, lo:10, hi:12, w:0, step:2.5, calib:true,
+      { id:"d4e1", name:"Вертикальная тяга хватом чуть шире плеч", m:"Широчайшие, работа на ширину", icon:"pullup", sets:4, lo:10, hi:12, w:0, step:2.5, calib:true,
         note:"Хват чуть шире плеч, к груди, никогда за голову.",
         swap:"Подтягивания в гравитроне." },
-      { id:"d4e2", name:"Горизонтальная тяга узким параллельным хватом", icon:"pullup", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+      { id:"d4e2", name:"Горизонтальная тяга узким параллельным хватом", m:"Середина спины · широчайшие", icon:"pullup", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
         note:"Узкая рукоять, тянешь к животу. Корпус не раскачивать.",
         swap:"Хаммер-тяга." },
-      { id:"d4e3", name:"Пуловер с изогнутой рукоятью", icon:"flye", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+      { id:"d4e3", name:"Пуловер с изогнутой рукоятью", m:"Широчайшие · низ грудной", icon:"flye", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
         note:"Стоя у верхнего блока, руки почти прямые. Тянешь широчайшими, а не трицепсом.",
         swap:"Пуловер с гантелью лёжа." },
-      { id:"d4e4", name:"Жим гантелей на скамье 15°", icon:"press", sets:4, lo:8, hi:12, w:0, step:2, dumb:true, calib:true,
+      { id:"d4e4", name:"Жим гантелей на скамье 15°", m:"Грудная · передняя дельта", icon:"press", sets:4, lo:8, hi:12, w:0, step:2, dumb:true, calib:true,
         note:"Почти горизонталь, наклон всего 15°. Вес одной гантели.",
         swap:"Жим в хаммере." },
-      { id:"d4e5", name:"Сведение в кроссовере на низ груди", icon:"flye", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
+      { id:"d4e5", name:"Сведение в кроссовере на низ груди", m:"Низ грудной", icon:"flye", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
         note:"Блоки сверху, сводишь вниз-внутрь к поясу. Лёгкий наклон корпуса вперёд.",
         swap:"Бабочка / отжимания на брусьях с наклоном." }
     ]
@@ -909,41 +933,6 @@ function nextTrainDay(){
   }
   return DAY_ORDER[0];
 }
-
-/* ═══════════ РАСПИСАНИЕ НЕДЕЛИ ═══════════ */
-const SCHEDULE = {
-  1: { kind:"iron", what:"ЖЕЛЕЗО", note:"Программа Димы: четыре дня по кругу. Какой сегодня - смотри во вкладке Зал." },
-  2: { kind:"ring", what:"БОКС · 20:00", note:"Бинты, капа, вода. Шейк сразу после - 900 ккал одним стаканом." },
-  3: { kind:"iron", what:"ЖЕЛЕЗО", note:"Кардио 15 мин на пульсе 120-130 идёт ПОСЛЕ зала, а не вместо." },
-  4: { kind:"pool", what:"БАССЕЙН + ХАМАМ", note:"15-20 мин спокойно. Это восстановление, не тренировка." },
-  5: { kind:"ring", what:"БОКС · 20:00", note:"Жёсткий спарринг сегодня = суббота автоматически в разгрузке." },
-  6: { kind:"iron", what:"ЖЕЛЕЗО", note:"Самый свободный день недели. Не сокращай, если успеваешь по времени." },
-  0: { kind:"pool", what:"БАССЕЙН + ХАМАМ", note:"Плюс 5-8 минут растяжки - только здесь, на тёплом теле." }
-};
-
-const MEALS = {
-  iron: [
-    { t:"13:00", n:"Завтрак: яичница 4 яйца + хлеб с сыром", k:700 },
-    { t:"16:30", n:"Обед: паста / свинина", k:850 },
-    { t:"19:30", n:"Ужин: фокачча, бутеры", k:500 },
-    { t:"01:00", n:"ГЕЙНЕР сразу после зала", k:900 },
-    { t:"03:30", n:"Творог со сметаной", k:350 }
-  ],
-  ring: [
-    { t:"13:00", n:"Завтрак: яичница 4 яйца + хлеб с сыром", k:700 },
-    { t:"16:30", n:"Обед: паста / свинина", k:850 },
-    { t:"18:30", n:"Лёгкая еда за 1,5 ч до ринга", k:300 },
-    { t:"22:00", n:"ГЕЙНЕР сразу после ринга", k:900 },
-    { t:"03:30", n:"Творог со сметаной", k:350 }
-  ],
-  pool: [
-    { t:"13:00", n:"Завтрак: яичница 4 яйца + хлеб с сыром", k:700 },
-    { t:"16:30", n:"Обед: основное блюдо", k:850 },
-    { t:"20:00", n:"Ужин: паста / запеканка", k:800 },
-    { t:"00:00", n:"Перекус: банан + арахисовая паста", k:300 },
-    { t:"03:30", n:"Творог со сметаной", k:350 }
-  ]
-};
 
 /* ═══════════ ЕДА ═══════════ */
 /* Цифры сверены со справочниками 29.08.2026. Правки против первых оценок:
@@ -1159,12 +1148,14 @@ function modeFor(w){
   if(w > 5 && (w - 5) % 6 === 0) return "РАЗГРУЗКА";
   return "РАБОТА";
 }
-function todaySched(){ return SCHEDULE[new Date().getDay()]; }
 function isPowderDay(){ const d = new Date().getDay(); return d === 1 || d === 4; }
 
 /* ═══════════ ГИД: чек-лист дня ═══════════ */
-function gkey(){ return "guide_" + todayISO(); }
-function gState(){ return store.get(gkey(), {}); }
+/* Времени в списке нет намеренно: режим свободный, а расписание по часам
+   превращалось в вечный упрёк. Еда и тренировка считаются сами из своих
+   вкладок, остальное отмечается руками. */
+function gkey(iso){ return "guide_" + (iso || todayISO()); }
+function gState(iso){ return store.get(gkey(iso), {}); }
 function gMark(k){
   const s = gState(); s[k] = 1; store.set(gkey(), s);
   renderGuide();
@@ -1176,71 +1167,131 @@ function gToggle(k){
   renderGuide();
 }
 
+function dayFood(iso){
+  const list = (store.get("food", {})[iso] || []).map(normEntry);
+  return {
+    k: list.reduce((a,e) => a + entryK(e), 0),
+    p: list.reduce((a,e) => a + entryP(e), 0)
+  };
+}
+
+function dayItems(iso){
+  const st = gState(iso);
+  const f = dayFood(iso);
+  const ses = store.get("sessions", []).filter(s => s.date === iso);
+  const sl = store.get("sleep", {})[iso] || {};
+  const powder = isPowderDay();
+  return [
+    { k:"wake", n:"Подъём", done: !!(sl.up || st.wake),
+      sub: sl.up ? "Встал в " + sl.up : "Отметь, как встал - посчитаю сон",
+      btn:"Встал", act:"markWake()" },
+    { k:"am", n: powder ? "Утренний уход · день пудры" : "Утренний уход", done: !!st.am,
+      sub:"Умывание, крем, SPF. Три минуты", btn:"Начать", act:"startAM()" },
+    { k:"crea", n:"Креатин 5 г", done: !!st.crea,
+      sub:"Каждый день и в любое время. Пропуски сбивают насыщение мышц",
+      btn:"Принял", act:"gMark('crea')" },
+    { k:"food", n:"Еда", done: f.k >= KCAL_LO, auto:true,
+      sub: f.k >= KCAL_LO
+        ? "Съедено " + f.k + " ккал, коридор закрыт"
+        : "Съедено " + f.k + " из " + KCAL_LO + ". Добрать " + (KCAL_LO - f.k),
+      btn:"В еду", act:"switchView('food')" },
+    { k:"prot", n:"Белок", done: f.p >= PROT_GOAL, auto:true,
+      sub: f.p + " из " + PROT_GOAL + " г" + (f.p >= PROT_GOAL ? ", норма закрыта" : ". Не хватает " + (PROT_GOAL - f.p)),
+      btn:"В еду", act:"switchView('food')" },
+    { k:"tr", n:"Тренировка · " + (ses.length ? (DAY_NAMES[ses[0].day] || "") : DAY_NAMES[curDay]),
+      done: !!(ses.length || st.tr), auto: !!ses.length,
+      sub: ses.length
+        ? "Записана, упражнений " + Object.keys(ses[0].ex).length
+        : "Гид проведёт по упражнениям и запишет веса",
+      btn:"В зал", act:"goWorkout()" },
+    { k:"pm", n:"Вечерний уход", done: !!st.pm,
+      sub: powder ? "Сегодня без кислоты - утром была пудра" : "Умывание, BHA, ночной крем",
+      btn:"Начать", act:"startPM()" },
+    { k:"bed", n:"Отбой", done: !!(sl.bed || st.bed),
+      sub: sl.bed ? "Лёг в " + sl.bed : "Отметь, как ложишься", btn:"Лёг", act:"markBed()" },
+    { k:"hair", n:"Волосы", done: !!st.hair, opt:true,
+      sub:"Только после мытья. Кондиционер, крем для кудрей, масло",
+      btn:"Гид", act:"startHair()" }
+  ];
+}
+function dayScore(iso){
+  const it = dayItems(iso).filter(x => !x.opt);
+  return { done: it.filter(x => x.done).length, total: it.length };
+}
+
 function renderGuide(){
   const d = new Date();
-  const sc = todaySched();
+  const iso = todayISO();
   const names = ["ВОСКРЕСЕНЬЕ","ПОНЕДЕЛЬНИК","ВТОРНИК","СРЕДА","ЧЕТВЕРГ","ПЯТНИЦА","СУББОТА"];
-  const card = document.getElementById("todayCard");
-  card.className = "today-card " + sc.kind;
-  document.getElementById("tcDay").textContent = names[d.getDay()] + " · " + pad(d.getDate()) + "." + pad(d.getMonth()+1);
-  if(sc.kind === "iron" && !manualDay){ curDay = nextTrainDay(); store.set("curDay", curDay); }
-  document.getElementById("tcWhat").textContent = sc.kind === "iron" ? sc.what + " · " + DAY_NAMES[curDay] : sc.what;
-  document.getElementById("tcNote").textContent = sc.note;
+  const ses = store.get("sessions", []).filter(s => s.date === iso);
+  /* День сплита берём по кругу от последней тренировки, а не по дню недели */
+  if(!manualDay && !ses.length){ curDay = nextTrainDay(); store.set("curDay", curDay); }
+
+  document.getElementById("todayCard").className = "today-card iron";
+  document.getElementById("tcDay").textContent =
+    names[d.getDay()] + " · " + pad(d.getDate()) + "." + pad(d.getMonth() + 1);
+  document.getElementById("tcWhat").textContent = ses.length
+    ? "Оттренирован · " + (DAY_NAMES[ses[0].day] || "")
+    : "Впереди · " + DAY_NAMES[curDay];
+
+  const f = dayFood(iso);
+  document.getElementById("tcNote").textContent = f.k >= KCAL_LO
+    ? "Еда закрыта: " + f.k + " ккал, белок " + f.p + " г"
+    : "Добрать ещё " + (KCAL_LO - f.k) + "-" + (KCAL_HI - f.k) + " ккал";
 
   const w = weekNum();
   document.getElementById("tcWeek").textContent = w;
   document.getElementById("tcRir").textContent = rirFor(w);
   document.getElementById("tcMode").textContent = modeFor(w);
 
-  const sl = store.get("sleep", {})[todayISO()] || {};
+  const sl = store.get("sleep", {})[iso] || {};
   let slTxt = "—";
   if(sl.bed && sl.up){
     const [bh,bm] = sl.bed.split(":").map(Number), [uh,um] = sl.up.split(":").map(Number);
-    let mins = (uh*60+um)-(bh*60+bm); if(mins<0) mins += 1440;
+    let mins = (uh*60+um) - (bh*60+bm); if(mins < 0) mins += 1440;
     slTxt = Math.floor(mins/60) + "ч " + (mins%60) + "м";
   } else if(sl.up) slTxt = "встал " + sl.up;
   document.getElementById("tcSleep").textContent = slTxt;
 
-  const st = gState();
-  const meals = MEALS[sc.kind];
-  let steps = [];
-
-  steps.push({ k:"wake", time:"12:30", name:"Подъём", sub: sl.up ? "Встал в " + sl.up : "Фиксированный будильник. Отметь, как встал", btn:"Встал", act:"markWake()" });
-  steps.push({ k:"am", time:"12:45", name: isPowderDay() ? "Утренний уход · день пудры" : "Утренний уход", sub:"Умывание → крем → SPF. Три минуты", btn:"Начать", act:"startAM()" });
-
-  meals.forEach((m,i)=>{
-    steps.push({ k:"m"+i, time:m.t, name:m.n, sub:"~"+m.k+" ккал" + (i===1 ? " · не знаешь что готовить - рулетка в Еде" : ""), btn:"Съел", act:"gMark('m"+i+"')" });
-  });
-
-  steps.push({ k:"work", time:"14:00-23:00", name:"Окно Макса", sub:"Рабочее время по МСК. Быть на связи", info:true });
-
-  if(sc.kind === "iron"){
-    steps.push({ k:"tr", time:"23:00", name:"Тренировка: " + sc.what + " · " + DAY_NAMES[curDay], sub:"Гид проведёт по упражнениям и запишет веса", btn:"В зал", act:"goWorkout()" });
-  } else if(sc.kind === "ring"){
-    steps.push({ k:"tr", time:"20:00", name:"Бокс", sub:"Бинты, капа, вода. После - шейк, не жди аппетита", btn:"Был", act:"gMark('tr')" });
-  } else {
-    steps.push({ k:"tr", time:"вечер", name:"Бассейн + хамам", sub:"Шапочка, шлёпки. 15-20 мин воды, 10-15 мин пара", btn:"Был", act:"gMark('tr')" });
-  }
-
-  steps.push({ k:"hair", time:"после душа", name:"Волосы", sub:"Кондиционер → крем для кудрей → масло", btn:"Гид", act:"startHair()" });
-  steps.push({ k:"pm", time:"03:00", name:"Вечерний уход", sub: isPowderDay() ? "Сегодня без кислоты (утром была пудра)" : "Умывание → BHA → ночной крем", btn:"Начать", act:"startPM()" });
-  steps.push({ k:"bed", time:"04:30", name:"Отбой", sub: sl.bed ? "Лёг в " + sl.bed : "Отметь, как ложишься - я посчитаю сон", btn:"Лёг", act:"markBed()" });
-
-  let html = "";
-  steps.forEach(s=>{
-    const done = st[s.k];
-    html += '<div class="tstep' + (done ? " done" : "") + (s.info ? " info" : "") + '"' +
-      (s.info ? "" : ' onclick="' + (done ? "gToggle('"+s.k+"')" : s.act) + '"') + '>';
+  const items = dayItems(iso);
+  const sc = dayScore(iso);
+  let html = '<div class="ck-head"><span>Обязательное за день</span>' +
+    '<b class="' + (sc.done === sc.total ? "full" : "") + '">' + sc.done + ' из ' + sc.total + '</b></div>';
+  items.forEach(s => {
+    const tap = s.done && !s.auto ? "gToggle('" + s.k + "')" : s.act;
+    html += '<div class="tstep' + (s.done ? " done" : "") + (s.opt ? " opt" : "") + '" onclick="' + tap + '">';
     html += '<div class="dot"></div><div class="tt">';
-    html += '<div class="tt-time">' + s.time + '</div>';
-    html += '<div class="tt-name">' + s.name + '</div>';
+    html += '<div class="tt-name">' + s.n + (s.opt ? ' <i>по желанию</i>' : '') + '</div>';
     html += '<div class="tt-sub">' + s.sub + '</div></div>';
-    if(!s.info && !done) html += '<div class="go">' + s.btn + '</div>';
+    if(!s.done) html += '<div class="go">' + s.btn + '</div>';
     html += '</div>';
   });
   document.getElementById("timeline").innerHTML = html;
-
   renderStats();
+}
+
+/* История дней: те же пункты, посчитанные за прошлые даты */
+function renderDays(){
+  const box = document.getElementById("daysBox");
+  if(!box) return;
+  const names = ["вс","пн","вт","ср","чт","пт","сб"];
+  const rows = [];
+  for(let i = 0; i < 14; i++){
+    const dt = new Date(); dt.setDate(dt.getDate() - i);
+    const iso = dt.toISOString().slice(0,10);
+    const items = dayItems(iso).filter(x => !x.opt);
+    const done = items.filter(x => x.done).length;
+    const dots = items.map(x => '<i class="' + (x.done ? "on" : "") + '" title="' + x.n + '"></i>').join("");
+    rows.push({ done: done, html: '<div class="dayrow' + (done === items.length ? " full" : "") + '">' +
+      '<span class="dr-d">' + pad(dt.getDate()) + "." + pad(dt.getMonth()+1) + '</span>' +
+      '<span class="dr-w">' + names[dt.getDay()] + '</span>' +
+      '<span class="dr-dots">' + dots + '</span>' +
+      '<span class="dr-n">' + done + '/' + items.length + '</span></div>' });
+  }
+  /* Обрезаем пустой хвост: на свежей установке незачем показывать две недели нулей */
+  while(rows.length > 1 && rows[rows.length - 1].done === 0) rows.pop();
+  const any = rows.some(x => x.done > 0);
+  box.innerHTML = any ? rows.map(x => x.html).join("") : '<div class="wc-hist">Пока пусто. Отмечай пункты в Гиде - здесь появится картина по дням.</div>';
 }
 
 function markWake(){
@@ -1446,6 +1497,7 @@ function renderDay(){
     html += '<div class="ex">';
     html += '<div class="ex-head"><div><div class="ex-name">' + ex.name + '</div>';
     html += '<div class="ex-target">' + target + '</div></div><div class="ex-idx">' + (i+1) + '</div></div>';
+    if(ex.m) html += '<div class="ex-m">' + ex.m + '</div>';
     html += '<div class="ex-note">' + ex.note + '</div>';
     if(prev){
       const wTxt = ex.bw ? (prev.w ? " · пояс " + prev.w + " кг" : "") : (prev.w ? prev.w + " кг · " : "");
@@ -1537,7 +1589,7 @@ function startWorkoutFlow(){
     steps.push({
       exId: ex.id,
       i: ex.icon || "press", t: ex.name,
-      d: "<b>" + target + "</b>. " + ex.note,
+      d: "<b>" + target + "</b>" + (ex.m ? " · чувствуй: " + ex.m : "") + ". " + ex.note,
       s: (prev ? "Прошлый раз: " + (prev.w ? prev.w + " кг · " : "") + prev.reps.filter(r=>r>0).join(" · ") + ". " : "") + (tip ? tip.txt : "") + " Если занято: " + ex.swap,
       html: html,
       collect: (function(exId, sets){
@@ -2339,7 +2391,7 @@ function switchView(v){
     document.getElementById("view"+x).classList.toggle("hidden", v.toLowerCase() !== x.toLowerCase());
     document.getElementById("nav"+x).classList.toggle("active", v.toLowerCase() === x.toLowerCase());
   });
-  if(v==="history"){ renderHistory(); phRender(); }
+  if(v==="history"){ renderDays(); renderHistory(); phRender(); }
   if(v==="food") renderFood();
   if(v==="gym"){ renderTabs(); renderDay(); }
   if(v==="guide") renderGuide();
