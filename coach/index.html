@@ -269,7 +269,7 @@ async function invite(clientId){
 /* ═══════════ КЛИЕНТ ═══════════ */
 async function openClient(id){
   try {
-    cur = await api("coach/client?id=" + id);
+    cur = await api("coach/client&id=" + id);   /* маршрут уже в ?r=, поэтому второй параметр через & */
     cur.id = id;
     curTab = "sum";
     renderClient();

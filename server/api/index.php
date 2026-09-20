@@ -141,7 +141,7 @@ function coach_name(PDO $db, int $id): string {
   $q = $db->prepare('SELECT name FROM coaches WHERE id = ?'); $q->execute([$id]);
   return (string) ($q->fetchColumn() ?: '');
 }
-function coach_docs(PDO $db, int $clientId, array $since = []): array {
+function coach_docs(PDO $db, int $clientId, array $since = []): object {
   $q = $db->prepare('SELECT key, json, rev, updated FROM coach_docs WHERE client_id = ?');
   $q->execute([$clientId]);
   $outv = [];
@@ -149,14 +149,14 @@ function coach_docs(PDO $db, int $clientId, array $since = []): array {
     if (isset($since[$r['key']]) && (int) $since[$r['key']] >= (int) $r['rev']) continue;
     $outv[$r['key']] = ['d' => json_decode($r['json'], true), 'rev' => (int) $r['rev'], 'u' => (int) $r['updated']];
   }
-  return $outv;
+  return (object) $outv;   /* пустой → {} в JSON, а не [] */
 }
-function client_docs(PDO $db, int $clientId): array {
+function client_docs(PDO $db, int $clientId): object {
   $q = $db->prepare('SELECT key, json, updated FROM docs WHERE client_id = ?');
   $q->execute([$clientId]);
   $outv = [];
   foreach ($q as $r) $outv[$r['key']] = ['d' => json_decode($r['json'], true), 'u' => (int) $r['updated']];
-  return $outv;
+  return (object) $outv;
 }
 function client_summary(PDO $db, array $c): array {
   /* Дёшево: вес и последняя тренировка. Остальное считает кабинет из документов. */

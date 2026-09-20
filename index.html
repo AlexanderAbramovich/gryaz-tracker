@@ -704,9 +704,9 @@
     </div>
   </div>
 
-  <div class="tl" id="timeline"></div>
-
   <div id="coachNoteBox"></div>
+
+  <div class="tl" id="timeline"></div>
 
   <div class="weight-card">
     <div class="wc-top">
@@ -995,7 +995,11 @@ function applyPlan(p){
 function loadPlan(){
   const p = store.get("plan", null);
   if(planValid(p)) return p;
-  return JSON.parse(JSON.stringify(SEED_PLAN));
+  /* Сид кладём в хранилище сразу: тогда программа уходит тренеру при синке,
+     и кабинет знает упражнения для вердиктов по весам */
+  const seed = JSON.parse(JSON.stringify(SEED_PLAN));
+  store.set("plan", seed);
+  return seed;
 }
 
 /* Названия упражнений из старой программы - чтобы история до сентября 2026 читалась */
