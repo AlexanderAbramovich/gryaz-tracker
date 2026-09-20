@@ -6,3 +6,5 @@ server/api/config.php
 *.sqlite-shm
 *.db
 backups/
+server/api/ADMIN_KEY.local.txt
+server/api/*.bak

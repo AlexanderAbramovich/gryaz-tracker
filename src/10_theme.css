@@ -1,0 +1,59 @@
+/* ═══════════ ТЕМА ═══════════
+   Все цвета только через токены. Тёмная по умолчанию, светлая через
+   html[data-theme="light"]; «как в системе» ставит атрибут по prefers-color-scheme. */
+:root {
+  --bg: #0a0a0c;
+  --panel: #131318;
+  --panel-2: #1a1a22;
+  --panel-3: #22222b;
+  --panel-4: #17171e;
+  --line: #26262f;
+  --line-2: #3a3a48;
+  --ink: #ececf1;
+  --ink-2: #d6d6de;
+  --dim: #7c7c8a;
+  --dim-2: #9a9aa8;
+  --org: #ff7a1a;
+  --org-dim: #b05310;
+  --org-ghost: rgba(255,122,26,.09);
+  --on-org: #0a0a0c;
+  --blood: #ff3d3d;
+  --blood-ghost: rgba(255,61,61,.09);
+  --warn-ink: #ff8080;
+  --warn-line: #7d2222;
+  --gold: #ffb020;
+  --pool: #57a8ff;
+  --pool-dim: #2b7bd6;
+  --img-bg: #0c0c0f;
+  --nav-bg: rgba(10,10,12,.94);
+  --roulette: linear-gradient(135deg, #1d1207, #131318);
+  color-scheme: dark;
+}
+html[data-theme="light"] {
+  --bg: #f3f2ee;
+  --panel: #ffffff;
+  --panel-2: #efeeea;
+  --panel-3: #e4e2dc;
+  --panel-4: #f7f6f2;
+  --line: #dedcd5;
+  --line-2: #c9c6bd;
+  --ink: #15151a;
+  --ink-2: #33333c;
+  --dim: #6b6b78;
+  --dim-2: #55555f;
+  --org: #e8650a;
+  --org-dim: #b04f0a;
+  --org-ghost: rgba(232,101,10,.10);
+  --on-org: #ffffff;
+  --blood: #d92c2c;
+  --blood-ghost: rgba(217,44,44,.08);
+  --warn-ink: #b42121;
+  --warn-line: #e5b0b0;
+  --gold: #b8780a;
+  --pool: #2f6fd6;
+  --pool-dim: #2f6fd6;
+  --img-bg: #e9e8e3;
+  --nav-bg: rgba(243,242,238,.94);
+  --roulette: linear-gradient(135deg, #fff3e8, #ffffff);
+  color-scheme: light;
+}
