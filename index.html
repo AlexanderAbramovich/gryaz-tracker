@@ -1209,7 +1209,7 @@ function ico(name, cls){
 }
 
 /* ═══════════ STORE ═══════════ */
-const APP_VERSION = "11.0";
+const APP_VERSION = "11.1";
 const store = {
   get(k, d){ try { const v = localStorage.getItem(k); return v===null? d : JSON.parse(v); } catch(e){ return d; } },
   /* Переполнение раньше глоталось пустым catch: запись молча пропадала.
@@ -1502,6 +1502,7 @@ let flowSteps = [], flowIdx = 0, flowFinish = null, flowTitle = "", flowEl = nul
 
 function openFlow(title, steps, onFinish){
   flowTitle = title; flowSteps = steps; flowIdx = 0; flowFinish = onFinish;
+  if(!steps.some(st => st.exId)) flowVals = {};
   if(flowEl) flowEl.remove();
   flowEl = document.createElement("div");
   flowEl.id = "flow";
@@ -1535,9 +1536,20 @@ function finishFlow(){
   if(flowFinish) flowFinish();
 }
 function flowBack(){
-  if(flowIdx === 0){ closeFlow(); return; }
+  /* Назад тоже сохраняет введённое: раньше собирал только «Дальше», и шаг,
+     с которого вернулся, терял веса и повторы */
+  flowCollect();
+  if(flowIdx === 0){ closeFlowAsk(); return; }
+  if(restTimer){ clearInterval(restTimer); restTimer = null; }
   flowIdx--;
   renderFlowStep();
+}
+/* Крестик посреди тренировки с введёнными подходами - спрашиваем, иначе всё пропадает молча */
+function closeFlowAsk(){
+  flowCollect();
+  const typed = Object.values(flowVals || {}).some(v => v && v.reps && v.reps.some(r => r > 0));
+  if(typed && !confirm("Закрыть тренировку? Введённые подходы пропадут.")) return;
+  closeFlow();
 }
 function renderFlowStep(){
   const s = flowSteps[flowIdx];
@@ -1546,7 +1558,7 @@ function renderFlowStep(){
   prog += '</div>';
   flowEl.innerHTML =
     '<div class="fl-head"><div class="fl-title">' + flowTitle + ' · ' + (flowIdx+1) + '/' + flowSteps.length + '</div>' +
-    '<button class="fl-x" onclick="closeFlow()">✕</button></div>' + prog +
+    '<button class="fl-x" onclick="closeFlowAsk()">✕</button></div>' + prog +
     '<div class="fl-body"><div class="fstep">' +
     '<div class="fs-icon">' + ico(s.i) + '</div>' +
     '<div class="fs-kicker">Шаг ' + (flowIdx+1) + '</div>' +
