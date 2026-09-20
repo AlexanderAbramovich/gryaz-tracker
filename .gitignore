@@ -1,0 +1,8 @@
+# База и секреты сервера никогда не попадают в репозиторий
+server/api/data/*.sqlite*
+server/api/config.php
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
+backups/

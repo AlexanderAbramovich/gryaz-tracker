@@ -1,4 +1,4 @@
-const CACHE = "gryaz-v10.0";
+const CACHE = "gryaz-v11.0";
 const ASSETS = [
   "./",
   "./index.html",
@@ -26,18 +26,20 @@ self.addEventListener("activate", e => {
 self.addEventListener("fetch", e => {
   const req = e.request;
   if (req.method !== "GET" || !req.url.startsWith(self.location.origin)) return;
-  /* Сервер (кабинет тренера, синк) никогда не кэшируем */
-  if (new URL(req.url).pathname.indexOf("/api/") >= 0) return;
+  /* Сервер и кабинет тренера никогда не кэшируем: там всегда свежее */
+  const path = new URL(req.url).pathname;
+  if (path.indexOf("/api/") >= 0 || path.indexOf("/coach/") >= 0) return;
+  const isApp = /\/$|\/index\.html$/.test(path);
 
   // HTML: network first, so updates arrive; cache as fallback for offline
   if (req.mode === "navigate" || req.destination === "document") {
     const net = fetch(req).then(res => {
-      if (res && res.ok) caches.open(CACHE).then(c => c.put("./index.html", res.clone()));
+      if (res && res.ok && isApp) caches.open(CACHE).then(c => c.put("./index.html", res.clone()));
       return res;
     });
     const timeout = new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), NET_TIMEOUT));
     e.respondWith(
-      Promise.race([net, timeout]).catch(() => caches.match("./index.html").then(hit => hit || net))
+      Promise.race([net, timeout]).catch(() => (isApp ? caches.match("./index.html") : Promise.resolve(null)).then(hit => hit || net))
     );
     return;
   }

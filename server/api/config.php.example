@@ -1,0 +1,10 @@
+<?php
+/* Скопируй в config.php и заполни. Файл закрыт от браузера через .htaccess. */
+return [
+  /* Ключ для admin.php (создание тренера). Длинный и случайный. */
+  'admin_key' => 'ЗАМЕНИ-НА-ДЛИННЫЙ-СЛУЧАЙНЫЙ-КЛЮЧ',
+  /* Чужие origin'ы, которым разрешено ходить в API. Нужен только на время переезда с GitHub Pages. */
+  'origins' => ['https://alexanderabramovich.github.io'],
+  /* Где лежит база. По умолчанию api/data/gryaz.sqlite; лучше вынести выше public_html, если хостинг даёт. */
+  // 'db' => '/home/u/gryaz-data/gryaz.sqlite',
+];

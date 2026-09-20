@@ -1,0 +1,14 @@
+# Заголовок Authorization доходит до PHP на shared-хостинге только так
+RewriteEngine On
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+# Красивые маршруты /api/client/sync → index.php/client/sync
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+<FilesMatch "\.(sqlite|sqlite-wal|sqlite-shm|php~)$">
+  Require all denied
+</FilesMatch>
+<Files "config.php">
+  Require all denied
+</Files>

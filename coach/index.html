@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ГРЯЗЬ · Кабинет тренера</title>
+<meta name="theme-color" content="#0a0a0c">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../icons/icon-192.png">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ГРЯЗЬ · Тренер">
+<style>
+  :root { --bg:#0a0a0c; --panel:#131318; --panel-2:#1a1a22; --line:#26262f; --ink:#ececf1; --dim:#7c7c8a; --org:#ff7a1a; --org-dim:#b05310; --blood:#ff3d3d; --gold:#ffb020; --pool:#57a8ff; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; background: var(--bg); }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Inter", system-ui, sans-serif; color: var(--ink); max-width: 720px; margin: 0 auto; padding: env(safe-area-inset-top) 0 60px; }
+  .wrap { padding: 0 16px; }
+  .hidden { display: none !important; }
+  header { padding: 20px 16px 14px; border-bottom: 1px solid var(--line); display: flex; align-items: flex-end; gap: 12px; }
+  .brand { font-size: 28px; font-weight: 900; letter-spacing: -1.2px; line-height: .92; text-transform: uppercase; font-style: italic; flex: 1; }
+  .brand span { color: var(--org); }
+  .brand small { display: block; font-size: 11px; color: var(--dim); letter-spacing: .5px; font-style: normal; font-weight: 700; margin-top: 6px; }
+  .hbtn { background: var(--panel); border: 1px solid var(--line); color: var(--dim); border-radius: 9px; padding: 9px 12px; font-size: 11px; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+  h2 { font-size: 22px; font-weight: 900; letter-spacing: -.5px; margin: 18px 0 4px; text-transform: uppercase; font-style: italic; }
+  .sub { font-size: 12px; color: var(--dim); margin-bottom: 14px; line-height: 1.45; }
+  .sec-h { font-size: 12px; text-transform: uppercase; color: var(--dim); font-weight: 800; letter-spacing: 1px; margin: 20px 0 10px; display: flex; justify-content: space-between; align-items: center; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 10px; }
+  .card.warn { border-color: #7d2222; }
+  .card.org { border-color: var(--org-dim); }
+  .row { display: flex; gap: 8px; align-items: center; }
+  .row.wrap { flex-wrap: wrap; }
+  .grow { flex: 1; min-width: 0; }
+  .in { width: 100%; background: var(--panel-2); border: 1px solid var(--line); color: var(--ink); border-radius: 10px; padding: 12px; font-size: 15px; font-weight: 700; }
+  .in:focus { outline: none; border-color: var(--org-dim); }
+  .in.sm { padding: 9px 10px; font-size: 14px; }
+  .in.num { width: 64px; flex: 0 0 64px; text-align: center; -moz-appearance: textfield; }
+  .in.num::-webkit-outer-spin-button, .in.num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  textarea.in { min-height: 80px; resize: vertical; font-weight: 500; line-height: 1.45; font-family: inherit; }
+  select.in { appearance: none; -webkit-appearance: none; }
+  label.l { display: block; font-size: 10.5px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; color: var(--dim); margin: 10px 0 4px; }
+  .btn { background: var(--org); color: #0a0a0c; border: none; border-radius: 12px; padding: 14px 16px; font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: .4px; cursor: pointer; width: 100%; }
+  .btn:active { transform: scale(.985); }
+  .btn.ghost { background: var(--panel-2); color: var(--ink); border: 1px solid var(--line); }
+  .btn.danger { background: transparent; color: #ff8080; border: 1px solid #7d2222; }
+  .btn.sm { width: auto; padding: 9px 12px; font-size: 11px; border-radius: 9px; }
+  .btn:disabled { opacity: .45; }
+  .err { color: #ff8080; font-size: 13px; font-weight: 700; margin-top: 10px; min-height: 18px; }
+  .toast { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--org); color: #0a0a0c; padding: 13px 24px; border-radius: 12px; font-weight: 900; font-size: 14px; opacity: 0; pointer-events: none; transition: all .28s; z-index: 300; white-space: nowrap; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  /* клиенты */
+  .cl { display: flex; gap: 12px; align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 13px 14px; margin-bottom: 8px; cursor: pointer; }
+  .cl:active { background: #17171e; }
+  .cl.flag { border-color: #7d2222; }
+  .cl .nm { font-size: 16px; font-weight: 800; }
+  .cl .mt { font-size: 11.5px; color: var(--dim); margin-top: 3px; line-height: 1.4; }
+  .cl .mt b { color: var(--ink); font-weight: 700; }
+  .cl .mt i { color: #ff8080; font-style: normal; font-weight: 700; }
+  .cl .w { text-align: right; flex: none; }
+  .cl .w b { font-size: 20px; font-weight: 900; letter-spacing: -.5px; display: block; }
+  .cl .w small { font-size: 10px; color: var(--dim); font-weight: 700; text-transform: uppercase; }
+  .code { font-size: 30px; font-weight: 900; letter-spacing: 6px; text-align: center; padding: 14px 0 6px; color: var(--org); font-variant-numeric: tabular-nums; }
+  .code-sub { text-align: center; font-size: 12px; color: var(--dim); margin-bottom: 12px; }
+  /* вкладки клиента */
+  .tabs { display: flex; gap: 6px; margin: 14px 0 10px; overflow-x: auto; padding-bottom: 2px; }
+  .tab { flex: none; padding: 10px 12px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); color: var(--dim); font-size: 12px; font-weight: 800; cursor: pointer; text-transform: uppercase; white-space: nowrap; }
+  .tab.active { background: var(--org); color: #0a0a0c; border-color: var(--org); }
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px 10px; text-align: center; }
+  .stat-n { font-size: 24px; font-weight: 900; color: var(--org); letter-spacing: -1px; font-variant-numeric: tabular-nums; }
+  .stat-n.bad { color: #ff8080; }
+  .stat-n.warn { color: var(--gold); }
+  .stat-l { font-size: 9.5px; color: var(--dim); text-transform: uppercase; font-weight: 700; letter-spacing: .4px; margin-top: 3px; line-height: 1.3; }
+  .dots { display: flex; gap: 4px; flex-wrap: wrap; }
+  .dots i { width: 18px; height: 18px; border-radius: 5px; background: var(--panel-2); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: 8px; color: var(--dim); font-style: normal; font-weight: 800; }
+  .dots i.on { background: var(--org); border-color: var(--org); color: #0a0a0c; }
+  .dots i.half { background: var(--org-dim); border-color: var(--org-dim); color: #0a0a0c; }
+  .verd { padding: 10px 12px; border-radius: 10px; font-size: 13px; font-weight: 700; margin-bottom: 6px; line-height: 1.4; background: rgba(255,122,26,.09); border: 1px solid var(--org-dim); color: var(--org); }
+  .verd.warn { background: rgba(255,61,61,.09); border-color: #7d2222; color: #ff8080; }
+  .verd.dim { background: var(--panel); border-color: var(--line); color: var(--dim); font-weight: 600; }
+  .hrow { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; gap: 10px; border-bottom: 1px solid var(--line); }
+  .hrow:last-child { border-bottom: none; }
+  .hrow .n { color: var(--dim); flex: 1; }
+  .hrow .v { font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; }
+  .hrow .v.ok { color: var(--org); }
+  .hrow .v.bad { color: #ff8080; }
+  .hdate { font-size: 13px; font-weight: 800; }
+  .hday { font-size: 11px; color: var(--dim); text-transform: uppercase; font-weight: 700; letter-spacing: .5px; margin-bottom: 8px; }
+  .wchart svg { display: block; width: 100%; height: auto; }
+  /* редактор программы */
+  .day { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px; margin-bottom: 12px; }
+  .day.open { border-color: var(--org-dim); }
+  .day-h { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .day-h .t { flex: 1; font-size: 15px; font-weight: 800; }
+  .day-h .c { font-size: 11px; color: var(--dim); font-weight: 700; }
+  .day-b { display: none; margin-top: 10px; }
+  .day.open .day-b { display: block; }
+  .exc { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px; margin-bottom: 8px; }
+  .exc .row + .row { margin-top: 6px; }
+  .mini { background: var(--panel); border: 1px solid var(--line); color: var(--dim); border-radius: 8px; padding: 8px 10px; font-size: 12px; font-weight: 800; cursor: pointer; }
+  .mini.org { color: var(--org); border-color: var(--org-dim); }
+  .mini.red { color: #ff8080; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--dim); cursor: pointer; padding: 6px 4px; }
+  .chip .bx { width: 18px; height: 18px; border-radius: 5px; border: 2px solid var(--dim); display: flex; align-items: center; justify-content: center; font-size: 11px; color: #0a0a0c; font-weight: 900; }
+  .chip.on .bx { background: var(--org); border-color: var(--org); }
+  .chip.on .bx:after { content: "✓"; }
+  .lbl { font-size: 10px; color: var(--dim); font-weight: 800; letter-spacing: .5px; text-transform: uppercase; text-align: center; flex: 0 0 64px; }
+  .sticky { position: sticky; bottom: 0; padding: 10px 0 calc(10px + env(safe-area-inset-bottom)); background: linear-gradient(180deg, transparent, var(--bg) 30%); }
+  .kv { font-size: 12px; color: var(--dim); line-height: 1.6; }
+  .kv b { color: var(--ink); }
+  a { color: var(--org); }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">ГРЯЗЬ<span>.</span> ТРЕНЕР<small id="who">кабинет</small></div>
+  <button class="hbtn hidden" id="btnBack" onclick="showList()">← Клиенты</button>
+  <button class="hbtn hidden" id="btnOut" onclick="logout()">Выйти</button>
+</header>
+
+<!-- ═══ ВХОД ═══ -->
+<div class="wrap" id="vLogin">
+  <h2>Вход</h2>
+  <div class="sub">Логин и пароль выдаёт администратор сервиса.</div>
+  <div class="card">
+    <label class="l">Логин</label><input class="in" id="lLogin" autocomplete="username" autocapitalize="none">
+    <label class="l">Пароль</label><input class="in" id="lPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()">
+    <div class="err" id="lErr"></div>
+    <button class="btn" style="margin-top:6px" onclick="login()">Войти</button>
+  </div>
+  <div class="kv" style="margin-top:14px">Входя, ты соглашаешься с <a href="../terms.html" target="_blank">условиями</a>: данные клиентов смотришь только в кабинете, никуда не копируешь и не показываешь третьим, а при уходе клиента - удаляешь.</div>
+</div>
+
+<!-- ═══ СПИСОК ═══ -->
+<div class="wrap hidden" id="vList">
+  <h2>Клиенты</h2>
+  <div class="sub" id="listSub"></div>
+  <div id="clients"></div>
+  <div class="sec-h">Пригласить</div>
+  <div class="card">
+    <div class="kv">Нажми - появится код на 7 дней. Клиент вводит его в приложении: История → Тренер → Подключиться. Или отправь ссылку - код подставится сам.</div>
+    <div id="inviteBox"></div>
+    <button class="btn ghost" style="margin-top:10px" onclick="invite(null)">Новый код</button>
+  </div>
+</div>
+
+<!-- ═══ КЛИЕНТ ═══ -->
+<div class="wrap hidden" id="vClient">
+  <h2 id="cName">—</h2>
+  <div class="sub" id="cSub"></div>
+  <div class="tabs" id="cTabs"></div>
+  <div id="cBody"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════ БАЗА ═══════════ */
+const API = location.pathname.replace(/coach\/?[^\/]*$/, "") + "api/index.php";
+const COACH_TERMS_VER = "2026-09-21";
+const COACH_TERMS = [
+  "1. Данные клиентов я смотрю только в этом кабинете и только чтобы вести их тренировки.",
+  "2. Не пересылаю их в мессенджеры, не делаю скриншоты, не показываю третьим лицам (ст. 7 152-ФЗ).",
+  "3. Публикую «до/после» и цифры клиента только с его отдельным письменным согласием на распространение.",
+  "4. Я не оказываю медицинских услуг: при жалобах на здоровье направляю к врачу и не корректирую питание «под болезнь».",
+  "5. За программы и советы отвечаю я; сервис отвечает за работу приложения.",
+  "6. Если клиент отзывает доступ - удаляю его данные и копии.",
+  "7. Об утечке или подозрении на неё сообщаю администратору сервиса в течение 12 часов.",
+  "Полный текст: terms.html, раздел «Тренер»."
+];
+const ICONS = ["press","pullup","lateral","flye","biceps","triceps","dips","core","legs","calf","hamstring","rdl","shoulderpress","facepull","warmup","fire","timer","sparkle"];
+let token = localStorage.getItem("coachToken") || "";
+let me = null, clients = [], invites = [], cur = null;   /* cur = { client, docs, coach, consent } */
+let curTab = "sum";
+
+async function api(route, body){
+  const h = { "Content-Type": "application/json" };
+  if(token) h["Authorization"] = "Bearer " + token;
+  const res = await fetch(API + "?r=" + route, { method: body ? "POST" : "GET", headers: h, body: body ? JSON.stringify(body) : undefined, cache: "no-store" });
+  let j = null; try { j = await res.json(); } catch(e){}
+  if(!res.ok){ const e = new Error((j && j.error) || ("Сервер: " + res.status)); e.status = res.status; throw e; }
+  return j;
+}
+function esc(v){ return String(v == null ? "" : v).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c])); }
+function pad(n){ return String(n).padStart(2, "0"); }
+function isoOf(d){ return d.getFullYear() + "-" + pad(d.getMonth()+1) + "-" + pad(d.getDate()); }
+function isoShift(iso, n){ const d = new Date(iso + "T12:00:00"); d.setDate(d.getDate() + n); return isoOf(d); }
+function fmt(iso){ if(!iso) return "—"; const d = new Date(iso + "T12:00:00"); return pad(d.getDate()) + "." + pad(d.getMonth()+1); }
+function fmtTs(t){ if(!t) return "—"; const d = new Date(t * 1000); return pad(d.getDate()) + "." + pad(d.getMonth()+1) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes()); }
+function ago(ts){ if(!ts) return "никогда"; const m = Math.round((Date.now()/1000 - ts) / 60); if(m < 1) return "только что"; if(m < 60) return m + " мин назад"; const h = Math.round(m/60); if(h < 48) return h + " ч назад"; return Math.round(h/24) + " дн назад"; }
+function daysAgo(iso){ if(!iso) return null; return Math.round((new Date(isoOf(new Date()) + "T12:00:00") - new Date(iso + "T12:00:00")) / 864e5); }
+function plural(n, a, b, c){ const x = Math.abs(n) % 100, y = x % 10; if(x > 10 && x < 20) return c; if(y > 1 && y < 5) return b; if(y === 1) return a; return c; }
+let toastT;
+function toast(m){ const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 2000); }
+function copy(txt, msg){
+  const fail = () => prompt("Скопируй вручную:", txt);
+  try { navigator.clipboard.writeText(txt).then(() => toast(msg || "Скопировано"), fail); } catch(e){ fail(); }
+}
+function show(id){ ["vLogin","vList","vClient"].forEach(v => document.getElementById(v).classList.toggle("hidden", v !== id)); window.scrollTo(0,0);
+  document.getElementById("btnBack").classList.toggle("hidden", id !== "vClient");
+  document.getElementById("btnOut").classList.toggle("hidden", id === "vLogin"); }
+
+/* ═══════════ ВХОД ═══════════ */
+async function login(){
+  const err = document.getElementById("lErr"); err.textContent = "";
+  try {
+    const r = await api("coach/login", { login: document.getElementById("lLogin").value, password: document.getElementById("lPass").value });
+    token = r.token; localStorage.setItem("coachToken", token);
+    document.getElementById("lPass").value = "";
+    if(r.coach.terms !== COACH_TERMS_VER){
+      const NL = String.fromCharCode(10);
+      if(!confirm("Условия для тренера (версия " + COACH_TERMS_VER + "):" + NL + NL + COACH_TERMS.join(NL) + NL + NL + "Принимаю")){ token = ""; localStorage.removeItem("coachToken"); return; }
+      await api("coach/terms", { version: COACH_TERMS_VER });
+    }
+    await showList();
+  } catch(e){ err.textContent = e.message; }
+}
+async function logout(){
+  try { await api("coach/logout", {}); } catch(e){}
+  token = ""; localStorage.removeItem("coachToken"); me = null; cur = null;
+  show("vLogin");
+}
+async function boot(){
+  if(!token){ show("vLogin"); return; }
+  try { await showList(); } catch(e){ token = ""; localStorage.removeItem("coachToken"); show("vLogin"); }
+}
+
+/* ═══════════ СПИСОК ═══════════ */
+async function showList(){
+  const r = await api("coach/me");
+  me = r.coach; clients = r.clients; invites = r.invites || [];
+  document.getElementById("who").textContent = me.name;
+  document.getElementById("listSub").textContent = clients.length ? clients.length + " " + plural(clients.length, "клиент", "клиента", "клиентов") : "Пока никого - пригласи первого кодом ниже.";
+  document.getElementById("clients").innerHTML = clients.map(c => {
+    const d = daysAgo(c.lastWorkout);
+    const flag = d != null && d >= 5;
+    return '<div class="cl' + (flag ? " flag" : "") + '" onclick="openClient(' + c.id + ')">' +
+      '<div class="grow"><div class="nm">' + esc(c.name) + '</div><div class="mt">' +
+      (c.lastWorkout ? 'тренировка ' + (flag ? '<i>' + d + ' дн назад</i>' : '<b>' + (d === 0 ? "сегодня" : d === 1 ? "вчера" : d + " дн назад") + '</b>') : '<i>ещё не тренировался</i>') +
+      ' · всего ' + c.workouts + ' · синк ' + ago(c.lastSync) + '</div></div>' +
+      '<div class="w">' + (c.weight != null ? '<b>' + c.weight.toFixed(1).replace(".", ",") + '</b><small>кг</small>' : '<small>нет веса</small>') + '</div></div>';
+  }).join("");
+  renderInvites();
+  show("vList");
+}
+function renderInvites(){
+  const box = document.getElementById("inviteBox");
+  const fresh = invites.filter(i => !i.client_id);
+  box.innerHTML = fresh.map(i => inviteHtml(i.code, i.expires)).join("");
+}
+function joinLink(code){ return location.origin + location.pathname.replace(/coach\/?[^\/]*$/, "") + "#join=" + code; }
+function inviteHtml(code, exp){
+  const pretty = code.slice(0,3) + "-" + code.slice(3);
+  return '<div class="code">' + pretty + '</div><div class="code-sub">действует до ' + fmtTs(exp) + '</div>' +
+    '<div class="row"><button class="btn ghost sm grow" onclick="copy(\'' + code + '\',\'Код скопирован\')">Скопировать код</button>' +
+    '<button class="btn sm grow" onclick="copy(\'' + joinLink(code) + '\',\'Ссылка скопирована\')">Скопировать ссылку</button></div>';
+}
+async function invite(clientId){
+  try {
+    const r = await api("coach/invite", clientId ? { client_id: clientId } : {});
+    if(clientId){
+      const box = document.getElementById("relinkBox");
+      if(box) box.innerHTML = inviteHtml(r.code, r.expires) + '<div class="kv" style="margin-top:8px">Клиент вводит этот код на новом телефоне: данные подтянутся с сервера, старый телефон отключится.</div>';
+    } else { invites.unshift({ code: r.code, expires: r.expires, client_id: null }); renderInvites(); }
+    toast("Код создан");
+  } catch(e){ toast(e.message); }
+}
+
+/* ═══════════ КЛИЕНТ ═══════════ */
+async function openClient(id){
+  try {
+    cur = await api("coach/client?id=" + id);
+    cur.id = id;
+    curTab = "sum";
+    renderClient();
+    show("vClient");
+  } catch(e){ toast(e.message); }
+}
+function doc(k, d){ const x = cur && cur.docs && cur.docs[k]; return x ? x.d : d; }
+function coachDoc(k, d){ const x = cur && cur.coach && cur.coach[k]; return x ? x.d : d; }
+const TABS = [["sum","Сводка"],["tr","Тренировки"],["w","Вес"],["food","Еда"],["plan","Программа"],["goals","Цели"],["more","Ещё"]];
+function renderClient(){
+  const c = cur.client;
+  document.getElementById("cName").textContent = c.name;
+  document.getElementById("cSub").textContent = "с " + fmtTs(c.created).slice(0,5) + " · синк " + ago(c.last_sync) + (c.app_ver ? " · v" + c.app_ver : "") +
+    (cur.consents && cur.consents.length ? " · согласий " + cur.consents.length : " · согласий нет");
+  document.getElementById("cTabs").innerHTML = TABS.map(t => '<div class="tab' + (curTab === t[0] ? " active" : "") + '" onclick="setTab(\'' + t[0] + '\')">' + t[1] + '</div>').join("");
+  const r = { sum: renderSum, tr: renderTr, w: renderW, food: renderFood, plan: renderPlan, goals: renderGoals, more: renderMore }[curTab];
+  document.getElementById("cBody").innerHTML = r();
+  if(curTab === "plan") planAfterRender();
+}
+function setTab(t){ curTab = t; renderClient(); window.scrollTo(0, 0); }
+
+/* ── расчёты, портированные из приложения ── */
+function goalsOf(){ return Object.assign({ kcalLo:3200, kcalHi:3500, prot:130, gainLo:0.3, gainHi:0.5, weightGoal:70, weightLo:60, weightLabel:"" }, doc("goals", {}), coachDoc("goals", {})); }
+function normEntry(e){ return { n:e.n, k:(e.base ? e.base.k : e.k) || 0, p:(e.base ? e.base.p : e.p) || 0, f:(e.base ? e.base.f : e.f) || 0, c:(e.base ? e.base.c : e.c) || 0, frac: e.frac != null ? e.frac : 1 }; }
+function dayFood(iso){
+  const list = (doc("food", {})[iso] || []).map(normEntry);
+  return { k: Math.round(list.reduce((a,e) => a + e.k * e.frac, 0)), p: Math.round(list.reduce((a,e) => a + e.p * e.frac, 0)), n: list.length, list: list };
+}
+function sleepMins(iso){
+  const all = doc("sleep", {});
+  const cur = all[iso] || {}, prev = all[isoShift(iso, -1)] || {};
+  if(!cur.up || !prev.bed) return null;
+  const [bh,bm] = prev.bed.split(":").map(Number), [uh,um] = cur.up.split(":").map(Number);
+  let m = (uh*60+um) - (bh*60+bm); if(m < 0) m += 1440; return m;
+}
+function sleepTxt(m){ return Math.floor(m/60) + "ч " + pad(m%60) + "м"; }
+function sessionsOn(iso){ return doc("sessions", []).filter(s => s.date === iso); }
+/* Чек-лист дня: те же обязательные пункты, что в приложении */
+function dayScore(iso){
+  const g = goalsOf(), st = doc("guide_" + iso, {}), f = dayFood(iso), sl = doc("sleep", {})[iso] || {};
+  const personal = !!(doc("cfg", {}).personal);
+  const items = [
+    ["wake", !!(sl.up || st.wake)], ["crea", !!st.crea], ["food", f.k >= g.kcalLo], ["prot", f.p >= g.prot],
+    ["tr", !!(sessionsOn(iso).length || st.tr)], ["bed", !!(sl.bed || st.bed)]
+  ];
+  if(personal) items.push(["am", !!st.am], ["pm", !!st.pm]);
+  return { done: items.filter(x => x[1]).length, total: items.length, items: items };
+}
+function today(){ return isoOf(new Date()); }
+function weekDelta(){
+  const hist = doc("wHist", []);
+  if(hist.length < 2) return null;
+  const DAY = 864e5, t = d => new Date(d + "T12:00:00").getTime();
+  const end = t(hist[hist.length-1].d);
+  const win = (a, b) => hist.filter(p => t(p.d) > end - b*DAY && t(p.d) <= end - a*DAY);
+  const avg = arr => arr.reduce((s,p) => s + p.w, 0) / arr.length;
+  const w1 = win(0, 7), w2 = win(7, 14);
+  if(w1.length && w2.length) return { kg: avg(w1) - avg(w2), mode:"avg" };
+  const days = (end - t(hist[0].d)) / DAY;
+  if(days < 3) return null;
+  return { kg: (hist[hist.length-1].w - hist[0].w) / days * 7, mode:"trend", days: Math.round(days) };
+}
+function planOf(){ return doc("plan", null) || coachDoc("plan", null); }
+function exById(){
+  const m = {}; const p = planOf();
+  if(p) p.days.forEach(d => d.ex.forEach(e => { m[e.id] = Object.assign({ sets:4, lo:10, hi:12, step:2.5 }, e, { day: d.short || d.title }); }));
+  return m;
+}
+/* Вердикты по прогрессии - логика progressTip из приложения */
+function verdicts(){
+  const last = doc("lastEx", {}), ex = exById(), out = [];
+  Object.keys(last).forEach(id => {
+    const e = ex[id], prev = last[id];
+    if(!e || !prev || !prev.reps) return;
+    const all = prev.reps.slice(0, e.sets).filter(r => r > 0);
+    if(!all.length) return;
+    const check = all.length > 1 ? all.slice(0, -1) : all;
+    if(check.every(r => r >= e.hi)) out.push({ t: e.name + ": все подходы на потолке " + e.hi + " → пора " + ((prev.w || 0) + e.step) + " кг", ok: true });
+    else if((prev.stuck || 0) >= 3) out.push({ t: e.name + ": " + prev.w + " кг стоит уже " + (prev.stuck + 1) + " тренировки → снять 10%", warn: true });
+    else if(all.some(r => r < e.lo)) out.push({ t: e.name + ": повторы ниже нижней границы " + e.lo + " (" + all.join("·") + ") - вес великоват", warn: true });
+  });
+  return out;
+}
+
+/* ── СВОДКА ── */
+function renderSum(){
+  const g = goalsOf();
+  const t = today();
+  const ses = doc("sessions", []);
+  const last = ses.length ? ses.reduce((a, s) => s.date > a ? s.date : a, "") : null;
+  const dl = daysAgo(last);
+  const week = ses.filter(s => s.date >= isoShift(t, -6) && s.date <= t).length;
+  const w = doc("weight", null), wd = weekDelta();
+  let discDone = 0, discTot = 0, kcalDays = 0, kcalSum = 0, protSum = 0, slSum = 0, slN = 0;
+  let dots = "";
+  for(let i = 13; i >= 0; i--){
+    const iso = isoShift(t, -i);
+    const sc = dayScore(iso);
+    discDone += sc.done; discTot += sc.total;
+    const f = dayFood(iso); if(f.n){ kcalDays++; kcalSum += f.k; protSum += f.p; }
+    const sm = sleepMins(iso); if(sm != null){ slSum += sm; slN++; }
+    const tr = sessionsOn(iso).length;
+    const ratio = sc.done / sc.total;
+    dots += '<i class="' + (tr ? "on" : (ratio >= .6 ? "half" : "")) + '" title="' + fmt(iso) + " · " + sc.done + "/" + sc.total + '">' + new Date(iso + "T12:00:00").getDate() + '</i>';
+  }
+  const disc = discTot ? Math.round(discDone / discTot * 100) : 0;
+  const kcalAvg = kcalDays ? Math.round(kcalSum / kcalDays) : null, protAvg = kcalDays ? Math.round(protSum / kcalDays) : null;
+  const v = verdicts();
+  let h = '<div class="stat-row">' +
+    '<div class="stat"><div class="stat-n' + (dl == null ? "" : dl >= 5 ? " bad" : dl >= 3 ? " warn" : "") + '">' + (dl == null ? "—" : dl) + '</div><div class="stat-l">дней с последней тренировки</div></div>' +
+    '<div class="stat"><div class="stat-n">' + week + '</div><div class="stat-l">тренировок за 7 дней</div></div>' +
+    '<div class="stat"><div class="stat-n' + (disc < 50 ? " bad" : disc < 75 ? " warn" : "") + '">' + disc + '%</div><div class="stat-l">дисциплина за 14 дней</div></div>' +
+    '<div class="stat"><div class="stat-n">' + (w != null ? Number(w).toFixed(1).replace(".", ",") : "—") + '</div><div class="stat-l">вес, кг · цель ' + g.weightGoal + '</div></div>' +
+    '<div class="stat"><div class="stat-n' + (wd ? (wd.kg < g.gainLo ? " warn" : wd.kg > g.gainHi ? " bad" : "") : "") + '">' + (wd ? (wd.kg >= 0 ? "+" : "") + wd.kg.toFixed(2).replace(".", ",") : "—") + '</div><div class="stat-l">кг в неделю · цель ' + g.gainLo + "–" + g.gainHi + '</div></div>' +
+    '<div class="stat"><div class="stat-n' + (kcalAvg == null ? "" : kcalAvg < g.kcalLo * .93 ? " bad" : kcalAvg > g.kcalHi * 1.07 ? " warn" : "") + '">' + (kcalAvg == null ? "—" : kcalAvg) + '</div><div class="stat-l">ккал в среднем · ' + g.kcalLo + "–" + g.kcalHi + '</div></div>' +
+    '</div>';
+  h += '<div class="card"><div class="sec-h" style="margin:0 0 8px">Последние 14 дней <span>оранжевый = была тренировка</span></div><div class="dots">' + dots + '</div>' +
+    '<div class="kv" style="margin-top:8px">Белок в среднем <b>' + (protAvg == null ? "—" : protAvg + " г") + '</b> · сон в среднем <b>' + (slN ? sleepTxt(Math.round(slSum / slN)) : "нет данных") + '</b> · записей еды за 14 дней: <b>' + kcalDays + '</b></div></div>';
+  h += '<div class="sec-h">Что делать с весами</div>';
+  h += v.length ? v.map(x => '<div class="verd' + (x.warn ? " warn" : "") + '">' + esc(x.t) + '</div>').join("") : '<div class="verd dim">Пока нечего советовать: по всем упражнениям идёт набор повторов в рамках.</div>';
+  const note = coachDoc("note", null);
+  h += '<div class="sec-h">Заметка клиенту</div><div class="card"><textarea class="in" id="noteIn" placeholder="Что он увидит на главном экране">' + esc(note && (note.text != null ? note.text : note) || "") + '</textarea>' +
+    '<div class="row" style="margin-top:8px"><button class="btn sm grow" onclick="saveNote()">Отправить</button><button class="btn ghost sm" onclick="document.getElementById(\'noteIn\').value=\'\';saveNote()">Убрать</button></div></div>';
+  return h;
+}
+async function saveNote(){
+  const text = document.getElementById("noteIn").value.trim();
+  try { await api("coach/client/set", { id: cur.id, key: "note", data: { text: text } }); cur.coach.note = { d: { text: text } }; toast(text ? "Заметка отправлена" : "Заметка убрана"); } catch(e){ toast(e.message); }
+}
+
+/* ── ТРЕНИРОВКИ ── */
+function renderTr(){
+  const ses = doc("sessions", []).slice().reverse();
+  const ex = exById();
+  if(!ses.length) return '<div class="verd dim">Тренировок ещё нет.</div>';
+  const names = ["вс","пн","вт","ср","чт","пт","сб"];
+  return '<div class="sub">Всего ' + ses.length + '. Красным - повторы ниже нижней границы, оранжевым - все на потолке.</div>' + ses.slice(0, 60).map(s => {
+    const d = new Date(s.date + "T12:00:00");
+    const rows = Object.keys(s.ex).map(id => {
+      const e = s.ex[id], p = ex[id];
+      const reps = (e.reps || []).filter(r => r > 0);
+      let cls = "";
+      if(p && reps.length){ if(reps.every(r => r >= p.hi)) cls = " ok"; else if(reps.some(r => r < p.lo)) cls = " bad"; }
+      return '<div class="hrow"><span class="n">' + esc(e.n || (p && p.name) || id) + '</span><span class="v' + cls + '">' + (e.w != null && e.w !== "" ? e.w + " кг · " : "") + reps.join(" · ") + '</span></div>';
+    }).join("");
+    return '<div class="card"><div class="hdate">' + fmt(s.date) + ' · ' + names[d.getDay()] + '</div><div class="hday">' + esc(s.title || ("день " + s.day)) + (s.week ? " · неделя " + s.week : "") + '</div>' + rows + '</div>';
+  }).join("") + (ses.length > 60 ? '<div class="verd dim">Показаны последние 60.</div>' : '');
+}
+
+/* ── ВЕС ── */
+function renderW(){
+  const hist = doc("wHist", []), g = goalsOf();
+  if(!hist.length) return '<div class="verd dim">Взвешиваний ещё нет.</div>';
+  const wd = weekDelta();
+  let h = '<div class="card"><div class="wchart">' + chart(hist, g.weightGoal) + '</div>' +
+    '<div class="kv" style="margin-top:8px">Записей <b>' + hist.length + '</b> · со старта <b>' + ((hist[hist.length-1].w - hist[0].w) >= 0 ? "+" : "") + (hist[hist.length-1].w - hist[0].w).toFixed(1).replace(".", ",") + ' кг</b>' +
+    (wd ? ' · темп <b>' + (wd.kg >= 0 ? "+" : "") + wd.kg.toFixed(2).replace(".", ",") + ' кг/нед</b>' + (wd.mode === "trend" ? " (тренд " + wd.days + " дн)" : "") : "") + '</div></div>';
+  h += '<div class="card">' + hist.slice().reverse().slice(0, 40).map(p => '<div class="hrow"><span class="n">' + fmt(p.d) + (p.am === false ? ' · <span style="color:#ff8080">не утром</span>' : "") + '</span><span class="v">' + p.w.toFixed(1).replace(".", ",") + '</span></div>').join("") + '</div>';
+  return h;
+}
+function chart(hist, goal){
+  const W = 340, H = 150, padL = 34, padR = 14, padT = 16, padB = 22;
+  const ws = hist.map(p => p.w), ts = hist.map(p => new Date(p.d + "T12:00:00").getTime());
+  const lo = Math.floor(Math.min(...ws) - 1), hi = Math.max(Math.max(...ws) + 0.5, goal + 0.5);
+  const t0 = Math.min(...ts), t1 = Math.max(...ts);
+  const x = t => t1 === t0 ? padL + (W-padL-padR)/2 : padL + (t-t0)/(t1-t0)*(W-padL-padR);
+  const y = v => padT + (hi-v)/(hi-lo)*(H-padT-padB);
+  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">';
+  const step = (hi-lo) > 6 ? 2 : 1;
+  for(let v = Math.ceil(lo); v <= hi; v += step) s += '<line x1="' + padL + '" y1="' + y(v) + '" x2="' + (W-padR) + '" y2="' + y(v) + '" stroke="#26262f"/><text x="' + (padL-6) + '" y="' + (y(v)+3) + '" fill="#7c7c8a" font-size="9" text-anchor="end" font-weight="600">' + v + '</text>';
+  s += '<line x1="' + padL + '" y1="' + y(goal) + '" x2="' + (W-padR) + '" y2="' + y(goal) + '" stroke="#ffb020" stroke-width="1.2" stroke-dasharray="5 4"/>';
+  const pts = ts.map((t,i) => x(t).toFixed(1) + "," + y(ws[i]).toFixed(1));
+  s += '<polyline points="' + pts.join(" ") + '" fill="none" stroke="#ff7a1a" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>';
+  ts.forEach((t,i) => { s += '<circle cx="' + x(t).toFixed(1) + '" cy="' + y(ws[i]).toFixed(1) + '" r="' + (i === ts.length-1 ? 4 : 2.4) + '" fill="#ff7a1a"/>'; });
+  return s + '</svg>';
+}
+
+/* ── ЕДА ── */
+function renderFood(){
+  const g = goalsOf(), t = today();
+  let rows = "", any = false;
+  for(let i = 0; i < 21; i++){
+    const iso = isoShift(t, -i), f = dayFood(iso);
+    if(!f.n) continue;
+    any = true;
+    const kc = f.k >= g.kcalLo * .93 ? (f.k > g.kcalHi * 1.07 ? " bad" : " ok") : " bad";
+    rows += '<div class="card" onclick="this.querySelector(\'.fx\').classList.toggle(\'hidden\')" style="cursor:pointer"><div class="hrow" style="border:0"><span class="n"><b style="color:var(--ink)">' + fmt(iso) + '</b> · ' + f.n + ' ' + plural(f.n, "запись", "записи", "записей") + '</span>' +
+      '<span class="v' + kc + '">' + f.k + ' ккал</span><span class="v' + (f.p >= g.prot ? " ok" : " bad") + '">Б ' + f.p + '</span></div>' +
+      '<div class="fx hidden">' + f.list.map(e => '<div class="hrow"><span class="n">' + esc(e.n) + (e.frac < 1 ? ' · ' + Math.round(e.frac*100) + '%' : '') + '</span><span class="v">' + Math.round(e.k * e.frac) + '</span></div>').join("") + '</div></div>';
+  }
+  return '<div class="sub">Коридор ' + g.kcalLo + '–' + g.kcalHi + ' ккал, белок от ' + g.prot + ' г. Тап по дню раскрывает список.</div>' + (any ? rows : '<div class="verd dim">Записей еды за 3 недели нет.</div>');
+}
+
+/* ── ЦЕЛИ ── */
+function renderGoals(){
+  const g = goalsOf();
+  const f = (k, l, step) => '<label class="l">' + l + '</label><input class="in" type="number" step="' + (step || 1) + '" id="g_' + k + '" value="' + g[k] + '">';
+  return '<div class="card">' + f("kcalLo", "Калории, нижняя граница") + f("kcalHi", "Калории, верхняя граница") + f("prot", "Белок, г в день") +
+    f("gainLo", "Темп веса в неделю, от (кг)", 0.1) + f("gainHi", "Темп веса в неделю, до (кг, минус = сушка)", 0.1) +
+    f("weightGoal", "Целевой вес, кг", 0.5) + f("weightLo", "Нижняя точка шкалы, кг", 0.5) +
+    '<label class="l">Подпись цели (например «прайм»)</label><input class="in" id="g_weightLabel" value="' + esc(g.weightLabel || "") + '">' +
+    '<button class="btn" style="margin-top:14px" onclick="saveGoals()">Отправить цели клиенту</button></div>' +
+    '<div class="kv">Клиент увидит новые цифры на экранах еды и веса при следующем открытии приложения.</div>';
+}
+async function saveGoals(){
+  const num = k => { const v = parseFloat(document.getElementById("g_" + k).value.replace(",", ".")); return isNaN(v) ? null : v; };
+  const g = { kcalLo: num("kcalLo"), kcalHi: num("kcalHi"), prot: num("prot"), gainLo: num("gainLo"), gainHi: num("gainHi"), weightGoal: num("weightGoal"), weightLo: num("weightLo"), weightLabel: document.getElementById("g_weightLabel").value.trim() };
+  if([g.kcalLo, g.kcalHi, g.prot, g.weightGoal, g.weightLo].some(v => v == null) || g.kcalLo > g.kcalHi || g.weightLo >= g.weightGoal && g.gainLo >= 0){ toast("Проверь цифры"); return; }
+  try { await api("coach/client/set", { id: cur.id, key: "goals", data: g }); cur.coach.goals = { d: g }; toast("Цели отправлены"); } catch(e){ toast(e.message); }
+}
+
+/* ── ПРОГРАММА (редактор) ── */
+let ed = null, edOpen = {};
+function newId(){ return "x_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+function renderPlan(){
+  if(!ed){
+    const src = coachDoc("plan", null) || doc("plan", null);
+    ed = src ? JSON.parse(JSON.stringify(src)) : { v: 1, id: "plan_" + newId(), name: "Программа", rev: 0, days: [] };
+    if(!ed.days.length) edOpen = {};
+  }
+  const srcRev = (cur.coach.plan && cur.coach.plan.rev) || 0;
+  const clientRev = doc("plan", {}).rev, clientId = doc("plan", {}).id;
+  let h = '<div class="card"><label class="l">Название программы</label><input class="in" id="pName" value="' + esc(ed.name || "") + '" oninput="ed.name=this.value">' +
+    '<div class="kv" style="margin-top:8px">На сервере ревизия <b>' + srcRev + '</b>' + (clientId === ed.id && clientRev ? ' · у клиента принята ревизия <b>' + clientRev + '</b>' : ' · клиент ещё не принял эту программу') + '</div></div>';
+  h += ed.days.map((d, di) => {
+    const open = !!edOpen[di];
+    let b = '<label class="l">Заголовок дня</label><input class="in sm" value="' + esc(d.title || "") + '" oninput="ed.days[' + di + '].title=this.value">' +
+      '<label class="l">Короткое имя (на вкладке)</label><input class="in sm" value="' + esc(d.short || "") + '" oninput="ed.days[' + di + '].short=this.value">' +
+      '<label class="l">Разминка</label><textarea class="in sm" oninput="ed.days[' + di + '].warm=this.value">' + esc(d.warm || "") + '</textarea>' +
+      '<label class="l">Кардио после</label><input class="in sm" value="' + esc(d.cardio || "") + '" oninput="ed.days[' + di + '].cardio=this.value">' +
+      '<label class="l">Упражнения</label>';
+    b += d.ex.map((e, ei) => exHtml(di, ei, e)).join("");
+    b += '<div class="row" style="margin-top:8px"><button class="mini org" onclick="addEx(' + di + ')">+ упражнение</button><button class="mini" onclick="moveDay(' + di + ',-1)">день ↑</button><button class="mini" onclick="moveDay(' + di + ',1)">день ↓</button><button class="mini red" onclick="delDay(' + di + ')">удалить день</button></div>';
+    return '<div class="day' + (open ? " open" : "") + '"><div class="day-h" onclick="edOpen[' + di + ']=!edOpen[' + di + '];renderClient()"><div class="t">' + esc(d.title || ("День " + (di+1))) + '</div><div class="c">' + d.ex.length + ' упр.</div><div class="c">' + (open ? "▾" : "▸") + '</div></div><div class="day-b">' + b + '</div></div>';
+  }).join("");
+  h += '<div class="row" style="margin:4px 0 14px"><button class="mini org" onclick="addDay()">+ день</button><button class="mini" onclick="planFromFile()">загрузить из файла</button><button class="mini" onclick="planToFile()">скачать файл</button><button class="mini red" onclick="ed=null;edOpen={};renderClient()">отменить правки</button></div>';
+  h += '<div class="sticky"><button class="btn" onclick="sendPlan()">Отправить программу клиенту</button></div>';
+  h += '<input type="file" id="planFileIn" accept=".json" class="hidden" onchange="planFileRead(this.files[0])">';
+  return h;
+}
+function exHtml(di, ei, e){
+  const p = 'ed.days[' + di + '].ex[' + ei + ']';
+  const chip = (k, l) => '<span class="chip' + (e[k] ? " on" : "") + '" onclick="' + p + '.' + k + '=!' + p + '.' + k + ';renderClient()"><span class="bx"></span>' + l + '</span>';
+  return '<div class="exc">' +
+    '<div class="row"><span class="lbl" style="flex:0 0 22px;text-align:left">' + (ei+1) + '</span><input class="in sm grow" placeholder="Название" value="' + esc(e.name || "") + '" oninput="' + p + '.name=this.value">' +
+    '<select class="in sm" style="width:auto;flex:0 0 auto" onchange="' + p + '.icon=this.value">' + ICONS.map(i => '<option' + (e.icon === i ? " selected" : "") + '>' + i + '</option>').join("") + '</select></div>' +
+    '<div class="row"><input class="in sm grow" placeholder="Мышцы (что чувствовать)" value="' + esc(e.m || "") + '" oninput="' + p + '.m=this.value"></div>' +
+    '<div class="row"><span class="lbl">подх.</span><input class="in sm num" type="number" value="' + (e.sets || 4) + '" oninput="' + p + '.sets=+this.value">' +
+    '<span class="lbl">повт. от</span><input class="in sm num" type="number" value="' + (e.lo || 10) + '" oninput="' + p + '.lo=+this.value">' +
+    '<span class="lbl">до</span><input class="in sm num" type="number" value="' + (e.hi || 12) + '" oninput="' + p + '.hi=+this.value"></div>' +
+    '<div class="row"><span class="lbl">шаг, кг</span><input class="in sm num" type="number" step="0.5" value="' + (e.step != null ? e.step : 2.5) + '" oninput="' + p + '.step=+this.value">' +
+    '<span class="lbl">суперсет №</span><input class="in sm num" type="number" placeholder="—" value="' + (e.sg || "") + '" oninput="' + p + '.sg=this.value?+this.value:undefined">' +
+    chip("dumb", "одна гантель") + '</div>' +
+    '<div class="row"><textarea class="in sm grow" placeholder="Техника, заметка" style="min-height:52px" oninput="' + p + '.note=this.value">' + esc(e.note || "") + '</textarea></div>' +
+    '<div class="row"><input class="in sm grow" placeholder="Если занято: замена" value="' + esc(e.swap || "") + '" oninput="' + p + '.swap=this.value"></div>' +
+    '<div class="row" style="margin-top:8px"><button class="mini" onclick="moveEx(' + di + ',' + ei + ',-1)">↑</button><button class="mini" onclick="moveEx(' + di + ',' + ei + ',1)">↓</button><span class="grow"></span><button class="mini red" onclick="delEx(' + di + ',' + ei + ')">удалить</button></div>' +
+    '</div>';
+}
+function planAfterRender(){}
+function addDay(){ const n = ed.days.length + 1; ed.days.push({ key: String(n), title: "День " + n, short: "День " + n, warm: "", cardio: "", ex: [] }); edOpen[ed.days.length-1] = true; renderClient(); }
+function delDay(di){ if(!confirm("Удалить день целиком?")) return; ed.days.splice(di, 1); edOpen = {}; renderClient(); }
+function moveDay(di, dir){ const j = di + dir; if(j < 0 || j >= ed.days.length) return; [ed.days[di], ed.days[j]] = [ed.days[j], ed.days[di]]; edOpen = {}; edOpen[j] = true; renderClient(); }
+function addEx(di){ ed.days[di].ex.push({ id: newId(), name: "", m: "", icon: "press", sets: 4, lo: 10, hi: 12, step: 2.5, calib: true, note: "", swap: "" }); renderClient(); }
+function delEx(di, ei){ ed.days[di].ex.splice(ei, 1); renderClient(); }
+function moveEx(di, ei, dir){ const a = ed.days[di].ex, j = ei + dir; if(j < 0 || j >= a.length) return; [a[ei], a[j]] = [a[j], a[ei]]; renderClient(); }
+function planFromFile(){ document.getElementById("planFileIn").click(); }
+function planFileRead(f){ if(!f) return; const r = new FileReader(); r.onload = e => { try { const p = JSON.parse(e.target.result); if(!p.days) throw 0; ed = p; edOpen = {}; renderClient(); toast("Загружено"); } catch(x){ toast("Файл не похож на программу"); } }; r.readAsText(f); }
+function planToFile(){ const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(ed, null, 1)], { type:"application/json" })); a.download = (ed.name || "программа") + ".gryaz.json"; a.click(); }
+function validatePlan(p){
+  if(!p.days.length) return "Нет ни одного дня";
+  const ids = new Set();
+  for(const d of p.days){
+    if(!d.ex.length) return "В дне «" + (d.title || d.key) + "» нет упражнений";
+    for(const e of d.ex){
+      if(!e.name || !e.name.trim()) return "Упражнение без названия в дне «" + (d.title || d.key) + "»";
+      if(ids.has(e.id)) return "Упражнение повторяется дважды: " + e.name;
+      ids.add(e.id);
+      if(!(e.sets >= 1 && e.sets <= 10)) return e.name + ": подходов от 1 до 10";
+      if(!(e.lo >= 1 && e.hi >= e.lo && e.hi <= 100)) return e.name + ": повторы «от» ≤ «до»";
+    }
+  }
+  return null;
+}
+async function sendPlan(){
+  /* Ключи дней пересчитываем по порядку: приложение ходит по ним по кругу */
+  ed.days.forEach((d, i) => { d.key = String(i + 1); if(!d.short) d.short = d.title || ("День " + (i+1)); if(!d.title) d.title = "День " + (i+1) + " · " + d.short; });
+  const err = validatePlan(ed);
+  if(err){ toast(err); return; }
+  ed.v = 1; ed.author = { name: me.name }; ed.rev = ((cur.coach.plan && cur.coach.plan.rev) || 0) + 1;
+  try {
+    const r = await api("coach/client/set", { id: cur.id, key: "plan", data: ed });
+    ed.rev = r.rev; cur.coach.plan = { d: JSON.parse(JSON.stringify(ed)), rev: r.rev };
+    toast("Программа отправлена, ревизия " + r.rev);
+    renderClient();
+  } catch(e){ toast(e.message); }
+}
+
+/* ── ЕЩЁ ── */
+function renderMore(){
+  const c = cur.client;
+  return '<div class="card"><div class="sec-h" style="margin:0 0 8px">Переименовать</div><div class="row"><input class="in sm grow" id="rnIn" value="' + esc(c.name) + '"><button class="btn sm" onclick="rename()">Ок</button></div></div>' +
+    '<div class="card"><div class="sec-h" style="margin:0 0 8px">Новый телефон</div><div class="kv">Клиент сменил телефон - дай ему код, и данные с сервера подтянутся на новый.</div><div id="relinkBox"></div><button class="btn ghost sm" style="margin-top:8px" onclick="invite(' + cur.id + ')">Код для нового телефона</button></div>' +
+    '<div class="card"><div class="sec-h" style="margin:0 0 8px">Данные</div><div class="kv">Согласия: <b>' + ((cur.consents || []).map(c => ({ terms:"условия", pdn:"ПДн", health:"тело и тренер" }[c.kind] || c.kind) + " " + c.version + " от " + fmtTs(c.given_at)).join("; ") || "нет") + '</b>. Выгрузка - всё, что о клиенте лежит на сервере, одним файлом.</div>' +
+    '<button class="btn ghost sm" style="margin-top:8px" onclick="exportClient()">Скачать JSON</button></div>' +
+    '<div class="card warn"><div class="sec-h" style="margin:0 0 8px">Удалить клиента</div><div class="kv">Стирает с сервера всё: тренировки, вес, еду, программу. На телефоне клиента данные останутся. Отменить нельзя.</div><button class="btn danger" style="margin-top:10px" onclick="delClient()">Удалить ' + esc(c.name) + ' и все данные</button></div>';
+}
+async function rename(){ const n = document.getElementById("rnIn").value.trim(); if(!n) return; try { await api("coach/client/rename", { id: cur.id, name: n }); cur.client.name = n; renderClient(); toast("Ок"); } catch(e){ toast(e.message); } }
+function exportClient(){ const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(cur, null, 2)], { type:"application/json" })); a.download = "client-" + cur.id + ".json"; a.click(); }
+async function delClient(){
+  if(!confirm("Точно удалить " + cur.client.name + " и все данные с сервера?")) return;
+  if(prompt("Напиши УДАЛИТЬ, чтобы подтвердить") !== "УДАЛИТЬ") return;
+  try { await api("coach/client/delete", { id: cur.id }); toast("Удалено"); cur = null; ed = null; await showList(); } catch(e){ toast(e.message); }
+}
+
+document.getElementById("btnBack").addEventListener("click", () => { ed = null; edOpen = {}; });
+boot();
+</script>
+</body>
+</html>

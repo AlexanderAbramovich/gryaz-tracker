@@ -374,6 +374,41 @@
   .backup p { margin: 0 0 12px; font-size: 12px; color: var(--dim); line-height: 1.5; }
   .backup .row { display: flex; gap: 8px; }
 
+  /* ── тренер ── */
+  .coach-card { background: var(--panel); border: 1px solid var(--org-dim); border-radius: 16px; padding: 14px 16px; margin: 16px 0 0; }
+  .coach-card.off { border-color: var(--line); }
+  .cc-k { font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--org); }
+  .coach-card.off .cc-k { color: var(--dim); }
+  .cc-t { font-size: 15px; font-weight: 800; margin-top: 4px; line-height: 1.3; }
+  .cc-s { font-size: 12px; color: var(--dim); margin-top: 4px; line-height: 1.45; }
+  .cc-note { margin-top: 10px; padding: 11px 13px; background: var(--panel-2); border-radius: 11px; font-size: 14px; line-height: 1.5; white-space: pre-wrap; }
+  .cc-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .cc-row .wbtn { flex: 1 1 40%; }
+  .cc-row .wbtn.danger { color: #ff8080; border-color: #7d2222; }
+  /* ── подключение к тренеру ── */
+  #join { position: fixed; inset: 0; z-index: 210; background: var(--bg); overflow-y: auto; max-width: 640px; margin: 0 auto; padding: env(safe-area-inset-top) 20px calc(30px + env(safe-area-inset-bottom)); }
+  .j-h { font-size: 26px; font-weight: 900; text-transform: uppercase; font-style: italic; letter-spacing: -1px; margin: 22px 0 6px; }
+  .j-p { font-size: 14px; color: #d6d6de; line-height: 1.55; margin: 0 0 12px; }
+  .j-p b { color: var(--ink); }
+  .j-box { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 13px; line-height: 1.5; color: var(--dim); margin-bottom: 12px; }
+  .j-box b { color: var(--ink); }
+  .j-box ul { margin: 6px 0 0; padding-left: 18px; }
+  .j-box li { margin: 3px 0; }
+  .j-in { width: 100%; background: var(--panel-2); border: 1px solid var(--line); color: var(--ink); border-radius: 12px; padding: 14px; font-size: 18px; font-weight: 800; margin: 4px 0 12px; }
+  .j-in.code { text-transform: uppercase; letter-spacing: 3px; text-align: center; font-size: 22px; }
+  .j-in:focus { outline: none; border-color: var(--org-dim); }
+  .j-l { font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--dim); }
+  .j-chk { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid var(--line); cursor: pointer; font-size: 13.5px; line-height: 1.45; }
+  .j-chk .bx { flex: 0 0 22px; width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--dim); margin-top: 1px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #0a0a0c; }
+  .j-chk.on .bx { background: var(--org); border-color: var(--org); }
+  .j-chk.on .bx:after { content: "✓"; }
+  .j-chk a { color: var(--org); }
+  .j-foot { display: flex; gap: 10px; margin-top: 16px; }
+  .j-foot .fl-back { flex: 0 0 90px; }
+  .j-foot .fl-next { flex: 1; }
+  .j-foot .fl-next:disabled { opacity: .4; }
+  .j-err { color: #ff8080; font-size: 13px; font-weight: 700; margin-top: 10px; min-height: 18px; }
+
   /* ── nav ── */
   .nav {
     position: fixed; bottom: 0; left: 0; right: 0; display: flex;
@@ -671,6 +706,8 @@
 
   <div class="tl" id="timeline"></div>
 
+  <div id="coachNoteBox"></div>
+
   <div class="weight-card">
     <div class="wc-top">
       <div>
@@ -789,6 +826,8 @@
 
   <div class="sec-h">Тренировки</div>
   <div id="hList"></div>
+
+  <div id="coachBox"></div>
 
   <div class="backup">
     <h3>Бэкап данных</h3>
@@ -1170,13 +1209,13 @@ function ico(name, cls){
 }
 
 /* ═══════════ STORE ═══════════ */
-const APP_VERSION = "10.0";
+const APP_VERSION = "11.0";
 const store = {
   get(k, d){ try { const v = localStorage.getItem(k); return v===null? d : JSON.parse(v); } catch(e){ return d; } },
   /* Переполнение раньше глоталось пустым catch: запись молча пропадала.
      Теперь возвращаем false и кричим тостом. */
   set(k, v){
-    try { localStorage.setItem(k, JSON.stringify(v)); return true; }
+    try { localStorage.setItem(k, JSON.stringify(v)); if(typeof markDirty === "function") markDirty(k); return true; }
     catch(e){ try { toast("Память переполнена - не сохранилось"); } catch(_){} return false; }
   }
 };
@@ -1406,6 +1445,7 @@ function renderGuide(){
   });
   document.getElementById("timeline").innerHTML = html;
   renderStats();
+  renderCoachCard();
 }
 
 /* История дней: те же пункты, посчитанные за прошлые даты */
@@ -2665,13 +2705,306 @@ function importData(file){
   r.readAsText(file);
 }
 
+/* ═══════════ СВЯЗЬ С ТРЕНЕРОМ ═══════════ */
+/* Клиент - единственный, кто пишет свои документы. Сервер их только хранит и
+   показывает тренеру, поэтому синк простой: изменился ключ - пометили грязным,
+   через пару секунд отправили. Тренер пишет только свои документы (программа,
+   цели, заметка) - они приходят в ответе на синк и применяются по номеру ревизии.
+   Фото тела на сервер не уходят никогда. */
+const API_DEFAULT = "";          /* пусто = свой домен (/api/index.php). Заполняется адресом РФ-сервера для установки с GitHub Pages */
+const SYNC_KEYS = ["sessions", "lastEx", "wHist", "weight", "sleep", "food", "cfg", "startDate", "curDay", "schema", "plan", "goals"];
+const SYNC_PREFIX = /^guide_\d{4}-\d{2}-\d{2}$/;
+let syncTimer = null, syncBusy = false;
+
+function coach(){ return store.get("coach", null); }               /* {api, token, name, clientId, clientName, since} */
+function coachRev(){ return store.get("coachRev", {}); }
+function apiBase(){
+  const c = coach();
+  if(c && c.api) return c.api;
+  if(API_DEFAULT) return API_DEFAULT;
+  return location.origin + location.pathname.replace(/[^\/]*$/, "") + "api/index.php";
+}
+async function api(route, body, opts){
+  const c = coach();
+  const headers = { "Content-Type": "application/json" };
+  const token = (opts && opts.token) || (c && c.token);
+  if(token) headers["Authorization"] = "Bearer " + token;
+  const base = (opts && opts.api) || apiBase();
+  const res = await fetch(base + "?r=" + route, {
+    method: body ? "POST" : "GET", headers: headers, body: body ? JSON.stringify(body) : undefined, cache: "no-store"
+  });
+  let j = null;
+  try { j = await res.json(); } catch(e){}
+  if(!res.ok){
+    const err = new Error((j && j.error) || ("Сервер ответил " + res.status));
+    err.status = res.status;
+    throw err;
+  }
+  return j;
+}
+
+/* Грязные ключи переживают закрытие приложения: лежат в localStorage */
+function markDirty(k){
+  if(!coach()) return;
+  if(!(SYNC_KEYS.indexOf(k) >= 0 || SYNC_PREFIX.test(k))) return;
+  const d = store.get("syncDirty", {});
+  d[k] = Date.now();
+  try { localStorage.setItem("syncDirty", JSON.stringify(d)); } catch(e){}
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(syncNow, 2500);
+}
+function allSyncKeys(){
+  const keys = [];
+  for(let i = 0; i < localStorage.length; i++){
+    const k = localStorage.key(i);
+    if(SYNC_KEYS.indexOf(k) >= 0 || SYNC_PREFIX.test(k)) keys.push(k);
+  }
+  return keys;
+}
+async function syncNow(full){
+  const c = coach();
+  if(!c || syncBusy || !navigator.onLine) return false;
+  const dirty = store.get("syncDirty", {});
+  const keys = full ? allSyncKeys() : Object.keys(dirty);
+  syncBusy = true;
+  try {
+    const docs = {};
+    keys.forEach(k => {
+      const raw = localStorage.getItem(k);
+      if(raw === null) return;
+      try { docs[k] = { d: JSON.parse(raw), u: dirty[k] || Date.now() }; } catch(e){}
+    });
+    const res = await api("client/sync", { docs: docs, coachRev: coachRev(), app: APP_VERSION });
+    const left = store.get("syncDirty", {});
+    keys.forEach(k => { if(left[k] && left[k] <= (dirty[k] || Infinity)) delete left[k]; });
+    try { localStorage.setItem("syncDirty", JSON.stringify(left)); } catch(e){}
+    c.since = Date.now(); c.err = null;
+    try { localStorage.setItem("coach", JSON.stringify(c)); } catch(e){}
+    applyCoachDocs(res.coach || {});
+    renderCoachCard();
+    return true;
+  } catch(e){
+    c.err = e.message;
+    try { localStorage.setItem("coach", JSON.stringify(c)); } catch(e2){}
+    if(e.status === 401){ toast("Тренер отключил это устройство"); }
+    renderCoachCard();
+    return false;
+  } finally { syncBusy = false; }
+}
+/* Документы тренера: применяем только те, чья ревизия новее уже применённой */
+function applyCoachDocs(cd){
+  const rev = coachRev();
+  let changed = false;
+  Object.keys(cd).forEach(k => {
+    const doc = cd[k];
+    if(!doc || (rev[k] || 0) >= doc.rev) return;
+    if(k === "plan" && planValid(doc.d)){
+      const p = doc.d; if(!p.author) p.author = { name: (coach() || {}).name || "тренер" };
+      store.set("plan", p); applyPlan(p);
+      if(!PROGRAM[curDay]){ curDay = DAY_ORDER[0]; store.set("curDay", curDay); }
+      toast("Тренер обновил программу");
+    } else if(k === "goals" && doc.d && typeof doc.d === "object"){
+      store.set("goals", doc.d); applyGoals();
+      toast("Тренер обновил цели");
+    } else if(k === "note"){
+      localStorage.setItem("coachNote", JSON.stringify({ text: String(doc.d && doc.d.text || doc.d || ""), at: doc.u }));
+    }
+    rev[k] = doc.rev; changed = true;
+  });
+  if(changed){
+    store.set("coachRev", rev);
+    renderGuide(); renderWeight();
+    if(!document.getElementById("viewGym").classList.contains("hidden")){ renderTabs(); renderDay(); }
+  }
+}
+function ago(ts){
+  if(!ts) return "ещё не было";
+  const m = Math.round((Date.now() - ts) / 60000);
+  if(m < 1) return "только что";
+  if(m < 60) return m + " мин назад";
+  const h = Math.round(m / 60);
+  if(h < 48) return h + " ч назад";
+  return Math.round(h / 24) + " дн назад";
+}
+function renderCoachCard(){
+  const box = document.getElementById("coachBox");
+  const nb = document.getElementById("coachNoteBox");
+  const c = coach();
+  if(!box) return;
+  if(!c){
+    box.innerHTML = '<div class="coach-card off"><div class="cc-k">Тренер</div><div class="cc-t">Не подключён</div>' +
+      '<div class="cc-s">Тренер даёт код - ты подключаешься, и он видит твои тренировки, вес, еду и сон. Фото остаются только у тебя.</div>' +
+      '<div class="cc-row"><button class="wbtn" onclick="openJoin()">Подключиться по коду</button></div></div>';
+    if(nb) nb.innerHTML = "";
+    return;
+  }
+  const dirty = Object.keys(store.get("syncDirty", {})).length;
+  box.innerHTML = '<div class="coach-card"><div class="cc-k">Тренер</div><div class="cc-t">' + esc(c.name || "тренер") + '</div>' +
+    '<div class="cc-s">Ты для него: ' + esc(c.clientName || "") + ' · синк ' + ago(c.since) + (dirty ? ' · не отправлено: ' + dirty : '') +
+    (c.err ? '<br><span style="color:#ff8080">' + esc(c.err) + '</span>' : '') + '</div>' +
+    '<div class="cc-row"><button class="wbtn" onclick="syncNow(true).then(ok => toast(ok ? \'Отправлено\' : \'Не вышло\'))">Отправить всё</button>' +
+    '<button class="wbtn" onclick="pullFromServer()">Забрать с сервера</button>' +
+    '<button class="wbtn" onclick="exportServerData()">Мои данные (JSON)</button>' +
+    '<button class="wbtn danger" onclick="leaveCoach()">Отключиться и стереть</button></div></div>';
+  if(nb){
+    const n = store.get("coachNote", null);
+    nb.innerHTML = n && n.text
+      ? '<div class="coach-card"><div class="cc-k">От тренера · ' + esc(c.name || "") + '</div><div class="cc-note">' + esc(n.text) + '</div></div>'
+      : "";
+  }
+}
+
+/* ── подключение: четыре экрана ── */
+/* Код и имя → условия (с ПЭП) → согласие на обычные данные → согласие на данные о теле
+   и передачу тренеру. Три документа принимаются ОТДЕЛЬНО, каждый со своей версией и
+   хэшем текста (156-ФЗ: согласие не может быть частью другого документа). */
+const LEGAL = {
+  terms: { ver: "2026-09-21", title: "Условия использования", file: "terms.html", lines: [
+    "Приложение ГРЯЗЬ - дневник тренировок, питания, сна и веса. Это не медицинский сервис и не медицинское изделие: программа тренировок и цели по питанию - рекомендации тренера, а не назначение врача. Если есть заболевания или травмы, сперва к врачу.",
+    "Пользоваться сервисом можно с 18 лет. Нагрузку на тренировке ты выбираешь сам и отвечаешь за неё сам.",
+    "Простая электронная подпись: твои действия в приложении с этого устройства (ввод кода тренера, нажатие «Принимаю», «Подключиться») - это твоя подпись под документами, которые ты принимаешь. Ключ подписи - токен устройства; не давай телефон посторонним.",
+    "Сервис бесплатный, без рекламы, без аналитики и без рассылок. Аккаунт можно удалить в любой момент кнопкой «Отключиться и стереть».",
+    "Оператор сервиса - разработчик, физическое лицо; полные реквизиты и контакт для обращений - в политике."
+  ]},
+  pdn: { ver: "2026-09-21", title: "Согласие на обработку персональных данных", file: "consent.html", lines: [
+    "Я даю оператору сервиса ГРЯЗЬ согласие на обработку моих персональных данных: имя или ник, который я укажу; технические данные устройства (модель браузера, IP-адрес в журналах сервера).",
+    "Цель: работа моего аккаунта, связь с тренером, ответы на мои запросы.",
+    "Действия: сбор, запись, хранение, уточнение, использование, удаление. Автоматизированная обработка на сервере в России.",
+    "Срок: до отзыва согласия или удаления аккаунта. Отзыв - кнопкой «Отключиться и стереть» в приложении или сообщением оператору; данные стираются сразу.",
+    "Согласие дано свободно и отдельно от других документов."
+  ]},
+  health: { ver: "2026-09-21", title: "Согласие на обработку данных о теле и тренировках и передачу тренеру", file: "consent-health.html", lines: [
+    "Я даю оператору сервиса ГРЯЗЬ согласие на обработку данных о моём теле и образе жизни: вес тела и его история; тренировки - упражнения, рабочие веса, повторы, даты; дневник питания - блюда, калории, белки, жиры, углеводы; время подъёма и отбоя; отметки чек-листа дня.",
+    "Понимаю, что такие сведения могут расцениваться как данные о состоянии здоровья. Диагнозы, болезни, лекарства и самочувствие в приложение не вношу - для этого нет полей, и такие сведения не собираются.",
+    "Цель: ведение моего тренировочного процесса и питания под контролем тренера.",
+    "Передача: данные видит тренер, чей код я ввёл. Тренер обрабатывает их по поручению оператора, только в кабинете сервиса, без права копировать, пересылать или публиковать. Фотографии тела на сервер не передаются и тренеру не показываются.",
+    "Срок: до отзыва согласия или удаления аккаунта. Отзыв - кнопкой «Отключиться и стереть»: данные стираются сразу, доступ тренера прекращается.",
+    "Согласие дано свободно, отдельно от других документов, и подписано простой электронной подписью в порядке условий использования."
+  ]}
+};
+function legalText(k){ const d = LEGAL[k]; return d.title + " · версия " + d.ver + "\n" + d.lines.join("\n"); }
+let joinEl = null, joinState = {};
+function openJoin(code){
+  joinState = { step: 0, code: code || "", name: store.get("myName", ""), age: false, acc: { terms:false, pdn:false, health:false }, err: "", api: "" };
+  if(joinEl) joinEl.remove();
+  joinEl = document.createElement("div"); joinEl.id = "join";
+  document.body.appendChild(joinEl);
+  renderJoin();
+}
+function closeJoin(){ if(joinEl){ joinEl.remove(); joinEl = null; } }
+function jTog(k){ if(k === "age") joinState.age = !joinState.age; else joinState.acc[k] = !joinState.acc[k]; renderJoin(); }
+function jStep(d){ joinState.step += d; joinState.err = ""; renderJoin(); window.scrollTo(0,0); }
+function renderJoin(){
+  const st = joinState;
+  let body = "", foot = "";
+  if(st.step === 0){
+    const ok = st.code.replace(/[^A-Za-z0-9]/g, "").length === 6 && st.name.trim().length >= 2 && st.age;
+    body = '<div class="j-h">Подключение к тренеру</div>' +
+      '<p class="j-p">Тренер видит то, что ты записываешь в приложении, и может присылать программу, цели и заметки. <b>Фото тела остаются только на твоём телефоне.</b></p>' +
+      '<div class="j-box"><b>Что уходит на сервер и тренеру:</b><ul>' +
+      '<li>имя или ник, который укажешь ниже</li><li>тренировки: упражнения, веса, повторы, даты</li><li>вес тела и его история</li>' +
+      '<li>дневник еды: блюда, калории, белки, жиры, углеводы</li><li>время подъёма и отбоя, отметки чек-листа</li></ul>' +
+      '<b>Что не уходит:</b> фото, телефон, почта, геолокация. Сервер стоит в России. Данные можно забрать файлом и стереть одной кнопкой.</div>' +
+      '<div class="j-l">Код от тренера</div>' +
+      '<input class="j-in code" maxlength="7" placeholder="ABC234" autocapitalize="characters" autocomplete="off" value="' + esc(st.code) + '" oninput="joinState.code=this.value;jSoft()">' +
+      '<div class="j-l">Как тебя называть тренеру</div>' +
+      '<input class="j-in" maxlength="40" placeholder="Имя или ник" value="' + esc(st.name) + '" oninput="joinState.name=this.value;jSoft()">' +
+      '<div class="j-chk' + (st.age ? " on" : "") + '" onclick="jTog(\'age\')"><div class="bx"></div><div>Мне есть 18 лет, и я подключаюсь сам</div></div>' +
+      '<div class="j-err">' + esc(st.err) + '</div>';
+    foot = '<button class="fl-back" onclick="closeJoin()">✕</button><button class="fl-next" id="jNext" ' + (ok ? "" : "disabled") + ' onclick="jStep(1)">Дальше · 1 из 4</button>';
+  } else if(st.step >= 1 && st.step <= 3){
+    const k = ["terms", "pdn", "health"][st.step - 1], d = LEGAL[k];
+    body = '<div class="j-l">Документ ' + st.step + ' из 3 · версия ' + d.ver + '</div><div class="j-h" style="font-size:22px">' + esc(d.title) + '</div>' +
+      '<div class="j-box" style="color:#d6d6de">' + d.lines.map(l => '<p style="margin:0 0 9px">' + esc(l) + '</p>').join("") +
+      '<a href="' + d.file + '" target="_blank" style="color:var(--org);font-weight:700">Полный текст</a></div>' +
+      '<div class="j-chk' + (st.acc[k] ? " on" : "") + '" onclick="jTog(\'' + k + '\')"><div class="bx"></div><div>' +
+      (k === "terms" ? "Принимаю условия и соглашение о простой электронной подписи" : "Даю это согласие. Оно отдельное: без него подключения к тренеру не будет, приложение при этом продолжит работать без сервера") + '</div></div>' +
+      '<div class="j-err">' + esc(st.err) + '</div>';
+    foot = '<button class="fl-back" onclick="jStep(-1)">←</button><button class="fl-next" ' + (st.acc[k] ? "" : "disabled") + ' onclick="' + (st.step === 3 ? "doJoin()" : "jStep(1)") + '">' + (st.step === 3 ? "Подключиться" : "Дальше · " + (st.step + 1) + " из 4") + '</button>';
+  }
+  joinEl.innerHTML = body + '<div class="j-foot">' + foot + '</div>';
+}
+/* Ввод в поля не перерисовывает экран (иначе теряется фокус), только кнопку */
+function jSoft(){
+  const st = joinState, b = document.getElementById("jNext");
+  if(b) b.disabled = !(st.code.replace(/[^A-Za-z0-9]/g, "").length === 6 && st.name.trim().length >= 2 && st.age);
+}
+async function sha256Hex(txt){
+  try {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+  } catch(e){ return "nohash"; }
+}
+async function doJoin(){
+  const st = joinState;
+  const btn = joinEl.querySelector(".fl-next"); btn.disabled = true; btn.textContent = "Подключаю…";
+  try {
+    const consents = [];
+    for(const k of ["terms", "pdn", "health"]) consents.push({ kind: k, version: LEGAL[k].ver, hash: await sha256Hex(legalText(k)) });
+    const res = await api("client/join", { code: st.code, name: st.name.trim(), consents: consents }, { token: null, api: st.api || undefined });
+    const c = { api: st.api || apiBase(), token: res.token, name: res.coach.name, clientId: res.client.id, clientName: res.client.name, since: null };
+    store.set("coach", c);
+    store.set("myName", st.name.trim());
+    store.set("consentGiven", { at: new Date().toISOString(), consents: consents });
+    closeJoin();
+    if(res.relink){
+      toast("Устройство привязано");
+      if(confirm("Это тот же аккаунт. Забрать данные с сервера на этот телефон?")) await pullFromServer(true);
+    } else {
+      toast("Подключено к " + res.coach.name);
+    }
+    await syncNow(true);
+    renderCoachCard();
+  } catch(e){
+    st.err = e.message || "Не вышло";
+    if(/код/i.test(st.err)) st.step = 0;
+    renderJoin();
+  }
+}
+async function pullFromServer(silent){
+  if(!coach()) return;
+  if(!silent && !confirm("Заменить данные на этом телефоне тем, что лежит на сервере? Фото не трогаются.")) return;
+  try {
+    const res = await api("client/pull");
+    const docs = res.docs || {};
+    Object.keys(docs).forEach(k => { try { localStorage.setItem(k, JSON.stringify(docs[k].d)); } catch(e){} });
+    localStorage.removeItem("syncDirty");
+    store.set("coachRev", {});
+    applyCoachDocs(res.coach || {});
+    toast("Забрал с сервера, перезапускаю");
+    setTimeout(() => location.reload(), 700);
+  } catch(e){ toast(e.message || "Не вышло"); }
+}
+async function exportServerData(){
+  try {
+    const res = await api("client/export");
+    const blob = new Blob([JSON.stringify(res, null, 2)], { type:"application/json" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "gryaz-server-" + todayISO() + ".json"; a.click();
+    toast("Файл с сервера скачан");
+  } catch(e){ toast(e.message || "Не вышло"); }
+}
+async function leaveCoach(){
+  if(!confirm("Отключиться от тренера и стереть ВСЕ твои данные с сервера? На телефоне всё останется.")) return;
+  try { await api("client/leave", {}); } catch(e){ if(e.status !== 401){ toast(e.message || "Сервер не ответил"); return; } }
+  localStorage.removeItem("coach"); localStorage.removeItem("syncDirty"); localStorage.removeItem("coachRev"); localStorage.removeItem("coachNote");
+  toast("Отключено, данные на сервере стёрты");
+  renderCoachCard(); renderGuide();
+}
+function handleJoinHash(){
+  const m = location.hash.match(/#join=([A-Za-z0-9-]{6,7})/);
+  if(!m) return;
+  history.replaceState(null, "", location.pathname);
+  if(coach()){ toast("Ты уже подключён к тренеру"); return; }
+  openJoin(m[1].toUpperCase());
+}
+
 /* ═══════════ VIEWS ═══════════ */
 function switchView(v){
   ["Guide","Gym","Food","History"].forEach(x=>{
     document.getElementById("view"+x).classList.toggle("hidden", v.toLowerCase() !== x.toLowerCase());
     document.getElementById("nav"+x).classList.toggle("active", v.toLowerCase() === x.toLowerCase());
   });
-  if(v==="history"){ renderDays(); renderHistory(); phRender(); }
+  if(v==="history"){ renderDays(); renderHistory(); phRender(); renderCoachCard(); }
   if(v==="food") renderFood();
   if(v==="gym"){ renderTabs(); renderDay(); }
   if(v==="guide") renderGuide();
@@ -2692,8 +3025,13 @@ renderGuide();
 renderWeight();
 renderStats();
 refreshPlanCode();
+renderCoachCard();
 handlePlanHash();
-window.addEventListener("hashchange", handlePlanHash);
+handleJoinHash();
+window.addEventListener("hashchange", () => { handlePlanHash(); handleJoinHash(); });
+/* Синк: при старте, при возврате в приложение и когда появилась сеть */
+setTimeout(() => syncNow(), 1500);
+window.addEventListener("online", () => syncNow());
 
 /* ═══════════ ОБНОВЛЕНИЕ ═══════════ */
 /* SW ставит новую версию сразу (skipWaiting). Перезагружаемся сами, но не посреди
@@ -2710,7 +3048,7 @@ if("serviceWorker" in navigator){
   navigator.serviceWorker.register("sw.js").then(reg => {
     /* Проверяем обновление при каждом возврате в приложение, а не раз в сутки */
     document.addEventListener("visibilitychange", () => {
-      if(document.visibilityState === "visible"){ reg.update().catch(()=>{}); swMaybeReload(); }
+      if(document.visibilityState === "visible"){ reg.update().catch(()=>{}); swMaybeReload(); syncNow(); }
     });
   }).catch(()=>{});
   navigator.serviceWorker.addEventListener("controllerchange", () => {
