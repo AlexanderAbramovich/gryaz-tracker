@@ -175,6 +175,15 @@
   .save:active { transform: scale(.985); }
   .save.ghost { background: var(--panel-2); color: var(--ink); border: 1px solid var(--line); }
 
+  .plan-bar { margin: 0 0 10px; padding: 10px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+  .pb-l { margin-bottom: 9px; }
+  .pb-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pb-name { font-size: 13px; font-weight: 800; line-height: 1.2; }
+  .pb-meta { font-size: 10.5px; color: var(--dim); font-weight: 600; margin-top: 2px; }
+  .pb-btn { background: var(--panel-2); border: 1px solid var(--line); color: var(--ink); border-radius: 8px; padding: 8px 10px;
+    font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .3px; cursor: pointer; white-space: nowrap; }
+  .pb-btn:active { background: #22222b; }
+  .pb-btn.org { color: var(--org); border-color: var(--org-dim); }
   .tabs { display: flex; gap: 6px; margin: 16px 0 10px; }
   .tab {
     flex: 1; text-align: center; padding: 11px 4px; border-radius: 10px;
@@ -668,10 +677,10 @@
         <div class="wc-label">Вес тела</div>
         <div class="wc-now" id="wNow">63.0<small> кг</small></div>
       </div>
-      <div class="wc-goal">70 кг · прайм</div>
+      <div class="wc-goal" id="wGoalTxt">70 кг · прайм</div>
     </div>
     <div class="track"><div class="track-fill" id="wFill"></div></div>
-    <div class="track-scale"><span>60</span><span>65</span><span>70</span></div>
+    <div class="track-scale" id="wScale"><span>60</span><span>65</span><span>70</span></div>
     <div class="wchart" id="wChart"></div>
     <div class="wc-actions">
       <button class="wbtn" onclick="logWeight(-0.2)">− 0.2</button>
@@ -695,8 +704,10 @@
   <div class="h-title">Зал</div>
   <div class="h-sub">Двойная прогрессия. Приложение само скажет, когда добавить вес.</div>
   <button class="save" style="margin:0 0 8px" onclick="startWorkoutFlow()">▶ Начать тренировку с гидом</button>
+  <div class="plan-bar" id="planBar"></div>
   <div class="tabs" id="tabs"></div>
   <div id="dayBox"></div>
+  <input type="file" id="planFile" accept=".json,application/json" style="display:none" onchange="importPlanFile(this.files[0])">
   <button class="save ghost" id="saveBtn" onclick="saveDay()">Записать без гида</button>
 </div>
 
@@ -728,6 +739,7 @@
   <div class="sec-h">Шлюз недели</div>
   <div id="gateBox"></div>
 
+  <div id="foodPersonal">
   <div class="roulette">
     <h3 class="rl-head"><svg class="ic-lg"><use href="#i-dice"/></svg> Рулетка блюда</h3>
     <p>Не знаешь, что готовить - жми. Выпадет блюдо, и я проведу по шагам, как шеф.</p>
@@ -743,6 +755,7 @@
   </div>
   <div id="shopBox"></div>
   <button class="save ghost" style="margin-top:4px" onclick="resetWeekly()">Сбросить недельное</button>
+  </div>
 </div>
 
 <!-- шторка выбора доли -->
@@ -799,8 +812,11 @@
 
 <script>
 /* ═══════════ ПРОГРАММА ЗАЛА ═══════════ */
-/* Программа Димы, сентябрь 2026. Четырёхдневный сплит, везде 4 подхода. */
-const PROGRAM = {
+/* Программа Димы, сентябрь 2026. Четырёхдневный сплит, везде 4 подхода.
+   Это СИД: живая программа лежит в хранилище (ключ plan) и может прийти от тренера.
+   Ключи d1e1…d4e5 заморожены навсегда - на них ссылаются записи за июль-сентябрь.
+   Новые упражнения получают только свой префикс (x_…). */
+const SEED_PROGRAM = {
   1: {
     title: "День 1 · Грудь · Дельты · Трицепс",
     warm: "<b>Разминка 8-10 мин.</b> Велотренажёр 4 мин до испарины. По 10: круги руками, вращения с палкой, кошка-корова. Подводящие к первому жиму: 50%×8, 75%×4.",
@@ -908,8 +924,40 @@ const PROGRAM = {
     ]
   }
 };
-const DAY_NAMES = { 1:"Грудь", 2:"Спина · бицепс", 3:"Ноги", 4:"Спина · грудь" };
-const DAY_ORDER = ["1","2","3","4"];
+const SEED_DAY_NAMES = { 1:"Грудь", 2:"Спина · бицепс", 3:"Ноги", 4:"Спина · грудь" };
+const PLAN_FORMAT = 1;
+const SEED_PLAN = {
+  v: PLAN_FORMAT, id: "plan_dima_2026_09", name: "Сплит Димы · 4 дня", rev: 1, author: null,
+  days: ["1","2","3","4"].map(k => Object.assign({ key: k, short: SEED_DAY_NAMES[k] }, SEED_PROGRAM[k]))
+};
+
+/* Живая программа. renderDay, progressTip, startWorkoutFlow, persistWorkout читают
+   ровно эту форму - им всё равно, откуда она пришла: из сида, кода или от тренера. */
+let PROGRAM = {}, DAY_NAMES = {}, DAY_ORDER = [], PLAN = null, EX_NAMES = {};
+function planValid(p){
+  return !!(p && typeof p === "object" && Array.isArray(p.days) && p.days.length &&
+    p.days.every(d => d && d.key != null && Array.isArray(d.ex) && d.ex.every(e => e && e.id && e.name)));
+}
+function applyPlan(p){
+  PLAN = p;
+  PROGRAM = {}; DAY_NAMES = {}; DAY_ORDER = [];
+  p.days.forEach(d => {
+    const k = String(d.key);
+    DAY_ORDER.push(k);
+    DAY_NAMES[k] = d.short || d.title || k;
+    PROGRAM[k] = Object.assign({}, d, {
+      ex: d.ex.map(e => Object.assign({ sets: 4, lo: 10, hi: 12, step: 2.5, icon: "press", note: "", swap: "" }, e))
+    });
+  });
+  EX_NAMES = Object.assign({}, LEGACY_EX_NAMES);
+  Object.values(PROGRAM).forEach(d => d.ex.forEach(e => { EX_NAMES[e.id] = e.name; }));
+  if(typeof refreshPlanCode === "function") refreshPlanCode();
+}
+function loadPlan(){
+  const p = store.get("plan", null);
+  if(planValid(p)) return p;
+  return JSON.parse(JSON.stringify(SEED_PLAN));
+}
 
 /* Названия упражнений из старой программы - чтобы история до сентября 2026 читалась */
 const LEGACY_EX_NAMES = {
@@ -950,9 +998,17 @@ const DISHES = [
   { id:"pozy",   n:"Позы «Дали»",       d:"4 штуки, 300 г",                 ic:"meatball", k:640,  p:31,  f:31,  c:61  }
 ];
 
-/* Цель: 3200-3500 ккал, белок не ниже 130 г, вес +0,3-0,5 кг в неделю */
-const KCAL_LO = 3200, KCAL_HI = 3500, KCAL_GOAL = KCAL_LO, PROT_GOAL = 130;
-const GAIN_LO = 0.3, GAIN_HI = 0.5;
+/* ═══════════ ЦЕЛИ ═══════════ */
+/* По умолчанию: 3200-3500 ккал, белок от 130 г, +0,3-0,5 кг в неделю, вес 70.
+   Живут в хранилище (ключ goals) - их выставляет тренер или сам человек. */
+const GOALS_DEFAULT = { kcalLo:3200, kcalHi:3500, prot:130, gainLo:0.3, gainHi:0.5, weightGoal:70, weightLo:60, weightLabel:"прайм" };
+let KCAL_LO, KCAL_HI, KCAL_GOAL, PROT_GOAL, GAIN_LO, GAIN_HI, W_GOAL, W_LO, W_LABEL;
+function goals(){ return Object.assign({}, GOALS_DEFAULT, store.get("goals", {})); }
+function applyGoals(){
+  const g = goals();
+  KCAL_LO = g.kcalLo; KCAL_HI = g.kcalHi; KCAL_GOAL = g.kcalLo; PROT_GOAL = g.prot;
+  GAIN_LO = g.gainLo; GAIN_HI = g.gainHi; W_GOAL = g.weightGoal; W_LO = g.weightLo; W_LABEL = g.weightLabel;
+}
 
 /* Доли порции. Ключ хранится в записи, чтобы долю можно было поправить задним числом */
 const FRACS = [
@@ -1114,7 +1170,7 @@ function ico(name, cls){
 }
 
 /* ═══════════ STORE ═══════════ */
-const APP_VERSION = "9.1";
+const APP_VERSION = "10.0";
 const store = {
   get(k, d){ try { const v = localStorage.getItem(k); return v===null? d : JSON.parse(v); } catch(e){ return d; } },
   /* Переполнение раньше глоталось пустым catch: запись молча пропадала.
@@ -1130,7 +1186,7 @@ const store = {
    ночью до этого часа, относится к вечеру предыдущего дня. Так ночная еда, отбой
    в 01:20 и чек-лист живут в том дне, который человек прожил. Раньше эту роль
    случайно играла UTC-дата (Иркутск +8), теперь граница явная и своя. */
-const CFG_DEFAULT = { dayStart: 4 };
+const CFG_DEFAULT = { dayStart: 4, personal: false };
 function cfg(){ return Object.assign({}, CFG_DEFAULT, store.get("cfg", {})); }
 function pad(n){ return String(n).padStart(2,"0"); }
 function isoOf(d){ return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
@@ -1147,7 +1203,7 @@ function isoDate(iso){ return new Date(iso + "T12:00:00"); }
 /* Чистая функция: на входе и выходе карта localStorage {ключ: json-строка}.
    Хранилища не касается, поэтому её можно прогнать на компьютере на файле бэкапа
    и сверить глазами до того, как она тронет живые данные. */
-const SCHEMA = 1;
+const SCHEMA = 2;
 function migrateRaw(raw){
   const out = Object.assign({}, raw);
   const get = k => { try { return out[k] == null ? undefined : JSON.parse(out[k]); } catch(e){ return undefined; } };
@@ -1162,6 +1218,21 @@ function migrateRaw(raw){
     if(hasData){ set("cfg", Object.assign(get("cfg") || {}, { dayStart: 8 })); log.push("граница дня закреплена на 08:00, как было по UTC"); }
     ver = 1;
   }
+  if(ver < 2){
+    /* Рабочие веса last_<день> сливаются в один lastEx по id упражнения.
+       Личные модули (уход, волосы, рецепты) остаются включёнными у тех, у кого они были. */
+    const merged = get("lastEx") || {};
+    Object.keys(out).filter(k => /^last_/.test(k)).forEach(k => {
+      const v = get(k) || {};
+      Object.keys(v).forEach(id => { if(!merged[id]) merged[id] = v[id]; });
+      delete out[k];
+      log.push(k + " → lastEx");
+    });
+    if(Object.keys(merged).length) set("lastEx", merged);
+    const hasData = ["sessions", "food", "sleep", "wHist"].some(k => out[k] != null);
+    if(hasData){ set("cfg", Object.assign(get("cfg") || {}, { personal: true })); log.push("личные модули включены"); }
+    ver = 2;
+  }
   set("schema", ver);
   return { raw: out, log: log };
 }
@@ -1175,8 +1246,10 @@ function migrateLocal(){
 }
 migrateLocal();
 
+applyPlan(loadPlan());
+applyGoals();
 let curDay = String(store.get("curDay", "1"));
-if(!PROGRAM[curDay]) curDay = "1";   /* миграция со старого сплита A/B/C */
+if(!PROGRAM[curDay]) curDay = DAY_ORDER[0];   /* миграция со старого сплита A/B/C */
 let manualDay = false;
 
 
@@ -1251,11 +1324,12 @@ function dayItems(iso){
   const sl = store.get("sleep", {})[iso] || {};
   const si = sleepInfo(iso);
   const powder = isPowderDay();
+  const personal = !!cfg().personal;
   return [
     { k:"wake", n:"Подъём", done: !!(sl.up || st.wake),
       sub: sl.up ? "Встал в " + sl.up + (si.mins != null ? " · спал " + sleepTxt(si.mins) : "") : "Отметь, как встал - посчитаю сон",
       btn:"Встал", act:"markWake()" },
-    { k:"am", n: powder ? "Утренний уход · день пудры" : "Утренний уход", done: !!st.am,
+    { k:"am", n: powder ? "Утренний уход · день пудры" : "Утренний уход", done: !!st.am, personal:true,
       sub:"Умывание, крем, SPF. Три минуты", btn:"Начать", act:"startAM()" },
     { k:"crea", n:"Креатин 5 г", done: !!st.crea,
       sub:"Каждый день и в любое время. Пропуски сбивают насыщение мышц",
@@ -1274,15 +1348,15 @@ function dayItems(iso){
         ? "Записана, упражнений " + Object.keys(ses[0].ex).length
         : "Гид проведёт по упражнениям и запишет веса",
       btn:"В зал", act:"goWorkout()" },
-    { k:"pm", n:"Вечерний уход", done: !!st.pm,
+    { k:"pm", n:"Вечерний уход", done: !!st.pm, personal:true,
       sub: powder ? "Сегодня без кислоты - утром была пудра" : "Умывание, BHA, ночной крем",
       btn:"Начать", act:"startPM()" },
     { k:"bed", n:"Отбой", done: !!(sl.bed || st.bed),
       sub: sl.bed ? "Лёг в " + sl.bed : "Отметь, как ложишься", btn:"Лёг", act:"markBed()" },
-    { k:"hair", n:"Волосы", done: !!st.hair, opt:true,
-      sub:"Только после мытья. Кондиционер, крем для кудрей, масло",
+    { k:"hair", n:"Волосы", done: !!st.hair, opt:true, personal:true,
+      sub:"Только после мытья. Кондиционер, крем для кудрей, масло",
       btn:"Гид", act:"startHair()" }
-  ];
+  ].filter(x => personal || !x.personal);
 }
 function dayScore(items){
   const it = items.filter(x => !x.opt);
@@ -1498,8 +1572,141 @@ function spinRecipe(){
   cookRecipe(Math.floor(Math.random()*RECIPES.length), true);
 }
 
+/* ═══════════ ОБМЕН ПРОГРАММОЙ ═══════════ */
+/* Одна строка, три носителя: буфер, ссылка, файл. Ссылка ничего не пишет в чужое
+   хранилище сама - показывает программу и ждёт «Принять». Код сжимается, если
+   телефон умеет (Safari 16.4+), иначе идёт как есть. */
+function b64u(bytes){ let t = ""; for(let i = 0; i < bytes.length; i++) t += String.fromCharCode(bytes[i]); return btoa(t).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
+function b64d(str){
+  str = str.replace(/-/g, "+").replace(/_/g, "/"); while(str.length % 4) str += "=";
+  const bin = atob(str), out = new Uint8Array(bin.length);
+  for(let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+async function planEncode(plan){
+  const bytes = new TextEncoder().encode(JSON.stringify(plan));
+  if(typeof CompressionStream === "function"){
+    try {
+      const cs = new Blob([bytes]).stream().pipeThrough(new CompressionStream("deflate"));
+      return "GRZ1z." + b64u(new Uint8Array(await new Response(cs).arrayBuffer()));
+    } catch(e){}
+  }
+  return "GRZ1." + b64u(bytes);
+}
+async function planDecode(code){
+  code = String(code || "").trim();
+  const hash = code.match(/#plan=([^&\s]+)/); if(hash) code = hash[1];
+  code = code.replace(/\s+/g, "");
+  const m = code.match(/^GRZ(\d+)(z?)\.([A-Za-z0-9_-]+)$/);
+  if(!m) throw new Error("Это не код программы");
+  if(+m[1] > PLAN_FORMAT) throw new Error("Код от новой версии - обнови приложение");
+  let bytes = b64d(m[3]);
+  if(m[2]){
+    if(typeof DecompressionStream !== "function") throw new Error("Телефон не умеет распаковать код - попроси файл");
+    const ds = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate"));
+    bytes = new Uint8Array(await new Response(ds).arrayBuffer());
+  }
+  const plan = JSON.parse(new TextDecoder().decode(bytes));
+  if(!planValid(plan)) throw new Error("Программа битая");
+  return plan;
+}
+/* Код считаем заранее: iOS даёт писать в буфер только синхронно внутри тапа */
+let planCode = "";
+function refreshPlanCode(){ planEncode(PLAN).then(c => { planCode = c; }).catch(() => { planCode = ""; }); }
+function copyText(txt, okMsg){
+  const done = () => toast(okMsg);
+  const fail = () => { prompt("Скопируй вручную:", txt); };
+  try {
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, fail);
+    else fail();
+  } catch(e){ fail(); }
+}
+function sharePlanCode(){
+  if(!planCode){ toast("Секунду, код ещё считается"); refreshPlanCode(); return; }
+  copyText(planCode, planCode.length > 4000 ? "Код в буфере. Длинный - в Телеграм лучше файлом" : "Код в буфере - вставь в чат");
+}
+function sharePlanLink(){
+  if(!planCode){ toast("Секунду, код ещё считается"); refreshPlanCode(); return; }
+  copyText(location.origin + location.pathname + "#plan=" + planCode, "Ссылка в буфере");
+}
+function sharePlanFile(){
+  const name = (PLAN.name || "программа").replace(/[\\/:*?"<>|]+/g, " ").trim() + ".gryaz.json";
+  const json = JSON.stringify(PLAN, null, 1);
+  try {
+    const f = new File([json], name, { type:"application/json" });
+    if(navigator.canShare && navigator.canShare({ files:[f] })){ navigator.share({ files:[f], title: PLAN.name }).catch(()=>{}); return; }
+  } catch(e){}
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([json], { type:"application/json" }));
+  a.download = name; a.click();
+  toast("Файл программы скачан");
+}
+function importPlanPrompt(){
+  const raw = prompt("Вставь код программы (начинается с GRZ) или ссылку:");
+  if(raw === null) return;
+  planDecode(raw).then(previewPlan).catch(e => toast(e.message || "Не разобрал код"));
+}
+function importPlanFile(file){
+  if(!file) return;
+  document.getElementById("planFile").value = "";
+  const r = new FileReader();
+  r.onload = e => {
+    try {
+      const plan = JSON.parse(e.target.result);
+      if(!planValid(plan)) throw new Error();
+      previewPlan(plan);
+    } catch(err){ toast("Файл не похож на программу"); }
+  };
+  r.readAsText(file);
+}
+let planPending = null;
+function previewPlan(plan){
+  planPending = plan;
+  const days = plan.days.map(d => '<div class="fitem"><span>' + esc(d.short || d.title || d.key) + '</span><span class="fi-m">' + d.ex.length + ' упр.</span></div>').join("");
+  const who = plan.author && plan.author.name ? "от " + esc(plan.author.name) : "без автора";
+  openSheet(
+    '<div class="fracb wide" style="text-align:left;padding:12px 14px;font-size:14px">' + days + '</div>' +
+    '<button class="fracb wide" onclick="acceptPlan()">Принять программу<small>текущая заменится, история тренировок останется</small></button>',
+    plan.name || "Программа", plan.days.length + " дн. · " + who + (plan.rev ? " · ред. " + plan.rev : "")
+  );
+}
+function acceptPlan(){
+  const plan = planPending; planPending = null;
+  if(!plan) return;
+  store.set("plan", plan);
+  applyPlan(plan);
+  if(!PROGRAM[curDay]){ curDay = DAY_ORDER[0]; store.set("curDay", curDay); }
+  manualDay = false;
+  closeSheet(); renderTabs(); renderDay(); renderGuide();
+  toast("Программа принята");
+  if(location.hash.indexOf("plan=") >= 0) history.replaceState(null, "", location.pathname);
+}
+function resetPlan(){
+  if(!confirm("Вернуть программу Димы из сида? Текущая программа заменится, история останется.")) return;
+  planPending = JSON.parse(JSON.stringify(SEED_PLAN));
+  acceptPlan();
+}
+function handlePlanHash(){
+  if(location.hash.indexOf("plan=") < 0) return;
+  planDecode(location.hash).then(previewPlan).catch(e => toast(e.message || "Ссылка битая"));
+}
+function renderPlanBar(){
+  const box = document.getElementById("planBar");
+  if(!box || !PLAN) return;
+  const who = PLAN.author && PLAN.author.name ? " · от " + esc(PLAN.author.name) : "";
+  box.innerHTML = '<div class="pb-l"><div class="pb-name">' + esc(PLAN.name || "Программа") + '</div>' +
+    '<div class="pb-meta">' + DAY_ORDER.length + ' дн.' + (PLAN.rev ? ' · ред. ' + PLAN.rev : '') + who + '</div></div><div class="pb-row">' +
+    '<button class="pb-btn org" onclick="sharePlanFile()">Файл</button>' +
+    '<button class="pb-btn" onclick="sharePlanCode()">Код</button>' +
+    '<button class="pb-btn" onclick="sharePlanLink()">Ссылка</button>' +
+    '<button class="pb-btn" onclick="importPlanPrompt()">Вставить</button>' +
+    '<button class="pb-btn" onclick="document.getElementById(&quot;planFile&quot;).click()">Из файла</button></div>';
+}
+
 /* ═══════════ ЗАЛ ═══════════ */
-function lastKey(day){ return "last_"+day; }
+/* Рабочие веса лежат по id упражнения, а не по дню: упражнение может переехать
+   в другой день программы, а его прогрессия должна остаться с ним. */
+function lastAll(){ return store.get("lastEx", {}); }
 
 function progressTip(ex, prev){
   if(!prev || !prev.reps || !prev.reps.length) return null;
@@ -1531,12 +1738,13 @@ function ssPartner(list, i){
 }
 
 function renderTabs(){
+  renderPlanBar();
   const box = document.getElementById("tabs");
   box.innerHTML = "";
   Object.keys(PROGRAM).forEach(k => {
     const t = document.createElement("div");
     t.className = "tab" + (k===curDay ? " active" : "");
-    t.textContent = k + " · " + DAY_NAMES[k];
+    t.textContent = DAY_ORDER.length > 4 ? DAY_NAMES[k] : k + " · " + DAY_NAMES[k];
     t.onclick = () => { curDay = k; manualDay = true; store.set("curDay", k); renderTabs(); renderDay(); };
     box.appendChild(t);
   });
@@ -1545,7 +1753,7 @@ function renderTabs(){
 function renderDay(){
   const d = PROGRAM[curDay];
   const box = document.getElementById("dayBox");
-  const prevAll = store.get(lastKey(curDay), {});
+  const prevAll = lastAll();
   const w = weekNum();
   const deload = modeFor(w) === "РАЗГРУЗКА";
 
@@ -1586,14 +1794,17 @@ function renderDay(){
 }
 
 function persistWorkout(dayKey, exVals){
-  const prevAll = store.get(lastKey(dayKey), {});
-  const rec = { date: todayISO(), day: dayKey, week: weekNum(), ex: {} };
+  const prevAll = lastAll();
+  const d = PROGRAM[dayKey] || {};
+  /* Запись самодостаточна: имя упражнения и заголовок дня лежат внутри.
+     История читается без программы - правка программы не переписывает прошлое. */
+  const rec = { date: todayISO(), day: dayKey, week: weekNum(), title: d.title || "", plan: PLAN ? PLAN.id : null, ex: {} };
   let any = false;
   Object.keys(exVals).forEach(id => {
     const v = exVals[id];
     if(v.reps.some(r => r > 0)){
       any = true;
-      rec.ex[id] = { w: v.w, reps: v.reps };
+      rec.ex[id] = { n: EX_NAMES[id] || id, w: v.w, reps: v.reps };
       const prev = prevAll[id];
       let stuck = 0;
       if(prev && prev.w != null && v.w != null && prev.w === v.w) stuck = (prev.stuck || 0) + 1;
@@ -1601,7 +1812,7 @@ function persistWorkout(dayKey, exVals){
     }
   });
   if(!any) return false;
-  store.set(lastKey(dayKey), prevAll);
+  store.set("lastEx", prevAll);
   const sessions = store.get("sessions", []);
   sessions.push(rec);
   store.set("sessions", sessions);
@@ -1633,7 +1844,7 @@ function saveDay(){
 let flowVals = {};
 function startWorkoutFlow(){
   const d = PROGRAM[curDay];
-  const prevAll = store.get(lastKey(curDay), {});
+  const prevAll = lastAll();
   flowVals = {};
   const steps = [];
   steps.push({ i:"fire", t:"Разминка", d: d.warm.replace(/<b>|<\/b>/g, m => m), s:"8-10 минут. Без неё связки холодные - а связки у тебя сейчас слабее мышц" });
@@ -1686,8 +1897,10 @@ function startWorkoutFlow(){
 /* ═══════════ ВЕС ═══════════ */
 function renderWeight(){
   let w = store.get("weight", 63.0);
-  const goal = 70, lo = 60;
+  const goal = W_GOAL, lo = W_LO;
   document.getElementById("wNow").innerHTML = kgTxt(w) + '<small> кг</small>';
+  document.getElementById("wGoalTxt").textContent = goal + " кг" + (W_LABEL ? " · " + W_LABEL : "");
+  document.getElementById("wScale").innerHTML = '<span>' + lo + '</span><span>' + Math.round((lo + goal) / 2) + '</span><span>' + goal + '</span>';
   let pct = Math.max(0, Math.min(100, ((w - lo)/(goal - lo))*100));
   document.getElementById("wFill").style.width = pct + "%";
   const hist = store.get("wHist", []);
@@ -1757,7 +1970,7 @@ function renderWeightChart(hist){
   if(!hist || hist.length < 2){ box.innerHTML = '<div class="wchart-hint">Вводи вес утром натощак - здесь появится кривая к 70</div>'; return; }
   const W = 340, H = 150, padL = 34, padR = 14, padT = 16, padB = 22;
   const ws = hist.map(p=>p.w), ts = hist.map(p=>new Date(p.d+"T12:00:00").getTime());
-  const goal = 70, lo = Math.floor(Math.min(...ws) - 1), hi = Math.max(Math.max(...ws) + 0.5, goal + 0.5);
+  const goal = W_GOAL, lo = Math.floor(Math.min(...ws) - 1), hi = Math.max(Math.max(...ws) + 0.5, goal + 0.5);
   const t0 = Math.min(...ts), t1 = Math.max(...ts);
   const x = t => t1===t0 ? padL + (W-padL-padR)/2 : padL + (t-t0)/(t1-t0)*(W-padL-padR);
   const y = v => padT + (hi-v)/(hi-lo)*(H-padT-padB);
@@ -1771,7 +1984,7 @@ function renderWeightChart(hist){
   }
   const gy = y(goal);
   s += '<line x1="'+padL+'" y1="'+gy+'" x2="'+(W-padR)+'" y2="'+gy+'" stroke="#ffb020" stroke-width="1.2" stroke-dasharray="5 4"/>';
-  s += '<text x="'+(W-padR)+'" y="'+(gy-4)+'" fill="#ffb020" font-size="9" text-anchor="end" font-weight="800">ПРАЙМ 70</text>';
+  s += '<text x="'+(W-padR)+'" y="'+(gy-4)+'" fill="#ffb020" font-size="9" text-anchor="end" font-weight="800">' + (W_LABEL ? W_LABEL.toUpperCase() + " " : "ЦЕЛЬ ") + goal + '</text>';
   const pts = ts.map((t,i)=> x(t).toFixed(1)+","+y(ws[i]).toFixed(1));
   const baseY = (H-padB).toFixed(1);
   s += '<polygon points="'+padL+','+baseY+' '+pts.join(" ")+' '+(W-padR)+','+baseY+'" fill="url(#ag)"/>';
@@ -2012,6 +2225,7 @@ function renderFood(){
     '<b>'+r.n+'</b><small><i>'+r.k+' ккал · '+r.p+' г</i><br>'+r.time+' · '+r.steps.length+' шагов</small></button>'
   ).join("");
 
+  document.getElementById("foodPersonal").classList.toggle("hidden", !cfg().personal);
   renderShop();
 }
 
@@ -2093,8 +2307,12 @@ function renderStats(){
   }
   document.getElementById("streakN").textContent = streak;
 }
-const EX_NAMES = Object.assign({}, LEGACY_EX_NAMES);
-Object.values(PROGRAM).forEach(d => d.ex.forEach(e => { EX_NAMES[e.id] = e.name; }));
+function sessionTitle(s){
+  const t = s.title || (PROGRAM[s.day] ? PROGRAM[s.day].title : "");
+  return t.split("·").slice(1).map(x => x.trim()).join(" · ") || t;
+}
+/* Чужой текст (имена из программы тренера) в разметку только через esc */
+function esc(v){ return String(v == null ? "" : v).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c])); }
 function renderHistory(){
   const sessions = store.get("sessions", []).slice().reverse();
   document.getElementById("hSub").textContent = "Всего тренировок: " + sessions.length + " · неделя программы " + weekNum();
@@ -2107,11 +2325,11 @@ function renderHistory(){
     Object.keys(s.ex).forEach(id => {
       const e = s.ex[id];
       const wTxt = e.w != null && e.w !== "" ? e.w + " кг · " : "";
-      rows += '<div class="hrow"><span class="n">'+(EX_NAMES[id]||id)+'</span><span class="v">'+wTxt+e.reps.filter(r=>r>0).join(" · ")+'</span></div>';
+      rows += '<div class="hrow"><span class="n">'+esc(e.n || EX_NAMES[id] || id)+'</span><span class="v">'+wTxt+e.reps.filter(r=>r>0).join(" · ")+'</span></div>';
     });
     return '<div class="hcard"><div class="hcard-top"><div class="hbadge">'+s.day+'</div>'+
       '<div style="flex:1;margin-left:10px"><div class="hdate">'+pad(d.getDate())+"."+pad(d.getMonth()+1)+" · "+names[d.getDay()]+'</div>'+
-      '<div class="hday">'+(PROGRAM[s.day] ? PROGRAM[s.day].title.split("·").slice(1).map(x=>x.trim()).join(" · ") : "")+(s.week?" · неделя "+s.week:"")+'</div></div></div>'+rows+'</div>';
+      '<div class="hday">'+esc(sessionTitle(s))+(s.week?" · неделя "+s.week:"")+'</div></div></div>'+rows+'</div>';
   }).join("");
 }
 
@@ -2469,10 +2687,13 @@ function toast(msg){
 }
 
 startDate();
-document.getElementById("hdrSub").textContent += " · v" + APP_VERSION;
+document.getElementById("hdrSub").textContent = "Личный гид · путь на " + W_GOAL + " кг · v" + APP_VERSION;
 renderGuide();
 renderWeight();
 renderStats();
+refreshPlanCode();
+handlePlanHash();
+window.addEventListener("hashchange", handlePlanHash);
 
 /* ═══════════ ОБНОВЛЕНИЕ ═══════════ */
 /* SW ставит новую версию сразу (skipWaiting). Перезагружаемся сами, но не посреди
