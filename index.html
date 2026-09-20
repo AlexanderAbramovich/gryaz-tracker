@@ -821,10 +821,10 @@ const PROGRAM = {
       { id:"d1e5", name:"Жим на переднюю дельту в рычажном", m:"Передняя дельта · трицепс", icon:"shoulderpress", sets:4, lo:10, hi:12, w:0, step:2.5, calib:true,
         note:"Спина прижата к спинке, жмёшь вверх. Вес одной стороны.",
         swap:"Жим гантелей сидя со спинкой." },
-      { id:"d1e6", name:"Разгибание с канатами на трицепс", m:"Трицепс, боковая и средняя головки", icon:"triceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"start",
+      { id:"d1e6", name:"Разгибание с канатами на трицепс", m:"Трицепс, боковая и средняя головки", icon:"triceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, sg:1,
         note:"Локти прижаты к корпусу, внизу канат разводишь в стороны.",
         swap:"Разгибание с прямой рукоятью." },
-      { id:"d1e7", name:"Французский жим", m:"Трицепс, длинная головка", icon:"triceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"end",
+      { id:"d1e7", name:"Французский жим", m:"Трицепс, длинная головка", icon:"triceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, sg:1,
         note:"Сразу после каната, без отдыха. Локти смотрят в потолок и не разъезжаются.",
         swap:"Разгибание из-за головы с гантелью." }
     ]
@@ -846,16 +846,16 @@ const PROGRAM = {
       { id:"d2e4", name:"Горизонтальная тяга средним параллельным хватом", m:"Середина трапеции · ромбовидные · широчайшие", icon:"pullup", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
         note:"Грудь в упор, лопатки сводишь в конце движения.",
         swap:"Хаммер-тяга." },
-      { id:"d2e5", name:"Задняя дельта в бабочке", m:"Задняя дельта", icon:"flye", sets:4, lo:15, hi:15, w:0, step:2.5, calib:true, ss:"start",
+      { id:"d2e5", name:"Задняя дельта в бабочке", m:"Задняя дельта", icon:"flye", sets:4, lo:15, hi:15, w:0, step:2.5, calib:true, sg:1,
         note:"Пек-дек задом наперёд: грудью к спинке, разводишь руки назад.",
         swap:"Face pull на верхнем блоке." },
       { id:"d2e6", name:"Разгибание на поясницу", m:"Разгибатели спины · ягодицы · бицепс бедра", icon:"rdl", sets:4, lo:15, hi:15, w:0, step:2.5, calib:true,
         note:"Гиперэкстензия. Без веса, пока не станет легко. Не переразгибаться назад в верхней точке.",
-        swap:"Обратная гиперэкстензия.", ss:"end" },
-      { id:"d2e7", name:"Бицепс в тренажёре Скотта", m:"Бицепс, короткая головка", icon:"biceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"start",
+        swap:"Обратная гиперэкстензия.", sg:1 },
+      { id:"d2e7", name:"Бицепс в тренажёре Скотта", m:"Бицепс, короткая головка", icon:"biceps", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, sg:2,
         note:"Локти лежат на подушке и не отрываются. Внизу руку распускать полностью.",
         swap:"Сгибания на скамье Скотта с EZ-грифом." },
-      { id:"d2e8", name:"Сгибание с нижнего блока, прямая рукоять", m:"Бицепс · брахиалис", icon:"curl", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"end",
+      { id:"d2e8", name:"Сгибание с нижнего блока, прямая рукоять", m:"Бицепс · брахиалис", icon:"curl", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, sg:2,
         note:"Сразу после Скотта. Стоя, локти прижаты к бокам.",
         swap:"Сгибания с гантелями стоя." }
     ]
@@ -877,10 +877,10 @@ const PROGRAM = {
       { id:"d3e4", name:"Разгибание сидя", m:"Квадрицепс, изоляция", icon:"legs", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true,
         note:"Пауза 1 сек в верхней точке. Это добивка, не рекорд.",
         swap:"Разгибание одной ногой." },
-      { id:"d3e5", name:"Голень стоя", m:"Икроножная", icon:"calf", sets:4, lo:20, hi:20, w:0, step:5, calib:true, ss:"start",
+      { id:"d3e5", name:"Голень стоя", m:"Икроножная", icon:"calf", sets:4, lo:20, hi:20, w:0, step:5, calib:true, sg:1,
         note:"Пауза 1 сек внизу, на растяжении. Дима сказал делать в сете со сгибанием сидя.",
         swap:"Носками на платформе жима ногами." },
-      { id:"d3e6", name:"Сгибание ног сидя", m:"Бицепс бедра", icon:"hamstring", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, ss:"end",
+      { id:"d3e6", name:"Сгибание ног сидя", m:"Бицепс бедра", icon:"hamstring", sets:4, lo:12, hi:15, w:0, step:2.5, calib:true, sg:1,
         note:"Дима повторы не назвал - ставлю 12-15, при случае уточни. Именно сидя: растянутая позиция даёт больше роста.",
         swap:"Сгибание лёжа." }
     ]
@@ -1109,22 +1109,76 @@ const HAIR_FLOW = [
 
 /* ═══════════ ИКОНКИ ═══════════ */
 function ico(name, cls){
-  if(!name) name = "sparkle";
+  if(!name || !document.getElementById("i-" + name)) name = "sparkle";
   return '<svg viewBox="0 0 48 48" class="' + (cls || "") + '"><use href="#i-' + name + '"/></svg>';
 }
 
 /* ═══════════ STORE ═══════════ */
+const APP_VERSION = "9.1";
 const store = {
   get(k, d){ try { const v = localStorage.getItem(k); return v===null? d : JSON.parse(v); } catch(e){ return d; } },
-  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  /* Переполнение раньше глоталось пустым catch: запись молча пропадала.
+     Теперь возвращаем false и кричим тостом. */
+  set(k, v){
+    try { localStorage.setItem(k, JSON.stringify(v)); return true; }
+    catch(e){ try { toast("Память переполнена - не сохранилось"); } catch(_){} return false; }
+  }
 };
+
+/* ═══════════ ДЕНЬ И ДАТА ═══════════ */
+/* День трекера начинается не в полночь, а в cfg.dayStart часов: всё, что записано
+   ночью до этого часа, относится к вечеру предыдущего дня. Так ночная еда, отбой
+   в 01:20 и чек-лист живут в том дне, который человек прожил. Раньше эту роль
+   случайно играла UTC-дата (Иркутск +8), теперь граница явная и своя. */
+const CFG_DEFAULT = { dayStart: 4 };
+function cfg(){ return Object.assign({}, CFG_DEFAULT, store.get("cfg", {})); }
+function pad(n){ return String(n).padStart(2,"0"); }
+function isoOf(d){ return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+function dayOf(date){
+  const d = new Date(date.getTime());
+  d.setHours(d.getHours() - cfg().dayStart);
+  return isoOf(d);
+}
+function todayISO(){ return dayOf(new Date()); }
+function isoShift(iso, days){ const d = new Date(iso + "T12:00:00"); d.setDate(d.getDate() + days); return isoOf(d); }
+function isoDate(iso){ return new Date(iso + "T12:00:00"); }
+
+/* ═══════════ МИГРАЦИЯ СХЕМЫ ═══════════ */
+/* Чистая функция: на входе и выходе карта localStorage {ключ: json-строка}.
+   Хранилища не касается, поэтому её можно прогнать на компьютере на файле бэкапа
+   и сверить глазами до того, как она тронет живые данные. */
+const SCHEMA = 1;
+function migrateRaw(raw){
+  const out = Object.assign({}, raw);
+  const get = k => { try { return out[k] == null ? undefined : JSON.parse(out[k]); } catch(e){ return undefined; } };
+  const set = (k, v) => { out[k] = JSON.stringify(v); };
+  const log = [];
+  let ver = get("schema") || 0;
+  if(ver < 1){
+    /* Данные до 9.1 писались по UTC-дате, то есть с границей дня в 08:00 по Иркутску.
+       Ничего не переносим: закрепляем эту же границу настройкой, чтобы старые дни
+       остались теми же днями. На чистой установке граница 04:00. */
+    const hasData = ["sessions", "food", "sleep", "wHist"].some(k => out[k] != null);
+    if(hasData){ set("cfg", Object.assign(get("cfg") || {}, { dayStart: 8 })); log.push("граница дня закреплена на 08:00, как было по UTC"); }
+    ver = 1;
+  }
+  set("schema", ver);
+  return { raw: out, log: log };
+}
+function migrateLocal(){
+  if((store.get("schema", 0) || 0) >= SCHEMA) return;
+  const raw = {};
+  for(let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); raw[k] = localStorage.getItem(k); }
+  const res = migrateRaw(raw);
+  Object.keys(res.raw).forEach(k => { if(res.raw[k] !== raw[k]) localStorage.setItem(k, res.raw[k]); });
+  Object.keys(raw).forEach(k => { if(!(k in res.raw)) localStorage.removeItem(k); });
+}
+migrateLocal();
 
 let curDay = String(store.get("curDay", "1"));
 if(!PROGRAM[curDay]) curDay = "1";   /* миграция со старого сплита A/B/C */
 let manualDay = false;
 
-function todayISO(){ return new Date().toISOString().slice(0,10); }
-function pad(n){ return String(n).padStart(2,"0"); }
 
 function startDate(){
   let s = store.get("startDate", null);
@@ -1148,7 +1202,7 @@ function modeFor(w){
   if(w > 5 && (w - 5) % 6 === 0) return "РАЗГРУЗКА";
   return "РАБОТА";
 }
-function isPowderDay(){ const d = new Date().getDay(); return d === 1 || d === 4; }
+function isPowderDay(){ const d = isoDate(todayISO()).getDay(); return d === 1 || d === 4; }
 
 /* ═══════════ ГИД: чек-лист дня ═══════════ */
 /* Времени в списке нет намеренно: режим свободный, а расписание по часам
@@ -1167,6 +1221,21 @@ function gToggle(k){
   renderGuide();
 }
 
+/* Сон за день: подъём этого дня минус отбой ПРЕДЫДУЩЕГО дня трекера.
+   Отбой после полуночи лежит во вчерашнем дне (граница дня), поэтому пара
+   «лёг 01:20 → встал 12:30» живёт в двух ключах и раньше не считалась никогда. */
+function sleepInfo(iso){
+  const all = store.get("sleep", {});
+  const cur = all[iso] || {}, prev = all[isoShift(iso, -1)] || {};
+  let mins = null;
+  if(cur.up && prev.bed){
+    const [bh,bm] = prev.bed.split(":").map(Number), [uh,um] = cur.up.split(":").map(Number);
+    mins = (uh*60+um) - (bh*60+bm); if(mins < 0) mins += 1440;
+  }
+  return { up: cur.up || null, bed: cur.bed || null, prevBed: prev.bed || null, mins: mins };
+}
+function sleepTxt(mins){ return Math.floor(mins/60) + "ч " + pad(mins%60) + "м"; }
+
 function dayFood(iso){
   const list = (store.get("food", {})[iso] || []).map(normEntry);
   return {
@@ -1180,10 +1249,11 @@ function dayItems(iso){
   const f = dayFood(iso);
   const ses = store.get("sessions", []).filter(s => s.date === iso);
   const sl = store.get("sleep", {})[iso] || {};
+  const si = sleepInfo(iso);
   const powder = isPowderDay();
   return [
     { k:"wake", n:"Подъём", done: !!(sl.up || st.wake),
-      sub: sl.up ? "Встал в " + sl.up : "Отметь, как встал - посчитаю сон",
+      sub: sl.up ? "Встал в " + sl.up + (si.mins != null ? " · спал " + sleepTxt(si.mins) : "") : "Отметь, как встал - посчитаю сон",
       btn:"Встал", act:"markWake()" },
     { k:"am", n: powder ? "Утренний уход · день пудры" : "Утренний уход", done: !!st.am,
       sub:"Умывание, крем, SPF. Три минуты", btn:"Начать", act:"startAM()" },
@@ -1214,14 +1284,14 @@ function dayItems(iso){
       btn:"Гид", act:"startHair()" }
   ];
 }
-function dayScore(iso){
-  const it = dayItems(iso).filter(x => !x.opt);
+function dayScore(items){
+  const it = items.filter(x => !x.opt);
   return { done: it.filter(x => x.done).length, total: it.length };
 }
 
 function renderGuide(){
-  const d = new Date();
   const iso = todayISO();
+  const d = isoDate(iso);
   const names = ["ВОСКРЕСЕНЬЕ","ПОНЕДЕЛЬНИК","ВТОРНИК","СРЕДА","ЧЕТВЕРГ","ПЯТНИЦА","СУББОТА"];
   const ses = store.get("sessions", []).filter(s => s.date === iso);
   /* День сплита берём по кругу от последней тренировки, а не по дню недели */
@@ -1244,17 +1314,11 @@ function renderGuide(){
   document.getElementById("tcRir").textContent = rirFor(w);
   document.getElementById("tcMode").textContent = modeFor(w);
 
-  const sl = store.get("sleep", {})[iso] || {};
-  let slTxt = "—";
-  if(sl.bed && sl.up){
-    const [bh,bm] = sl.bed.split(":").map(Number), [uh,um] = sl.up.split(":").map(Number);
-    let mins = (uh*60+um) - (bh*60+bm); if(mins < 0) mins += 1440;
-    slTxt = Math.floor(mins/60) + "ч " + (mins%60) + "м";
-  } else if(sl.up) slTxt = "встал " + sl.up;
-  document.getElementById("tcSleep").textContent = slTxt;
+  const si = sleepInfo(iso);
+  document.getElementById("tcSleep").textContent = si.mins != null ? sleepTxt(si.mins) : (si.up ? "встал " + si.up : "—");
 
   const items = dayItems(iso);
-  const sc = dayScore(iso);
+  const sc = dayScore(items);
   let html = '<div class="ck-head"><span>Обязательное за день</span>' +
     '<b class="' + (sc.done === sc.total ? "full" : "") + '">' + sc.done + ' из ' + sc.total + '</b></div>';
   items.forEach(s => {
@@ -1277,8 +1341,8 @@ function renderDays(){
   const names = ["вс","пн","вт","ср","чт","пт","сб"];
   const rows = [];
   for(let i = 0; i < 14; i++){
-    const dt = new Date(); dt.setDate(dt.getDate() - i);
-    const iso = dt.toISOString().slice(0,10);
+    const iso = isoShift(todayISO(), -i);
+    const dt = isoDate(iso);
     const items = dayItems(iso).filter(x => !x.opt);
     const done = items.filter(x => x.done).length;
     const dots = items.map(x => '<i class="' + (x.done ? "on" : "") + '" title="' + x.n + '"></i>').join("");
@@ -1333,6 +1397,7 @@ function openFlow(title, steps, onFinish){
 function closeFlow(){
   if(restTimer){ clearInterval(restTimer); restTimer = null; }
   if(flowEl){ flowEl.remove(); flowEl = null; }
+  setTimeout(swMaybeReload, 400);
 }
 function flowCollect(){
   const s = flowSteps[flowIdx];
@@ -1440,13 +1505,6 @@ function progressTip(ex, prev){
   if(!prev || !prev.reps || !prev.reps.length) return null;
   const reps = prev.reps.filter(r => r > 0);
   if(!reps.length) return null;
-  if(ex.sum){
-    const total = reps.reduce((a,b)=>a+b, 0);
-    if(total >= ex.sumGoal){
-      return { txt: "Сумма " + total + " ≥ " + ex.sumGoal + " → пора вешать пояс +" + ex.step + " кг и падать к " + (ex.sumGoal - 4), ok:true };
-    }
-    return { txt: "Прошлая сумма " + total + ". Задача сегодня: " + (total+1) + "-" + (total+2), ok:false };
-  }
   const all = prev.reps.slice(0, ex.sets);
   const check = all.length > 1 ? all.slice(0, -1) : all;
   const hit = check.length && check.every(r => r >= ex.hi);
@@ -1459,6 +1517,16 @@ function progressTip(ex, prev){
     const nw = Math.round(((prev.w || ex.w || 0) * 0.9) * 2) / 2;
     return { txt: "Застрял 3 тренировки → снять 10%, поставить " + nw + " кг и пройти заново", ok:false, warn:true };
   }
+  return null;
+}
+
+/* Суперсет = одинаковый номер группы sg у соседних упражнений. Рамка открывается
+   на первом и закрывается на последнем: удали любой элемент - div не повиснет. */
+function ssOpens(list, i){ const e = list[i]; return !!(e.sg && (i === 0 || list[i-1].sg !== e.sg)); }
+function ssCloses(list, i){ const e = list[i]; return !!(e.sg && (i === list.length - 1 || list[i+1].sg !== e.sg)); }
+function ssPartner(list, i){
+  const e = list[i]; if(!e.sg) return null;
+  const n = list[i+1]; if(n && n.sg === e.sg) return n;
   return null;
 }
 
@@ -1487,22 +1555,17 @@ function renderDay(){
   if(w <= 3) html += '<div class="gate ok" style="margin-bottom:12px">НЕДЕЛЯ ' + w + ' · ВВОД. RIR ' + rirFor(w) + '. Первая неделя - подходов на треть меньше.</div>';
 
   d.ex.forEach((ex, i) => {
-    if(ex.ss === "start") html += '<div class="ssblock"><div class="ss-tag">Суперсет · между ними не отдыхаешь</div>';
+    if(ssOpens(d.ex, i)) html += '<div class="ssblock"><div class="ss-tag">Суперсет · между ними не отдыхаешь</div>';
     const prev = prevAll[ex.id];
     const tip = progressTip(ex, prev);
-    const target = ex.sum
-      ? ex.sets + " подходов · сумма " + (prev && prev.reps ? "было " + prev.reps.reduce((a,b)=>a+b,0) : "старт 16") + " → цель " + ex.sumGoal
-      : ex.sets + " × " + (ex.lo === ex.hi ? ex.lo : ex.lo + "-" + ex.hi);
+    const target = ex.sets + " × " + (ex.lo === ex.hi ? ex.lo : ex.lo + "-" + ex.hi);
 
     html += '<div class="ex">';
     html += '<div class="ex-head"><div><div class="ex-name">' + ex.name + '</div>';
     html += '<div class="ex-target">' + target + '</div></div><div class="ex-idx">' + (i+1) + '</div></div>';
     if(ex.m) html += '<div class="ex-m">' + ex.m + '</div>';
     html += '<div class="ex-note">' + ex.note + '</div>';
-    if(prev){
-      const wTxt = ex.bw ? (prev.w ? " · пояс " + prev.w + " кг" : "") : (prev.w ? prev.w + " кг · " : "");
-      html += '<div class="ex-last">Прошлый раз: ' + (ex.bw ? "" : wTxt) + prev.reps.filter(r=>r>0).join(" · ") + (ex.bw ? wTxt : "") + '</div>';
-    }
+    if(prev) html += '<div class="ex-last">Прошлый раз: ' + (prev.w ? prev.w + " кг · " : "") + prev.reps.filter(r=>r>0).join(" · ") + '</div>';
     if(tip) html += '<div class="ex-tip' + (tip.warn ? " warn" : "") + '">' + tip.txt + '</div>';
 
     const wVal = prev && prev.w != null ? prev.w : (ex.calib ? "" : (ex.w != null ? ex.w : ""));
@@ -1513,10 +1576,10 @@ function renderDay(){
       html += '<input class="cell" type="number" inputmode="numeric" id="r_'+ex.id+'_'+s+'" placeholder="'+(s+1)+'">';
     }
     html += '</div></div>';
-    html += '<div class="ex-labels"><div class="l1">' + (ex.bw ? "ПОЯС, КГ" : (ex.dumb ? "КГ (ОДНА)" : "КГ")) + '</div><div class="l2">ПОВТОРЫ ПО ПОДХОДАМ</div></div>';
+    html += '<div class="ex-labels"><div class="l1">' + (ex.dumb ? "КГ (ОДНА)" : "КГ") + '</div><div class="l2">ПОВТОРЫ ПО ПОДХОДАМ</div></div>';
     html += '<div class="swap"><b>Если занято:</b> ' + ex.swap + '</div>';
     html += '</div>';
-    if(ex.ss === "end") html += '</div>';
+    if(ssCloses(d.ex, i)) html += '</div>';
   });
   if(d.cardio) html += '<div class="cardio-row"><div class="cardio-t">Кардио</div><div class="cardio-x">' + d.cardio + '</div></div>';
   box.innerHTML = html;
@@ -1583,9 +1646,12 @@ function startWorkoutFlow(){
     html += '<div class="ex-reps">';
     for(let s=0; s<ex.sets; s++) html += '<input class="cell" type="number" inputmode="numeric" id="fr_'+ex.id+'_'+s+'" placeholder="'+(s+1)+'">';
     html += '</div></div>';
-    html += '<div class="ex-labels"><div class="l1">' + (ex.bw ? "ПОЯС" : (ex.dumb ? "КГ (ОДНА)" : "КГ")) + '</div><div class="l2">ПОВТОРЫ</div></div>';
-    html += '<button class="rest-btn" onclick="startRest(this, 150)">▶ Таймер отдыха 2:30</button>';
-    const target = ex.sum ? ex.sets + " подходов, цель по сумме " + ex.sumGoal : ex.sets + " × " + (ex.lo === ex.hi ? ex.lo : ex.lo + "-" + ex.hi);
+    html += '<div class="ex-labels"><div class="l1">' + (ex.dumb ? "КГ (ОДНА)" : "КГ") + '</div><div class="l2">ПОВТОРЫ</div></div>';
+    const partner = ssPartner(d.ex, i);
+    html += partner
+      ? '<div class="ex-tip" style="margin-top:12px">Суперсет: без отдыха сразу «' + partner.name + '»</div>'
+      : '<button class="rest-btn" onclick="startRest(this, 150)">▶ Таймер отдыха 2:30</button>';
+    const target = ex.sets + " × " + (ex.lo === ex.hi ? ex.lo : ex.lo + "-" + ex.hi);
     steps.push({
       exId: ex.id,
       i: ex.icon || "press", t: ex.name,
@@ -1877,8 +1943,7 @@ function foodDaysInGoal(){
   const f = store.get("food", {});
   let cnt = 0;
   for(let i=0; i<7; i++){
-    const d = new Date(); d.setDate(d.getDate() - i);
-    const key = d.toISOString().slice(0,10);
+    const key = isoShift(todayISO(), -i);
     const k = (f[key] || []).map(normEntry).reduce((a,e)=>a+entryK(e), 0);
     if(k >= KCAL_LO * 0.93) cnt++;
   }
@@ -2009,24 +2074,21 @@ function renderShop(){
 /* ═══════════ СТАТИСТИКА / ИСТОРИЯ ═══════════ */
 function renderStats(){
   const sessions = store.get("sessions", []);
-  const now = new Date();
+  const today = todayISO();
+  const weekAgo = isoShift(today, -6);
   let week = 0;
-  sessions.forEach(s => {
-    const diff = (now - new Date(s.date+"T12:00:00")) / 864e5;
-    if(diff < 7) week++;
-  });
+  sessions.forEach(s => { if(s.date >= weekAgo && s.date <= today) week++; });
   document.getElementById("weekN").textContent = week;
   document.getElementById("foodN").textContent = foodDaysInGoal();
 
   const dates = [...new Set(sessions.map(s=>s.date))].sort().reverse();
   let streak = 0;
   if(dates.length){
-    let cur = new Date(); cur.setHours(12,0,0,0);
+    let key = todayISO();
     for(let i=0; i<400; i++){
-      const key = cur.toISOString().slice(0,10);
       if(dates.includes(key)) streak++;
       else if(streak > 0 || i > 2) break;
-      cur.setDate(cur.getDate()-1);
+      key = isoShift(key, -1);
     }
   }
   document.getElementById("streakN").textContent = streak;
@@ -2407,12 +2469,34 @@ function toast(msg){
 }
 
 startDate();
+document.getElementById("hdrSub").textContent += " · v" + APP_VERSION;
 renderGuide();
 renderWeight();
 renderStats();
 
+/* ═══════════ ОБНОВЛЕНИЕ ═══════════ */
+/* SW ставит новую версию сразу (skipWaiting). Перезагружаемся сами, но не посреди
+   тренировки или рецепта: если открыт гид - ждём, пока его закроют. */
+let swReloading = false, swPending = false;
+function swMaybeReload(){
+  if(!swPending || swReloading) return;
+  if(flowEl){ toast("Есть обновление - применю после гида"); return; }
+  swReloading = true;
+  location.reload();
+}
 if("serviceWorker" in navigator){
-  navigator.serviceWorker.register("sw.js").catch(()=>{});
+  const hadSW = !!navigator.serviceWorker.controller;   /* false = первая установка, не обновление */
+  navigator.serviceWorker.register("sw.js").then(reg => {
+    /* Проверяем обновление при каждом возврате в приложение, а не раз в сутки */
+    document.addEventListener("visibilitychange", () => {
+      if(document.visibilityState === "visible"){ reg.update().catch(()=>{}); swMaybeReload(); }
+    });
+  }).catch(()=>{});
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if(!hadSW) return;
+    swPending = true;
+    swMaybeReload();
+  });
 }
 </script>
 </body>
