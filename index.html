@@ -658,7 +658,7 @@ html[data-theme="light"] {
   .chip .bx { width: 18px; height: 18px; border-radius: 5px; border: 2px solid var(--dim); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--on-org); font-weight: 900; }
   .chip.on .bx { background: var(--org); border-color: var(--org); }
   .chip.on .bx:after { content: "✓"; }
-  .lbl { font-size: 10px; color: var(--dim); font-weight: 800; letter-spacing: .5px; text-transform: uppercase; text-align: center; flex: 0 0 64px; }
+  .c-lbl { font-size: 10px; color: var(--dim); font-weight: 800; letter-spacing: .5px; text-transform: uppercase; text-align: center; flex: 0 0 64px; }
   .sticky { position: sticky; bottom: 70px; padding: 10px 0; background: linear-gradient(180deg, transparent, var(--bg) 30%); }
   .kv { font-size: 12px; color: var(--dim); line-height: 1.6; }
   .kv b { color: var(--ink); }
@@ -4085,14 +4085,14 @@ function cRenderPlan(){
 function cExHtml(di, ei, e){
   const p = 'ed.days[' + di + '].ex[' + ei + ']';
   return '<div class="exc">' +
-    '<div class="row"><span class="lbl" style="flex:0 0 22px;text-align:left">' + (ei + 1) + '</span><input class="in sm grow" placeholder="Название" value="' + esc(e.name || "") + '" oninput="' + p + '.name=this.value">' +
+    '<div class="row"><span class="c-lbl" style="flex:0 0 22px;text-align:left">' + (ei + 1) + '</span><input class="in sm grow" placeholder="Название" value="' + esc(e.name || "") + '" oninput="' + p + '.name=this.value">' +
     '<select class="in sm" style="width:auto;flex:0 0 auto" onchange="' + p + '.icon=this.value">' + ICONS.map(i => '<option' + (e.icon === i ? " selected" : "") + '>' + i + '</option>').join("") + '</select></div>' +
     '<div class="row"><input class="in sm grow" placeholder="Мышцы (что чувствовать)" value="' + esc(e.m || "") + '" oninput="' + p + '.m=this.value"></div>' +
-    '<div class="row"><span class="lbl">подх.</span><input class="in sm num" type="number" value="' + (e.sets || 4) + '" oninput="' + p + '.sets=+this.value">' +
-    '<span class="lbl">повт. от</span><input class="in sm num" type="number" value="' + (e.lo || 10) + '" oninput="' + p + '.lo=+this.value">' +
-    '<span class="lbl">до</span><input class="in sm num" type="number" value="' + (e.hi || 12) + '" oninput="' + p + '.hi=+this.value"></div>' +
-    '<div class="row"><span class="lbl">шаг, кг</span><input class="in sm num" type="number" step="0.5" value="' + (e.step != null ? e.step : 2.5) + '" oninput="' + p + '.step=+this.value">' +
-    '<span class="lbl">суперсет №</span><input class="in sm num" type="number" placeholder="—" value="' + (e.sg || "") + '" oninput="' + p + '.sg=this.value?+this.value:undefined">' +
+    '<div class="row"><span class="c-lbl">подх.</span><input class="in sm num" type="number" value="' + (e.sets || 4) + '" oninput="' + p + '.sets=+this.value">' +
+    '<span class="c-lbl">повт. от</span><input class="in sm num" type="number" value="' + (e.lo || 10) + '" oninput="' + p + '.lo=+this.value">' +
+    '<span class="c-lbl">до</span><input class="in sm num" type="number" value="' + (e.hi || 12) + '" oninput="' + p + '.hi=+this.value"></div>' +
+    '<div class="row"><span class="c-lbl">шаг, кг</span><input class="in sm num" type="number" step="0.5" value="' + (e.step != null ? e.step : 2.5) + '" oninput="' + p + '.step=+this.value">' +
+    '<span class="c-lbl">суперсет №</span><input class="in sm num" type="number" placeholder="—" value="' + (e.sg || "") + '" oninput="' + p + '.sg=this.value?+this.value:undefined">' +
     '<span class="chip' + (e.dumb ? " on" : "") + '" onclick="' + p + '.dumb=!' + p + '.dumb;cRenderClient()"><span class="bx"></span>одна гантель</span></div>' +
     '<div class="row"><textarea class="in sm grow" placeholder="Техника, заметка" style="min-height:52px" oninput="' + p + '.note=this.value">' + esc(e.note || "") + '</textarea></div>' +
     '<div class="row"><input class="in sm grow" placeholder="Если занято: замена" value="' + esc(e.swap || "") + '" oninput="' + p + '.swap=this.value"></div>' +
