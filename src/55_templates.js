@@ -189,7 +189,13 @@ function computeGoals(p){
   const hi = lo + (goal === "keep" ? 200 : 300);
   const prot = Math.round(w * (goal === "cut" ? 2.2 : goal === "gain" ? 2.0 : 1.8) / 5) * 5;
   const pace2 = { gain: [[0.15, 0.35], [0.3, 0.5], [0.45, 0.7]], keep: [[-0.15, 0.15], [-0.15, 0.15], [-0.15, 0.15]], cut: [[-0.4, -0.2], [-0.6, -0.4], [-0.9, -0.6]] }[goal][pace - 1];
-  const target = Number(p.target) || (goal === "gain" ? w + 5 : goal === "cut" ? w - 5 : w);
+  /* Целевой вес обязан смотреть в ту же сторону, что и задача: набор - выше текущего,
+     сушка - ниже, держать - он же. Противоречащий ввод игнорируем, берём умолчание */
+  let target = Number(p.target) || 0;
+  if(goal === "gain" && target <= w) target = 0;
+  if(goal === "cut" && target >= w) target = 0;
+  if(goal === "keep") target = 0;
+  if(!target) target = goal === "gain" ? w + 5 : goal === "cut" ? w - 5 : w;
   return { kcalLo: lo, kcalHi: hi, prot: prot, gainLo: pace2[0], gainHi: pace2[1],
            weightGoal: Math.round(target * 2) / 2, weightLo: Math.floor(Math.min(w, target) - 3), weightLabel: GOAL_NAMES[goal].toLowerCase() };
 }

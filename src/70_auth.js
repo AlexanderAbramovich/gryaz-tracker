@@ -186,7 +186,30 @@ function showOnboard(){
 }
 const DOW = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
 /* Значение в onclick только в одинарных кавычках: двойные рвут атрибут, и тап молчит */
-function obChip(k, v, label, cls){ return '<button class="chip-b ' + (cls || "") + (OB[k] === v ? " on" : "") + '" onclick="OB.' + k + '=' + (typeof v === "string" ? "'" + v + "'" : v) + ';renderOB()">' + label + '</button>'; }
+function obChip(k, v, label, cls){ return '<button class="chip-b ' + (cls || "") + (OB[k] === v ? " on" : "") + '" onclick="obSet(&quot;' + k + '&quot;,' + (typeof v === "string" ? "&quot;" + v + "&quot;" : v) + ')">' + label + '</button>'; }
+/* Задача и целевой вес не должны спорить: выбрал «сушку» при цели выше текущего -
+   цель сбрасывается на умолчание; ввёл цель ниже текущего - задача сама станет «сушка» */
+function obSet(k, v){
+  OB[k] = v;
+  if(k === "goal"){
+    const w = Number(OB.weight) || 0, t = Number(OB.target) || 0;
+    if(t && w && ((v === "gain" && t <= w) || (v === "cut" && t >= w) || v === "keep")) OB.target = "";
+  }
+  renderOB();
+}
+function obTarget(v){
+  OB.target = v;
+  const w = Number(OB.weight) || 0, t = Number(v) || 0;
+  if(w && t){
+    const g = t > w + 0.4 ? "gain" : t < w - 0.4 ? "cut" : "keep";
+    if(g !== OB.goal){
+      OB.goal = g; renderOB();
+      const el = document.getElementById("obTarget"); if(el) el.focus();   /* type=number не умеет setSelectionRange */
+      return;
+    }
+  }
+  obRecalc();
+}
 function renderOB(){
   const el = document.getElementById("sOnboard");
   const prog = '<div class="ob-prog">' + [0, 1, 2].map(i => '<i class="' + (i <= OB.step ? "on" : "") + '"></i>').join("") + '</div>';
@@ -197,7 +220,7 @@ function renderOB(){
       '<div class="lbl-s">Вес сейчас, кг</div><input class="inp num" type="number" inputmode="decimal" step="0.1" placeholder="70" value="' + esc(OB.weight) + '" oninput="OB.weight=this.value;obRecalc()">' +
       '<div class="lbl-s">Задача</div><div class="chips">' + obChip("goal", "gain", "Набор") + obChip("goal", "keep", "Держать") + obChip("goal", "cut", "Сушка") + '</div>' +
       '<div class="lbl-s">Темп</div><div class="chips">' + obChip("pace", 1, "Спокойно") + obChip("pace", 2, "Средне") + obChip("pace", 3, "Быстро") + '</div>' +
-      '<div class="lbl-s">Целевой вес, кг · можно пропустить</div><input class="inp num" type="number" inputmode="decimal" step="0.5" placeholder="' + g.weightGoal + '" value="' + esc(OB.target) + '" oninput="OB.target=this.value;obRecalc()">' +
+      '<div class="lbl-s">Целевой вес, кг · можно пропустить</div><input class="inp num" id="obTarget" type="number" inputmode="decimal" step="0.5" placeholder="' + g.weightGoal + '" value="' + esc(OB.target) + '" oninput="obTarget(this.value)">' +
       '<div class="calc" id="obCalc">' + obCalcHtml(g) + '</div>' +
       '<button class="a-btn" ' + (Number(OB.weight) >= 35 ? "" : "disabled") + ' id="obNext" onclick="OB.step=1;renderOB();window.scrollTo(0,0)">Дальше</button>';
   } else if(OB.step === 1){
