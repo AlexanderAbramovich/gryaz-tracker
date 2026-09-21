@@ -185,7 +185,8 @@ function showOnboard(){
   renderOB();
 }
 const DOW = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
-function obChip(k, v, label, cls){ return '<button class="chip-b ' + (cls || "") + (OB[k] === v ? " on" : "") + '" onclick="OB.' + k + '=' + JSON.stringify(v) + ';renderOB()">' + label + '</button>'; }
+/* Значение в onclick только в одинарных кавычках: двойные рвут атрибут, и тап молчит */
+function obChip(k, v, label, cls){ return '<button class="chip-b ' + (cls || "") + (OB[k] === v ? " on" : "") + '" onclick="OB.' + k + '=' + (typeof v === "string" ? "'" + v + "'" : v) + ';renderOB()">' + label + '</button>'; }
 function renderOB(){
   const el = document.getElementById("sOnboard");
   const prog = '<div class="ob-prog">' + [0, 1, 2].map(i => '<i class="' + (i <= OB.step ? "on" : "") + '"></i>').join("") + '</div>';
