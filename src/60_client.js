@@ -1803,7 +1803,7 @@ function switchView(v){
   if(v==="profile") renderProfile();
   if(v==="food") renderFood();
   if(v==="gym"){ renderTabs(); renderDay(); }
-  if(v==="guide") renderGuide();
+  if(v==="guide"){ renderGuide(); renderWeight(); }   /* карточка веса живёт на Гиде - без неё показывались значения из разметки */
   window.scrollTo(0,0);
 }
 
