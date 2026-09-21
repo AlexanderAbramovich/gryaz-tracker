@@ -86,6 +86,21 @@ try {
 } catch (Throwable $e) { fail('База недоступна', 500); }
 $db->exec('PRAGMA journal_mode=WAL');
 $db->exec('PRAGMA busy_timeout=4000');
+/* Необработанная ошибка - всё равно JSON, а подробности в журнал рядом с базой, не в ответ */
+set_exception_handler(function (Throwable $e) use ($dir) {
+  @error_log(date('c') . ' ' . get_class($e) . ': ' . $e->getMessage() . ' @' . $e->getFile() . ':' . $e->getLine() . "
+", 3, $dir . '/error.log');
+  out(['error' => 'Ошибка сервера, уже в журнале'], 500);
+});
+/* Таблицы v11 (кабинет без аккаунтов) несовместимы по колонкам: уводим их в архив, v12 создаст свои */
+function col_exists(PDO $db, string $table, string $col): bool {
+  foreach ($db->query("PRAGMA table_info($table)") as $r) if ($r['name'] === $col) return true;
+  return false;
+}
+foreach ([['consents', 'user_id'], ['invites', 'used_by'], ['wipes', 'user_id'], ['docs', 'user_id']] as [$t, $c]) {
+  $has = $db->query("SELECT name FROM sqlite_master WHERE type = 'table' AND name = '$t'")->fetch();
+  if ($has && !col_exists($db, $t, $c)) { $db->exec("DROP TABLE IF EXISTS {$t}_v11"); $db->exec("ALTER TABLE $t RENAME TO {$t}_v11"); }
+}
 $db->exec(<<<SQL
 CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY, role TEXT NOT NULL, email TEXT UNIQUE NOT NULL, pass TEXT NOT NULL, name TEXT NOT NULL,
